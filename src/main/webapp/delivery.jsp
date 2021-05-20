@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restaurant</title>
+    <title>Restaurant &#183; Delivery</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/index_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
@@ -13,13 +13,11 @@
             crossorigin="anonymous"></script>
 </head>
 
-<!-- <body style="background: linear-gradient(#e66465, #9198e5)"> -->
-
 <body>
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-            <a href="" class="d-flex align-items-center text-dark text-decoration-none">
+            <a href="<c:url value="/"/>" class="d-flex align-items-center text-dark text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="me-2" viewBox="0 0 118 94"
                      role="img">
                     <title>Restaurant</title>
@@ -33,7 +31,7 @@
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="me-3 py-2 text-dark text-decoration-none" href="<c:url value="/home"/>">Menu</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="about.jsp">About</a>
-                <a class="me-3 py-2 text-dark text-decoration-none" href="delivery.jsp">Delivery</a>
+                <a class="me-3 py-2 text-dark text-decoration-none" href="">Delivery</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">Support</a>
                 <div class="me-3 text-dark text-decoration-none">
                     <button type="button" class="btn btn-outline-primary" onclick="function cart() {
@@ -109,32 +107,166 @@
     </header>
 
     <main>
-        <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Welcome to Restaurant</h1>
-                <p class="col-md-8 fs-4 mx-auto text-center"></p><br>
-                <button class="btn btn-primary btn-lg" type="button" onclick="function forwardToHome() {
-                        location.href = '/home';
-                }forwardToHome()">Menu
-                </button>
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Free</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>10 users included</li>
+                            <li>2 GB of storage</li>
+                            <li>Email support</li>
+                            <li>Help center access</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Pro</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>20 users included</li>
+                            <li>10 GB of storage</li>
+                            <li>Priority email support</li>
+                            <li>Help center access</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-white bg-primary border-primary">
+                        <h4 class="my-0 fw-normal">Enterprise</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">$29<small class="text-muted fw-light">/mo</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>30 users included</li>
+                            <li>15 GB of storage</li>
+                            <li>Phone and email support</li>
+                            <li>Help center access</li>
+                        </ul>
+                        <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="mb-4 row align-items-md-stretch">
-            <div class="col-md-6">
-                <div class="h-100 p-5 text-white bg-dark rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-light" type="button">Example button</button>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="h-100 p-5 bg-light border rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
-                </div>
-            </div>
+        <h2 class="display-6 text-center mb-4">Compare plans</h2>
+
+        <div class="table-responsive">
+            <table class="table text-center">
+                <thead>
+                <tr>
+                    <th style="width: 34%;"></th>
+                    <th style="width: 22%;">Free</th>
+                    <th style="width: 22%;">Pro</th>
+                    <th style="width: 22%;">Enterprise</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row" class="text-start">Public</th>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-start">Private</th>
+                    <td></td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                </tr>
+                </tbody>
+
+                <tbody>
+                <tr>
+                    <th scope="row" class="text-start">Permissions</th>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-start">Sharing</th>
+                    <td></td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-start">Unlimited members</th>
+                    <td></td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-start">Extra security</th>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <svg class="bi" width="24" height="24">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 

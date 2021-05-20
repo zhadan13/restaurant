@@ -1,0 +1,134 @@
+package com.example.restaurant.db.dao.impl;
+
+import com.example.restaurant.constants.SQLQuery;
+import com.example.restaurant.db.connection_pool.ConnectionPool;
+import com.example.restaurant.db.connection_pool.Pool;
+import com.example.restaurant.db.dao.OrderProductsDAO;
+import com.example.restaurant.model.OrderProducts;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class OrderProductsDAOImpl implements OrderProductsDAO {
+    private static OrderProductsDAOImpl INSTANCE;
+    private static final Pool POOL = Pool.getInstance();
+
+    private OrderProductsDAOImpl() {
+
+    }
+
+    public static OrderProductsDAOImpl getInstance() {
+        if (INSTANCE == null) {
+            synchronized (OrderProductsDAOImpl.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new OrderProductsDAOImpl();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    @Override
+    public Optional<OrderProducts> save(OrderProducts orderProducts) {
+        ConnectionPool connection = POOL.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_NEW_ORDERS_PRODUCTS_BY_ID)) {
+            preparedStatement.setLong(1, orderProducts.getOrderId());
+            preparedStatement.setLong(2, orderProducts.getProductId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            POOL.releaseConnection(connection);
+        }
+        return Optional.of(orderProducts);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        ConnectionPool connection = POOL.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.DELETE_ALL_PRODUCTS_BY_ORDER_ID)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            POOL.releaseConnection(connection);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean update(OrderProducts orderProducts) {
+        return false;
+    }
+
+    @Override
+    public Optional<OrderProducts> get(Long id) {
+        ConnectionPool connection = POOL.getConnection();
+        ResultSet resultSet = null;
+        OrderProducts orderProducts = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_ALL_ORDERS_PRODUCTS_BY_ORDER_ID)) {
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                orderProducts = createOrderProducts(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            POOL.closeResources(resultSet);
+            POOL.releaseConnection(connection);
+        }
+        return Optional.ofNullable(orderProducts);
+    }
+
+    @Override
+    public List<OrderProducts> getAll() {
+        ConnectionPool connection = POOL.getConnection();
+        ResultSet resultSet = null;
+        List<OrderProducts> productsId = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_ALL_ORDERS_PRODUCTS)) {
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                OrderProducts orderProducts = createOrderProducts(resultSet);
+                productsId.add(orderProducts);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            POOL.closeResources(resultSet);
+            POOL.releaseConnection(connection);
+        }
+        return productsId;
+    }
+
+    @Override
+    public boolean deleteById(OrderProducts orderProducts) {
+        ConnectionPool connection = POOL.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.DELETE_ALL_PRODUCTS_BY_ORDER_AND_PRODUCT_ID)) {
+            preparedStatement.setLong(1, orderProducts.getOrderId());
+            preparedStatement.setLong(2, orderProducts.getProductId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            POOL.releaseConnection(connection);
+        }
+        return true;
+    }
+
+    private OrderProducts createOrderProducts(final ResultSet resultSet) throws SQLException {
+        return OrderProducts.createOrderProducts(resultSet.getLong("order_id"),
+                resultSet.getLong("product_id"));
+    }
+}

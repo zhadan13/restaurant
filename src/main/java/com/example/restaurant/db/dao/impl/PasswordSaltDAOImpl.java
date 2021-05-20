@@ -1,0 +1,159 @@
+package com.example.restaurant.db.dao.impl;
+
+import com.example.restaurant.constants.SQLQuery;
+import com.example.restaurant.db.connection_pool.ConnectionPool;
+import com.example.restaurant.db.connection_pool.Pool;
+import com.example.restaurant.db.dao.PasswordSaltDAO;
+import com.example.restaurant.model.PasswordSalt;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class PasswordSaltDAOImpl implements PasswordSaltDAO {
+    private static PasswordSaltDAOImpl INSTANCE;
+    private static final Pool POOL = Pool.getInstance();
+
+    private PasswordSaltDAOImpl() {
+
+    }
+
+    public static PasswordSaltDAOImpl getInstance() {
+        if (INSTANCE == null) {
+            synchronized (PasswordSaltDAOImpl.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new PasswordSaltDAOImpl();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    @Override
+    public Optional<PasswordSalt> save(PasswordSalt passwordSalt) {
+        ConnectionPool connection = POOL.getConnection();
+        ResultSet resultSet = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_NEW_PASSWORD_SALT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, passwordSalt.getSalt());
+            preparedStatement.setLong(2, passwordSalt.getUserId());
+            preparedStatement.executeUpdate();
+
+            resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                Long field = resultSet.getLong(1);
+                passwordSalt.setId(field);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            POOL.closeResources(resultSet);
+            POOL.releaseConnection(connection);
+        }
+        return Optional.of(passwordSalt);
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        ConnectionPool connection = POOL.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.DELETE_PASSWORD_SALT_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            POOL.releaseConnection(connection);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean update(PasswordSalt passwordSalt) {
+        ConnectionPool connection = POOL.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_PASSWORD_SALT)) {
+            preparedStatement.setString(1, passwordSalt.getSalt());
+            preparedStatement.setLong(2, passwordSalt.getUserId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            POOL.releaseConnection(connection);
+        }
+        return true;
+    }
+
+    @Override
+    public Optional<PasswordSalt> get(Long id) {
+        ConnectionPool connection = POOL.getConnection();
+        ResultSet resultSet = null;
+        PasswordSalt passwordSalt = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_PASSWORD_SALT_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                passwordSalt = createSalt(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            POOL.closeResources(resultSet);
+            POOL.releaseConnection(connection);
+        }
+        return Optional.ofNullable(passwordSalt);
+    }
+
+    @Override
+    public List<PasswordSalt> getAll() {
+        ConnectionPool connection = POOL.getConnection();
+        ResultSet resultSet = null;
+        List<PasswordSalt> passwordSalts = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_ALL_PASSWORD_SALTS)) {
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                PasswordSalt passwordSalt = createSalt(resultSet);
+                passwordSalts.add(passwordSalt);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            POOL.closeResources(resultSet);
+            POOL.releaseConnection(connection);
+        }
+        return passwordSalts;
+    }
+
+    @Override
+    public Optional<PasswordSalt> getByUserId(final Long id) {
+        ConnectionPool connection = POOL.getConnection();
+        ResultSet resultSet = null;
+        PasswordSalt passwordSalt = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_PASSWORD_SALT_BY_USER_ID)) {
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                passwordSalt = createSalt(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            POOL.closeResources(resultSet);
+            POOL.releaseConnection(connection);
+        }
+        return Optional.ofNullable(passwordSalt);
+    }
+
+    private PasswordSalt createSalt(final ResultSet resultSet) throws SQLException {
+        return PasswordSalt.createSalt(resultSet.getLong("id"), resultSet.getString("salt"),
+                resultSet.getLong("user_id"));
+    }
+}

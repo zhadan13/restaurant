@@ -1,0 +1,54 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    border-radius: 10px;
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    border: none;
+    margin: 30px 0 60px 0
+}
+
+.user-card-full .user-profile {
+    border-radius: 10px 0 0 10px
+}
+
+.bg-c-lite-green {
+    background: -webkit-gradient(linear, left top, right top, from(#9198e5), to(#e66465));
+    background: linear-gradient(to right, #e66465, #9198e5)
+}
+
+.user-profile {
+    padding: 40px 0
+}
+
+.card-block {
+    padding: 1.25rem
+}
+
+.text-muted {
+    color: #919aa3
+}
+
+.b-b-default {
+    border-bottom: 1px solid #e0e0e0
+}
+
+.f-w-600 {
+    font-weight: 600
+}
+
+.m-b-20 {
+    margin-bottom: 20px
+}
+
+.p-b-5 {
+    padding-bottom: 5px
+}
+
+.m-b-10 {
+    margin-bottom: 10px
+}

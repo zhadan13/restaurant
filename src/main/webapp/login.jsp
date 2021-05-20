@@ -5,21 +5,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restaurant</title>
+    <title>Restaurant &#183; Login</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/index_style.css">
+    <link rel="stylesheet" href="css/login_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
 </head>
 
-<!-- <body style="background: linear-gradient(#e66465, #9198e5)"> -->
-
 <body>
-<div class="container py-3">
+<div class="py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-            <a href="" class="d-flex align-items-center text-dark text-decoration-none">
+            <a href="<c:url value="/"/>" class="d-flex align-items-center text-dark text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="me-2" viewBox="0 0 118 94"
                      role="img">
                     <title>Restaurant</title>
@@ -98,7 +96,7 @@
                                     <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a class="dropdown-item" href="<c:url value="/login"/>"><strong>Sign in</strong></a>
+                                    <a class="dropdown-item" href=""><strong>Sign in</strong></a>
                                 </c:otherwise>
                             </c:choose>
                         </li>
@@ -109,40 +107,78 @@
     </header>
 
     <main>
-        <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Welcome to Restaurant</h1>
-                <p class="col-md-8 fs-4 mx-auto text-center"></p><br>
-                <button class="btn btn-primary btn-lg" type="button" onclick="function forwardToHome() {
-                        location.href = '/home';
-                }forwardToHome()">Menu
-                </button>
+        <div class="bg-light rounded-3 mx-auto text-center">
+            <div class="container-fluid py-2 mb-2">
+                <h6 class="display-6">Please login or create an account</h6>
             </div>
         </div>
 
-        <div class="mb-4 row align-items-md-stretch">
-            <div class="col-md-6">
-                <div class="h-100 p-5 text-white bg-dark rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-light" type="button">Example button</button>
-                </div>
+        <div class="container" id="container">
+            <div class="form-container sign-up-container">
+                <form action="register" method="post">
+                    <h2>Create Account</h2>
+                    <label>
+                        <input type="text" placeholder="Name" name="name" required/>
+                    </label>
+                    <label>
+                        <input type="text" placeholder="Phone number" name="phoneNumber" required minlength="10"/>
+                    </label>
+                    <label>
+                        <input type="email" placeholder="Email" name="email" required minlength="6"/>
+                    </label>
+                    <label>
+                        <input type="password" placeholder="Password" name="password" required minlength="8"/>
+                    </label>
+                    <button type="submit">Sign Up</button>
+                </form>
             </div>
-            <div class="col-md-6">
-                <div class="h-100 p-5 bg-light border rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
+            <div class="form-container sign-in-container">
+                <form action="login" method="post">
+                    <h2>Sign in</h2>
+                    <label>
+                        <input type="email" placeholder="Email" name="email" required minlength="6"/>
+                    </label>
+                    <label>
+                        <input type="password" placeholder="Password" name="password" required minlength="8"/>
+                    </label>
+                    <button type="submit">Sign In</button>
+                </form>
+            </div>
+
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1>Welcome Back!</h1>
+                        <p>To continue, please login with your personal details</p>
+                        <button class="ghost" id="signIn">Sign In</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1>Hello, Friend!</h1>
+                        <p>Enter your personal details and start journey with us</p>
+                        <button class="ghost" id="signUp">Sign Up</button>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer mt-auto py-3 bg-light border-top mx-auto text-center">
-        <div class="container">
-            <span class="text-muted"> &copy; 2021 Restaurant.</span>
-        </div>
+    <footer class="footer mt-4 py-3 bg-light border-top text-center">
+        <span class="text-muted"> &copy; 2021 Restaurant.</span>
     </footer>
 </div>
 </body>
+
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+</script>
 </html>

@@ -5,21 +5,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restaurant</title>
+    <title>Restaurant &#183; Order</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/index_style.css">
+    <link rel="stylesheet" href="css/order_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
 </head>
 
-<!-- <body style="background: linear-gradient(#e66465, #9198e5)"> -->
-
 <body>
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-            <a href="" class="d-flex align-items-center text-dark text-decoration-none">
+            <a href="<c:url value="/"/>" class="d-flex align-items-center text-dark text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="me-2" viewBox="0 0 118 94"
                      role="img">
                     <title>Restaurant</title>
@@ -27,7 +25,7 @@
                           d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"
                           fill="currentColor"></path>
                 </svg>
-                <span class="fs-4">Restaurant</span>
+                <span class="fs-4">Restaurant &#183; Order</span>
             </a>
 
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
@@ -36,9 +34,7 @@
                 <a class="me-3 py-2 text-dark text-decoration-none" href="delivery.jsp">Delivery</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">Support</a>
                 <div class="me-3 text-dark text-decoration-none">
-                    <button type="button" class="btn btn-outline-primary" onclick="function cart() {
-                      location.href = '/cart';
-                    }cart()">
+                    <button type="button" class="btn btn-outline-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-basket"
                              viewBox="0 0 16 16">
                             <title>Basket</title>
@@ -109,31 +105,64 @@
     </header>
 
     <main>
-        <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Welcome to Restaurant</h1>
-                <p class="col-md-8 fs-4 mx-auto text-center"></p><br>
-                <button class="btn btn-primary btn-lg" type="button" onclick="function forwardToHome() {
-                        location.href = '/home';
-                }forwardToHome()">Menu
-                </button>
+        <div class="container py-3">
+            <div class="bg-light rounded-3 mx-auto text-center">
+                <div class="container-fluid py-2 mb-2">
+                    <h6 class="display-6">Order details</h6>
+                </div>
             </div>
-        </div>
 
-        <div class="mb-4 row align-items-md-stretch">
-            <div class="col-md-6">
-                <div class="h-100 p-5 text-white bg-dark rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-light" type="button">Example button</button>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="h-100 p-5 bg-light border rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
-                </div>
+            <div class="page payment-page">
+                <section class="payment-form dark">
+                    <div class="container">
+                        <form action="order" method="post">
+                            <div class="products">
+                                <h3 class="title text-muted">Checkout</h3>
+                                <c:forEach items="${sessionScope.bucket}" var="product">
+                                    <div class="item">
+                                        <span class="price">${product.key.price * product.value} UAH</span>
+                                        <p class="item-name">${product.key.name}</p>
+                                        <p class="item-description">Price: ${product.key.price} UAH &#183;
+                                            Quantity: ${product.value}</p>
+                                    </div>
+                                </c:forEach>
+                                <div class="total">Delivery<span class="price">FREE</span></div>
+                                <div class="total">Total<span class="price">${sessionScope.totalPrice} UAH</span></div>
+                            </div>
+
+                            <div class="input-details">
+                                <h3 class="title text-muted">Details</h3>
+                                <div class="col-sm-5">
+                                    <label>Address<input type="text" class="form-control" placeholder="Address"
+                                                         name="address" required>
+                                    </label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label>Time<input type="datetime-local" class="form-control" name="time"
+                                                      required></label>
+                                </div>
+                                <div class="col-sm-10">
+                                    <label>Payment</label>
+                                    <label>
+                                        <select class="form-select" name="payment" required>
+                                            <option value="">Select payment type</option>
+                                            <option value="1">Cash</option>
+                                            <option value="2">Card online</option>
+                                            <option value="3">Card offline</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <button type="button" class="btn btn-danger px-3 mx-1 py-2 text-uppercase"
+                                        onclick="function cancel() {
+                                              location.href = '/cancelOrder';
+                                            }cancel()">Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary px-3 mx-1 py-2 text-uppercase">Proceed
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
             </div>
         </div>
     </main>

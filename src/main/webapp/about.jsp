@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restaurant</title>
+    <title>Restaurant &#183; About</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/index_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
@@ -13,13 +13,11 @@
             crossorigin="anonymous"></script>
 </head>
 
-<!-- <body style="background: linear-gradient(#e66465, #9198e5)"> -->
-
 <body>
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-            <a href="" class="d-flex align-items-center text-dark text-decoration-none">
+            <a href="<c:url value="/"/>" class="d-flex align-items-center text-dark text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="me-2" viewBox="0 0 118 94"
                      role="img">
                     <title>Restaurant</title>
@@ -32,7 +30,7 @@
 
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
                 <a class="me-3 py-2 text-dark text-decoration-none" href="<c:url value="/home"/>">Menu</a>
-                <a class="me-3 py-2 text-dark text-decoration-none" href="about.jsp">About</a>
+                <a class="me-3 py-2 text-dark text-decoration-none" href="">About</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="delivery.jsp">Delivery</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">Support</a>
                 <div class="me-3 text-dark text-decoration-none">
@@ -111,12 +109,8 @@
     <main>
         <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
             <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Welcome to Restaurant</h1>
+                <h1 class="display-5 fw-bold">About owr Restaurant</h1>
                 <p class="col-md-8 fs-4 mx-auto text-center"></p><br>
-                <button class="btn btn-primary btn-lg" type="button" onclick="function forwardToHome() {
-                        location.href = '/home';
-                }forwardToHome()">Menu
-                </button>
             </div>
         </div>
 

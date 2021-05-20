@@ -5,21 +5,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restaurant</title>
+    <title>Restaurant &#183; Order Confirmed</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/index_style.css">
+    <link rel="stylesheet" href="css/order_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
 </head>
 
-<!-- <body style="background: linear-gradient(#e66465, #9198e5)"> -->
-
 <body>
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-            <a href="" class="d-flex align-items-center text-dark text-decoration-none">
+            <a href="<c:url value="/"/>" class="d-flex align-items-center text-dark text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="me-2" viewBox="0 0 118 94"
                      role="img">
                     <title>Restaurant</title>
@@ -109,31 +107,67 @@
     </header>
 
     <main>
-        <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Welcome to Restaurant</h1>
-                <p class="col-md-8 fs-4 mx-auto text-center"></p><br>
-                <button class="btn btn-primary btn-lg" type="button" onclick="function forwardToHome() {
-                        location.href = '/home';
-                }forwardToHome()">Menu
-                </button>
+        <div class="container py-3">
+            <div class="bg-light rounded-3 mx-auto text-center">
+                <div class="container-fluid py-2 mb-2">
+                    <h6 class="display-6">Thanks for your order</h6>
+                </div>
             </div>
-        </div>
 
-        <div class="mb-4 row align-items-md-stretch">
-            <div class="col-md-6">
-                <div class="h-100 p-5 text-white bg-dark rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-light" type="button">Example button</button>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="h-100 p-5 bg-light border rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
-                </div>
+            <div class="page payment-page">
+                <section class="payment-form dark">
+                    <div class="container">
+                        <form>
+                            <div class="products">
+                                <h3 class="title text-muted">Order details</h3>
+                                <c:forEach items="${requestScope.order.products}" var="product">
+                                    <div class="item">
+                                        <span class="price">${product.key.price * product.value} UAH</span>
+                                        <p class="item-name">${product.key.name}</p>
+                                        <p class="item-description">Price: ${product.key.price} UAH &#183;
+                                            Quantity: ${product.value}</p>
+                                    </div>
+                                </c:forEach>
+                                <div class="total">Delivery<span class="price">FREE</span></div>
+                                <div class="total">Total<span class="price">${requestScope.order.cost} UAH</span></div>
+                            </div>
+
+                            <div class="input-details">
+                                <h3 class="title text-muted">Delivery details</h3>
+                                <div class="col-sm-auto">
+                                    <label>Order id:&nbsp;</label>
+                                    <strong>
+                                        <c:out value="${requestScope.order.id}"/>
+                                    </strong>
+                                </div>
+                                <div class="col-sm-auto">
+                                    <label>Order status:&nbsp;</label>
+                                    <strong>
+                                        <c:out value="${requestScope.order.status}"/>
+                                    </strong>
+                                </div>
+                                <div class="col-sm-auto">
+                                    <label>Address:&nbsp;</label>
+                                    <strong>
+                                        <c:out value="${requestScope.order.address}"/>
+                                    </strong>
+                                </div>
+                                <div class="col-sm-auto">
+                                    <label>Date and time:&nbsp;</label>
+                                    <strong>
+                                        <c:out value="${requestScope.order.date.toLocalDateTime()}"/>
+                                    </strong>
+                                </div>
+                                <div class="col-sm-auto">
+                                    <label>Type of payment:&nbsp;</label>
+                                    <strong>
+                                        <c:out value="${requestScope.order.payment}"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
             </div>
         </div>
     </main>
