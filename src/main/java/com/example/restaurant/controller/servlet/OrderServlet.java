@@ -32,6 +32,7 @@ public class OrderServlet extends HttpServlet {
         int paymentIndex = Integer.parseInt(req.getParameter("payment"));
         Long userId = (Long) session.getAttribute("userId");
         Double cost = (Double) session.getAttribute("totalPrice");
+        Double deliveryPrice = (Double) session.getAttribute("deliveryPrice");
         Map<Product, Integer> bucket = (Map<Product, Integer>) session.getAttribute("bucket");
 
         time = time.replace('T', ' ');
@@ -46,7 +47,7 @@ public class OrderServlet extends HttpServlet {
         }
 
         OrderService orderService = OrderServiceImpl.getInstance();
-        Order orderForRegister = Order.createOrder(userId, OrderStatus.ACCEPTED, address, payment, cost, timestamp, bucket);
+        Order orderForRegister = Order.createOrder(userId, OrderStatus.ACCEPTED, address, payment, cost + deliveryPrice, timestamp, bucket);
         Optional<Order> optionalOrder = orderService.saveOrder(orderForRegister);
         if (optionalOrder.isPresent()) {
             Order order = optionalOrder.get();

@@ -34,6 +34,7 @@ public class SignOutServlet extends HttpServlet {
             session.removeAttribute("sorting");
             session.removeAttribute("category");
             session.removeAttribute("products");
+            session.removeAttribute("deliveryPrice");
         }
 
         resp.sendRedirect("/");

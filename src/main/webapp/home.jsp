@@ -64,9 +64,9 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
-                                        <c:out value="You are logged as ${sessionScope.get('userName')}"/>
+                                        <c:out value="You are logged as ${sessionScope.userName}"/>
                                     </strong>
                                 </c:when>
                                 <c:otherwise>
@@ -76,7 +76,7 @@
                         </a></li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
                                         <a class="dropdown-item" href="<c:url value="/account"/>">Account</a>
                                     </strong>
@@ -92,7 +92,7 @@
                         </li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
                                 </c:when>
                                 <c:otherwise>
@@ -123,22 +123,22 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item"
-                                   href="<c:url value="/home?category=${sessionScope.category}&sorting=default"/>">
+                                   href="<c:url value="/home?sorting=default"/>">
                                 By default</a></li>
                             <li><a class="dropdown-item"
-                                   href="<c:url value="/home?category=${sessionScope.category}&sorting=popularity"/>">
+                                   href="<c:url value="/home?sorting=popularity"/>">
                                 By popularity</a></li>
                             <li><a class="dropdown-item"
-                                   href="<c:url value="/home?category=${sessionScope.category}&sorting=category"/>">
+                                   href="<c:url value="/home?sorting=category"/>">
                                 By category</a></li>
                             <li><a class="dropdown-item"
-                                   href="<c:url value="/home?category=${sessionScope.category}&sorting=price low to high"/>">
+                                   href="<c:url value="/home?sorting=price low to high"/>">
                                 By price (Low to High)</a></li>
                             <li><a class="dropdown-item"
-                                   href="<c:url value="/home?category=${sessionScope.category}&sorting=price high to low"/>">
+                                   href="<c:url value="/home?sorting=price high to low"/>">
                                 By price (High to Low)</a></li>
                             <li><a class="dropdown-item"
-                                   href="<c:url value="/home?category=${sessionScope.category}&sorting=name"/>">
+                                   href="<c:url value="/home?sorting=name"/>">
                                 By name</a></li>
                         </ul>
                     </div>
@@ -157,7 +157,7 @@
                                 <c:otherwise>
                                     <button type="button" class="list-group-item list-group-item-action"
                                             style="border-bottom: 1px solid #000000" onclick="function fun() {
-                                            location.href = '/home?category=default&sorting=${sessionScope.sorting}'
+                                            location.href = '/home?category=default'
                                             }fun()">All products
                                     </button>
                                 </c:otherwise>
@@ -170,7 +170,7 @@
                                 <c:otherwise>
                                     <button type="button" class="list-group-item list-group-item-action"
                                             onclick="function fun() {
-                                                    location.href = '/home?category=pizza&sorting=${sessionScope.sorting}'
+                                                    location.href = '/home?category=pizza'
                                                     }fun()">Pizza
                                     </button>
                                 </c:otherwise>
@@ -183,7 +183,7 @@
                                 <c:otherwise>
                                     <button type="button" class="list-group-item list-group-item-action"
                                             onclick="function fun() {
-                                                    location.href = '/home?category=sushi&sorting=${sessionScope.sorting}'
+                                                    location.href = '/home?category=sushi'
                                                     }fun()">Sushi
                                     </button>
                                 </c:otherwise>
@@ -196,7 +196,7 @@
                                 <c:otherwise>
                                     <button type="button" class="list-group-item list-group-item-action"
                                             onclick="function fun() {
-                                                    location.href = '/home?category=salad&sorting=${sessionScope.sorting}'
+                                                    location.href = '/home?category=salad'
                                                     }fun()">Salad
                                     </button>
                                 </c:otherwise>
@@ -209,7 +209,7 @@
                                 <c:otherwise>
                                     <button type="button" class="list-group-item list-group-item-action"
                                             onclick="function fun() {
-                                                    location.href = '/home?category=pasta&sorting=${sessionScope.sorting}'
+                                                    location.href = '/home?category=pasta'
                                                     }fun()">Pasta
                                     </button>
                                 </c:otherwise>
@@ -222,7 +222,7 @@
                                 <c:otherwise>
                                     <button type="button" class="list-group-item list-group-item-action"
                                             onclick="function fun() {
-                                                    location.href = '/home?category=dessert&sorting=${sessionScope.sorting}'
+                                                    location.href = '/home?category=dessert'
                                                     }fun()">Dessert
                                     </button>
                                 </c:otherwise>
@@ -235,7 +235,7 @@
                                 <c:otherwise>
                                     <button type="button" class="list-group-item list-group-item-action"
                                             onclick="function fun() {
-                                                    location.href = '/home?category=drinks&sorting=${sessionScope.sorting}'
+                                                    location.href = '/home?category=drinks'
                                                     }fun()">Drinks
                                     </button>
                                 </c:otherwise>

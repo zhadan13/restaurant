@@ -1,6 +1,7 @@
 package com.example.restaurant.controller.servlet;
 
 import com.example.restaurant.constants.MenuCategories;
+import com.example.restaurant.constants.Util;
 import com.example.restaurant.model.Product;
 import com.example.restaurant.service.ProductService;
 import com.example.restaurant.service.impl.ProductServiceImpl;
@@ -70,6 +71,8 @@ public class HomeServlet extends HttpServlet {
             }
         }
 
+        session.setAttribute("category", categoryFromSession);
+
         String sortFromRequest = req.getParameter("sorting");
         String sortFromSession = (String) session.getAttribute("sorting");
         if (sortFromRequest != null) {
@@ -89,20 +92,19 @@ public class HomeServlet extends HttpServlet {
             } else if (sortFromRequest.equals("name")) {
                 products.sort(Comparator.comparing(Product::getName));
             } else if (sortFromRequest.equals("popularity")) {
-                products.sort(Comparator.comparing(Product::getPopularity));
+                products.sort(Comparator.comparing(Product::getPopularity).reversed());
             } else if (sortFromRequest.equals("price high to low")) {
-                products.sort(Comparator.comparing(product -> -product.getPrice()));
+                products.sort(Comparator.comparing(Product::getPrice).reversed());
             } else if (sortFromRequest.equals("price low to high")) {
                 products.sort(Comparator.comparing(Product::getPrice));
             }
         }
 
-        session.setAttribute("category", categoryFromSession);
         session.setAttribute("sorting", sortFromSession);
 
         String elementsPerPage = req.getParameter("elementsPerPage");
         String pageIndex = req.getParameter("pageIndex");
-        int elementsPerPageValue = 5;
+        int elementsPerPageValue = Util.DEFAULT_ELEMENTS_PER_PAGE;
         int pageIndexValue = 1;
         if (elementsPerPage != null && !elementsPerPage.equals("")) {
             elementsPerPageValue = Integer.parseInt(elementsPerPage);

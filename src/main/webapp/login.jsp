@@ -64,9 +64,9 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
-                                        <c:out value="You are logged as ${sessionScope.get('userName')}"/>
+                                        <c:out value="You are logged as ${sessionScope.userName}"/>
                                     </strong>
                                 </c:when>
                                 <c:otherwise>
@@ -76,7 +76,7 @@
                         </a></li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
                                         <a class="dropdown-item" href="<c:url value="/account"/>">Account</a>
                                     </strong>
@@ -92,7 +92,7 @@
                         </li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
                                 </c:when>
                                 <c:otherwise>

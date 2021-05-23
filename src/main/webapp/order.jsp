@@ -11,6 +11,83 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
+
+    <style>
+        .payment-form form {
+            border-top: 3px solid royalblue;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            background-color: #FFFFFF;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .payment-form .title {
+            font-size: 1em;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.8em;
+            font-weight: 600;
+            padding-bottom: 8px;
+        }
+
+        .payment-form .products .item-name {
+            font-weight: 600;
+        }
+
+        .payment-form .products .item-description {
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+
+        .payment-form .products .item p {
+            margin-bottom: 0.2em;
+        }
+
+        .payment-form .products .price {
+            float: right;
+            font-weight: 600;
+        }
+
+        .payment-form .products .total {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            padding-top: 15px;
+            font-weight: 600;
+        }
+
+        .payment-form .input-details label {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #79818a;
+            text-transform: uppercase;
+        }
+
+        @media (min-width: 576px) {
+            .payment-form .title {
+                font-size: 1.2em;
+            }
+
+            .payment-form .products {
+                padding: 40px;
+            }
+
+            .payment-form .products .item-name {
+                font-size: 1em;
+            }
+
+            .payment-form .products .price {
+                font-size: 1em;
+            }
+
+            .payment-form .input-details {
+                padding: 40px 40px 30px;
+            }
+
+            .payment-form .input-details button {
+                margin-top: 2em;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -62,9 +139,9 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
-                                        <c:out value="You are logged as ${sessionScope.get('userName')}"/>
+                                        <c:out value="You are logged as ${sessionScope.userName}"/>
                                     </strong>
                                 </c:when>
                                 <c:otherwise>
@@ -74,7 +151,7 @@
                         </a></li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
                                         <a class="dropdown-item" href="<c:url value="/account"/>">Account</a>
                                     </strong>
@@ -90,7 +167,7 @@
                         </li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
                                 </c:when>
                                 <c:otherwise>
@@ -126,8 +203,18 @@
                                             Quantity: ${product.value}</p>
                                     </div>
                                 </c:forEach>
-                                <div class="total">Delivery<span class="price">FREE</span></div>
-                                <div class="total">Total<span class="price">${sessionScope.totalPrice} UAH</span></div>
+                                <c:choose>
+                                    <c:when test="${sessionScope.deliveryPrice != null && sessionScope.deliveryPrice != 0}">
+                                        <div class="total">Delivery<span
+                                                class="price">${sessionScope.deliveryPrice} UAH</span></div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="total">Delivery<span class="price">FREE</span></div>
+                                    </c:otherwise>
+                                </c:choose>
+                                <div class="total">Total<span
+                                        class="price">${sessionScope.totalPrice + sessionScope.deliveryPrice} UAH</span>
+                                </div>
                             </div>
 
                             <div class="input-details">

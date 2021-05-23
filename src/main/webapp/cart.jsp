@@ -63,9 +63,9 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
-                                        <c:out value="You are logged as ${sessionScope.get('userName')}"/>
+                                        <c:out value="You are logged as ${sessionScope.userName}"/>
                                     </strong>
                                 </c:when>
                                 <c:otherwise>
@@ -75,7 +75,7 @@
                         </a></li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
                                         <a class="dropdown-item" href="<c:url value="/account"/>">Account</a>
                                     </strong>
@@ -91,7 +91,7 @@
                         </li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
                                 </c:when>
                                 <c:otherwise>
@@ -175,13 +175,20 @@
                                     </dl>
                                     <dl class="dlist-align">
                                         <dt>Delivery:&nbsp;&nbsp;</dt>
-                                        <dd class="text-right ml-3">FREE</dd>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.deliveryPrice != null && sessionScope.deliveryPrice != 0}">
+                                                <dd class="text-right ml-3">${sessionScope.deliveryPrice} UAH</dd>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <dd class="text-right ml-3">FREE</dd>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </dl>
                                     <hr>
                                     <dl class="dlist-align">
                                         <dt>Total:&nbsp;&nbsp;</dt>
                                         <dd class="text-right text-success ml-3">
-                                            <strong>${sessionScope.totalPrice} UAH</strong>
+                                            <strong>${sessionScope.totalPrice + sessionScope.deliveryPrice} UAH</strong>
                                         </dd>
                                     </dl>
                                     <hr>

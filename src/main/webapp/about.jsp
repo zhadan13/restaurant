@@ -64,9 +64,9 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
-                                        <c:out value="You are logged as ${sessionScope.get('userName')}"/>
+                                        <c:out value="You are logged as ${sessionScope.userName}"/>
                                     </strong>
                                 </c:when>
                                 <c:otherwise>
@@ -76,7 +76,7 @@
                         </a></li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <strong>
                                         <a class="dropdown-item" href="<c:url value="/account"/>">Account</a>
                                     </strong>
@@ -92,7 +92,7 @@
                         </li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.get('userName') != null}">
+                                <c:when test="${sessionScope.userName != null}">
                                     <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
                                 </c:when>
                                 <c:otherwise>
@@ -110,24 +110,6 @@
         <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
             <div class="container-fluid py-5">
                 <h1 class="display-5 fw-bold">About owr Restaurant</h1>
-                <p class="col-md-8 fs-4 mx-auto text-center"></p><br>
-            </div>
-        </div>
-
-        <div class="mb-4 row align-items-md-stretch">
-            <div class="col-md-6">
-                <div class="h-100 p-5 text-white bg-dark rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-light" type="button">Example button</button>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="h-100 p-5 bg-light border rounded-3">
-                    <h2>Title</h2>
-                    <p>Info</p>
-                    <button class="btn btn-outline-secondary" type="button">Example button</button>
-                </div>
             </div>
         </div>
     </main>

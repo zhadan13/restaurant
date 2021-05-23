@@ -1,5 +1,7 @@
 package com.example.restaurant.controller.filter;
 
+import com.example.restaurant.constants.Role;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +21,15 @@ public class AccountCartFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         String userEmail = (String) req.getSession().getAttribute("userEmail");
-        if (userEmail != null) {
+        Role userRole = (Role) req.getSession().getAttribute("userRole");
+        if (userEmail != null && Role.USER.equals(userRole)) {
             filterChain.doFilter(req, resp);
         } else {
-            resp.sendRedirect("/login");
+            if (Role.MANAGER.equals(userRole)) {
+                resp.sendRedirect("/admin");
+            } else {
+                resp.sendRedirect("/login");
+            }
         }
     }
 }

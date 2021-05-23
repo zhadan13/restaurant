@@ -3,7 +3,9 @@ package com.example.restaurant.controller.servlet;
 import com.example.restaurant.constants.OrderStatus;
 import com.example.restaurant.model.Order;
 import com.example.restaurant.service.OrderService;
+import com.example.restaurant.service.ProductService;
 import com.example.restaurant.service.impl.OrderServiceImpl;
+import com.example.restaurant.service.impl.ProductServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +35,8 @@ public class PaymentServlet extends HttpServlet {
             order.setStatus(OrderStatus.CONFIRMED);
             orderService.updateOrderStatus(order.getId(), OrderStatus.CONFIRMED);
             session.setAttribute("order", order);
+            ProductService productService = ProductServiceImpl.getInstance();
+            order.getProducts().keySet().forEach(product -> productService.updateProductPopularity(product.getId(), product.getPopularity() + 1));
             resp.sendRedirect("/successOrder?orderId=" + order.getId());
         } else {
             PrintWriter out = resp.getWriter();

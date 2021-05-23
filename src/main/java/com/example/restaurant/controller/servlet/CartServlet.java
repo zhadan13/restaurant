@@ -1,5 +1,6 @@
 package com.example.restaurant.controller.servlet;
 
+import com.example.restaurant.constants.Util;
 import com.example.restaurant.model.Product;
 import com.example.restaurant.service.ProductService;
 import com.example.restaurant.service.impl.ProductServiceImpl;
@@ -43,6 +44,11 @@ public class CartServlet extends HttpServlet {
             Map<Product, Integer> bucket = new HashMap<>();
             productsInBucket.forEach((aLong, integer) -> bucket.put(productService.getProduct(aLong).orElseThrow(RuntimeException::new), integer));
             double totalPrice = bucket.entrySet().stream().mapToDouble(value -> value.getValue() * value.getKey().getPrice()).sum();
+            if (totalPrice < Util.DEFAULT_FREE_DELIVERY) {
+                session.setAttribute("deliveryPrice", 50.0);
+            } else {
+                session.setAttribute("deliveryPrice", 0.0);
+            }
             session.setAttribute("bucket", bucket);
             session.setAttribute("totalPrice", totalPrice);
 
