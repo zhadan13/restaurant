@@ -4,7 +4,6 @@ public final class SQLQuery {
     public static final String CHECK_IF_USER_EXISTS_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
     public static final String CHECK_IF_USER_EXISTS_BY_EMAIL_AND_PASSWORD = "SELECT * FROM users WHERE email = ? AND password = ?";
     public static final String CHECK_IF_USER_EXISTS_BY_PHONE_NUMBER = "SELECT * FROM users WHERE phone_number = ?";
-    public static final String CHECK_IF_USER_EXISTS_BY_EMAIL_AND_PHONE_NUMBER = "SELECT * FROM users WHERE email = ? AND phone_number = ?";
     public static final String INSERT_NEW_USER = "INSERT INTO users VALUES (DEFAULT, ?, ?, ?, ?, ?)";
     public static final String DELETE_USER_BY_ID = "DELETE FROM users WHERE id = ?";
     public static final String GET_USER_BY_ID = "SELECT * FROM users WHERE id = ?";

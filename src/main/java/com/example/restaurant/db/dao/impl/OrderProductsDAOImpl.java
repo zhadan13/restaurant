@@ -5,6 +5,8 @@ import com.example.restaurant.db.connection_pool.ConnectionPool;
 import com.example.restaurant.db.connection_pool.Pool;
 import com.example.restaurant.db.dao.OrderProductsDAO;
 import com.example.restaurant.model.OrderProducts;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderProductsDAOImpl implements OrderProductsDAO {
+    private static final Logger LOGGER = LogManager.getLogger(OrderProductsDAOImpl.class);
+
     private static OrderProductsDAOImpl INSTANCE;
     private static final Pool POOL = Pool.getInstance();
 
@@ -40,7 +44,7 @@ public class OrderProductsDAOImpl implements OrderProductsDAO {
             preparedStatement.setLong(2, orderProducts.getProductId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't save order-products", e);
             return Optional.empty();
         } finally {
             POOL.releaseConnection(connection);
@@ -55,7 +59,7 @@ public class OrderProductsDAOImpl implements OrderProductsDAO {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't delete order-products", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -81,7 +85,7 @@ public class OrderProductsDAOImpl implements OrderProductsDAO {
                 orderProducts = createOrderProducts(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get order-products", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -103,7 +107,7 @@ public class OrderProductsDAOImpl implements OrderProductsDAO {
                 productsId.add(orderProducts);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all order-products", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -119,7 +123,7 @@ public class OrderProductsDAOImpl implements OrderProductsDAO {
             preparedStatement.setLong(2, orderProducts.getProductId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't delete order-products", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);

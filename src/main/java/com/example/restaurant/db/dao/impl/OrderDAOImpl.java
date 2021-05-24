@@ -11,6 +11,8 @@ import com.example.restaurant.db.dao.ProductDAO;
 import com.example.restaurant.model.Order;
 import com.example.restaurant.model.OrderProducts;
 import com.example.restaurant.model.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +20,8 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class OrderDAOImpl implements OrderDAO {
+    private static final Logger LOGGER = LogManager.getLogger(OrderDAOImpl.class);
+
     private static OrderDAOImpl INSTANCE;
     private static final Pool POOL = Pool.getInstance();
 
@@ -63,7 +67,7 @@ public class OrderDAOImpl implements OrderDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't save order", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -79,7 +83,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't delete order", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -98,7 +102,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setLong(5, order.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't update order", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -119,7 +123,7 @@ public class OrderDAOImpl implements OrderDAO {
                 order = createOrder(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get order", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -141,7 +145,7 @@ public class OrderDAOImpl implements OrderDAO {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all orders", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -152,13 +156,17 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public boolean updateOrder(Long id, Map<Product, Integer> products) {
         OrderProductsDAO orderProductsDAO = OrderProductsDAOImpl.getInstance();
-        orderProductsDAO.delete(id);
-        for (Map.Entry<Product, Integer> entry : products.entrySet()) {
-            Product product = entry.getKey();
-            OrderProducts orderProducts = OrderProducts.createOrderProducts(id, product.getId());
-            orderProductsDAO.save(orderProducts);
+        boolean result = orderProductsDAO.delete(id);
+        if (result) {
+            for (Map.Entry<Product, Integer> entry : products.entrySet()) {
+                Product product = entry.getKey();
+                OrderProducts orderProducts = OrderProducts.createOrderProducts(id, product.getId());
+                orderProductsDAO.save(orderProducts);
+            }
+            return true;
         }
-        return true;
+        LOGGER.info("Can't update order");
+        return false;
     }
 
     @Override
@@ -169,7 +177,7 @@ public class OrderDAOImpl implements OrderDAO {
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't update order status", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -191,7 +199,7 @@ public class OrderDAOImpl implements OrderDAO {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all user orders", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -213,7 +221,7 @@ public class OrderDAOImpl implements OrderDAO {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all user uncompleted orders", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -235,7 +243,7 @@ public class OrderDAOImpl implements OrderDAO {
                 productsId.add(productId);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all products from order by order id", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);

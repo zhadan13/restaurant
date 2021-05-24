@@ -10,6 +10,8 @@ import com.example.restaurant.db.dao.UserDAO;
 import com.example.restaurant.model.PasswordSalt;
 import com.example.restaurant.model.User;
 import com.example.restaurant.util.PasswordEncryptor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDAOImpl implements UserDAO {
+    private static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
+
     private static UserDAOImpl INSTANCE;
     private static final Pool POOL = Pool.getInstance();
 
@@ -60,7 +64,7 @@ public class UserDAOImpl implements UserDAO {
                 passwordSaltDAO.save(PasswordSalt.createSalt(salt, user.getId()));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't save user", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -76,7 +80,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't delete user", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -101,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
             PasswordSaltDAO passwordSaltDAO = PasswordSaltDAOImpl.getInstance();
             passwordSaltDAO.update(PasswordSalt.createSalt(salt, user.getId()));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't update user", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -122,7 +126,7 @@ public class UserDAOImpl implements UserDAO {
                 user = createUser(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get user by id", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -144,7 +148,7 @@ public class UserDAOImpl implements UserDAO {
                 users.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all users", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -162,7 +166,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setLong(4, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't update user info", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -175,6 +179,7 @@ public class UserDAOImpl implements UserDAO {
         if (!checkIfUserExistsByUniqueParameters(user)) {
             return save(user);
         }
+        LOGGER.info("User with current email or phone already exists");
         return Optional.empty();
     }
 
@@ -189,8 +194,11 @@ public class UserDAOImpl implements UserDAO {
                 if (PasswordEncryptor.verifyUserPassword(password.toCharArray(), user.getPassword(), optionalPasswordSalt.get().getSalt())) {
                     return Optional.of(user);
                 }
+                LOGGER.info("Wrong email or password");
             }
+            LOGGER.info("Can't find password salt for user password");
         }
+        LOGGER.info("No such user");
         return Optional.empty();
     }
 
@@ -206,7 +214,7 @@ public class UserDAOImpl implements UserDAO {
                 exists = true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't check if user exists by email", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -221,7 +229,7 @@ public class UserDAOImpl implements UserDAO {
                     exists = true;
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error("Can't check if user exists by phone number", e);
             } finally {
                 POOL.closeResources(resultSet);
                 POOL.releaseConnection(connection);
@@ -243,7 +251,7 @@ public class UserDAOImpl implements UserDAO {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't check if user exists by email and password", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -264,7 +272,7 @@ public class UserDAOImpl implements UserDAO {
                 user = createUser(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get user by email", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);

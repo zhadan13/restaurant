@@ -6,6 +6,8 @@ import com.example.restaurant.db.dao.impl.OrderDAOImpl;
 import com.example.restaurant.model.Order;
 import com.example.restaurant.model.Product;
 import com.example.restaurant.service.OrderService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ import java.util.Map;
 import java.util.Optional;
 
 public class OrderServiceImpl implements OrderService {
+    private static final Logger LOGGER = LogManager.getLogger(OrderServiceImpl.class);
+
     private static OrderServiceImpl INSTANCE;
 
     private OrderServiceImpl() {
@@ -37,6 +41,7 @@ public class OrderServiceImpl implements OrderService {
             OrderDAO orderDAO = OrderDAOImpl.getInstance();
             return orderDAO.save(order);
         }
+        LOGGER.info("Not valid order data");
         return Optional.empty();
     }
 
@@ -52,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
             OrderDAO orderDAO = OrderDAOImpl.getInstance();
             return orderDAO.update(order);
         }
+        LOGGER.info("Not valid order data");
         return false;
     }
 

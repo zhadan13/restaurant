@@ -20,4 +20,9 @@ public class EncodingFilter implements Filter {
         servletResponse.setContentType("text/html; charset=" + Util.DEFAULT_ENCODING);
         filterChain.doFilter(servletRequest, servletResponse);
     }
+
+    @Override
+    public void destroy() {
+
+    }
 }

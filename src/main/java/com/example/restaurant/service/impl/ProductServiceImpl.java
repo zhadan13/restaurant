@@ -4,11 +4,15 @@ import com.example.restaurant.db.dao.ProductDAO;
 import com.example.restaurant.db.dao.impl.ProductDAOImpl;
 import com.example.restaurant.model.Product;
 import com.example.restaurant.service.ProductService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ProductServiceImpl implements ProductService {
+    private static final Logger LOGGER = LogManager.getLogger(ProductServiceImpl.class);
+
     private static ProductServiceImpl INSTANCE;
 
     private ProductServiceImpl() {

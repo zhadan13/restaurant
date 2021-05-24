@@ -108,7 +108,7 @@ public class ManagerServlet extends HttpServlet {
 
         String elementsPerPage = req.getParameter("elementsPerPage");
         String pageIndex = req.getParameter("pageIndex");
-        int elementsPerPageValue = Util.DEFAULT_ELEMENTS_PER_PAGE;
+        int elementsPerPageValue = Util.DEFAULT_ELEMENTS_PER_PAGE_FOR_MANAGER;
         int pageIndexValue = 1;
         if (elementsPerPage != null && !elementsPerPage.equals("")) {
             elementsPerPageValue = Integer.parseInt(elementsPerPage);

@@ -5,6 +5,8 @@ import com.example.restaurant.db.connection_pool.ConnectionPool;
 import com.example.restaurant.db.connection_pool.Pool;
 import com.example.restaurant.db.dao.ProductDAO;
 import com.example.restaurant.model.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProductDAOImpl implements ProductDAO {
+    private static final Logger LOGGER = LogManager.getLogger(ProductDAOImpl.class);
+
     private static ProductDAOImpl INSTANCE;
     private static final Pool POOL = Pool.getInstance();
 
@@ -51,7 +55,7 @@ public class ProductDAOImpl implements ProductDAO {
                 product.setId(field);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't save product", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -67,7 +71,7 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't delete product", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -88,7 +92,7 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setLong(7, product.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't update product", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -109,7 +113,7 @@ public class ProductDAOImpl implements ProductDAO {
                 product = createProduct(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get product", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -131,7 +135,7 @@ public class ProductDAOImpl implements ProductDAO {
                 products.add(product);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all products", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -147,7 +151,7 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't update product popularity", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);

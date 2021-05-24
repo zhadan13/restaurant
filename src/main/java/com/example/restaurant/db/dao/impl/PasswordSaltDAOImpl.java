@@ -5,6 +5,8 @@ import com.example.restaurant.db.connection_pool.ConnectionPool;
 import com.example.restaurant.db.connection_pool.Pool;
 import com.example.restaurant.db.dao.PasswordSaltDAO;
 import com.example.restaurant.model.PasswordSalt;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class PasswordSaltDAOImpl implements PasswordSaltDAO {
+    private static final Logger LOGGER = LogManager.getLogger(PasswordSaltDAOImpl.class);
+
     private static PasswordSaltDAOImpl INSTANCE;
     private static final Pool POOL = Pool.getInstance();
 
@@ -47,7 +51,7 @@ public class PasswordSaltDAOImpl implements PasswordSaltDAO {
                 passwordSalt.setId(field);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't save password salt", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -63,7 +67,7 @@ public class PasswordSaltDAOImpl implements PasswordSaltDAO {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't delete password salt", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -79,7 +83,7 @@ public class PasswordSaltDAOImpl implements PasswordSaltDAO {
             preparedStatement.setLong(2, passwordSalt.getUserId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't update password salt", e);
             return false;
         } finally {
             POOL.releaseConnection(connection);
@@ -100,7 +104,7 @@ public class PasswordSaltDAOImpl implements PasswordSaltDAO {
                 passwordSalt = createSalt(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get password salt by id", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);
@@ -122,7 +126,7 @@ public class PasswordSaltDAOImpl implements PasswordSaltDAO {
                 passwordSalts.add(passwordSalt);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get all password salts", e);
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -143,7 +147,7 @@ public class PasswordSaltDAOImpl implements PasswordSaltDAO {
                 passwordSalt = createSalt(resultSet);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Can't get password salt by user id", e);
             return Optional.empty();
         } finally {
             POOL.closeResources(resultSet);

@@ -5,11 +5,15 @@ import com.example.restaurant.db.dao.impl.UserDAOImpl;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.UserService;
 import com.example.restaurant.util.UserValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
+
     private static UserServiceImpl INSTANCE;
 
     private UserServiceImpl() {
@@ -37,6 +41,7 @@ public class UserServiceImpl implements UserService {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.registration(user);
         }
+        LOGGER.info("Not valid data for registration");
         return Optional.empty();
     }
 
@@ -48,6 +53,7 @@ public class UserServiceImpl implements UserService {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.authorization(email, password);
         }
+        LOGGER.info("Not valid data for authorization");
         return Optional.empty();
     }
 
@@ -61,6 +67,7 @@ public class UserServiceImpl implements UserService {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.update(user);
         }
+        LOGGER.info("Not valid data for update user");
         return false;
     }
 
@@ -73,6 +80,7 @@ public class UserServiceImpl implements UserService {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.updateInfo(user);
         }
+        LOGGER.info("Not valid data for update user info");
         return false;
     }
 

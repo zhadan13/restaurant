@@ -1,5 +1,8 @@
 package com.example.restaurant.db.connection_pool;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,6 +13,8 @@ import java.util.Map;
 import java.util.Properties;
 
 public class Pool {
+    private static final Logger LOGGER = LogManager.getLogger(Pool.class);
+
     private static Pool INSTANCE;
     public final Map<ConnectionPool, Boolean> connections;
     private static final int WAIT_TIME = 1000;
@@ -32,7 +37,7 @@ public class Pool {
                 NUMBER_OF_CONNECTIONS = Integer.parseInt(properties.getProperty("db.pool_size"));
             } catch (NumberFormatException e) {
                 NUMBER_OF_CONNECTIONS = DEFAULT_NUMBER_OF_CONNECTIONS;
-                e.printStackTrace();
+                LOGGER.warn(e);
             }
             connections = new HashMap<>(NUMBER_OF_CONNECTIONS);
             initConnections();
@@ -79,7 +84,8 @@ public class Pool {
             try {
                 Thread.sleep(WAIT_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage());
+                LOGGER.info("Trying to get connection again");
             }
             return getConnection();
         } else {
@@ -111,7 +117,7 @@ public class Pool {
             try {
                 statement.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error("Can't close statement", e);
             }
         }
     }
@@ -121,7 +127,7 @@ public class Pool {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error("Can't close resultSet", e);
             }
         }
     }

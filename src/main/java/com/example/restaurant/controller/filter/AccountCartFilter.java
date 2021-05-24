@@ -32,4 +32,9 @@ public class AccountCartFilter implements Filter {
             }
         }
     }
+
+    @Override
+    public void destroy() {
+
+    }
 }

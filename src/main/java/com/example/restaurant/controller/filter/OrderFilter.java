@@ -33,4 +33,9 @@ public class OrderFilter implements Filter {
             }
         }
     }
+
+    @Override
+    public void destroy() {
+
+    }
 }
