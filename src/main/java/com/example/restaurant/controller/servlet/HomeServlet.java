@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "home", urlPatterns = "/home")
 public class HomeServlet extends HttpServlet {
@@ -42,35 +44,6 @@ public class HomeServlet extends HttpServlet {
                 categoryFromRequest = MenuCategories.DEFAULT.name();
             }
         }
-
-        if (!categoryFromRequest.equalsIgnoreCase(MenuCategories.DEFAULT.name())) {
-            if (categoryFromRequest.equalsIgnoreCase(MenuCategories.PIZZA.name())) {
-                products = products.stream()
-                        .filter(product -> product.getCategory().equalsIgnoreCase(MenuCategories.PIZZA.name()))
-                        .collect(Collectors.toList());
-            } else if (categoryFromRequest.equalsIgnoreCase(MenuCategories.SUSHI.name())) {
-                products = products.stream()
-                        .filter(product -> product.getCategory().equalsIgnoreCase(MenuCategories.SUSHI.name()))
-                        .collect(Collectors.toList());
-            } else if (categoryFromRequest.equalsIgnoreCase(MenuCategories.SALAD.name())) {
-                products = products.stream()
-                        .filter(product -> product.getCategory().equalsIgnoreCase(MenuCategories.SALAD.name()))
-                        .collect(Collectors.toList());
-            } else if (categoryFromRequest.equalsIgnoreCase(MenuCategories.PASTA.name())) {
-                products = products.stream()
-                        .filter(product -> product.getCategory().equalsIgnoreCase(MenuCategories.PASTA.name()))
-                        .collect(Collectors.toList());
-            } else if (categoryFromRequest.equalsIgnoreCase(MenuCategories.DESSERT.name())) {
-                products = products.stream()
-                        .filter(product -> product.getCategory().equalsIgnoreCase(MenuCategories.DESSERT.name()))
-                        .collect(Collectors.toList());
-            } else if (categoryFromRequest.equalsIgnoreCase(MenuCategories.DRINKS.name())) {
-                products = products.stream()
-                        .filter(product -> product.getCategory().equalsIgnoreCase(MenuCategories.DRINKS.name()))
-                        .collect(Collectors.toList());
-            }
-        }
-
         session.setAttribute("category", categoryFromSession);
 
         String sortFromRequest = req.getParameter("sorting");
@@ -81,26 +54,13 @@ public class HomeServlet extends HttpServlet {
             if (sortFromSession != null) {
                 sortFromRequest = sortFromSession;
             } else {
-                sortFromSession = "default";
-                sortFromRequest = "default";
+                sortFromSession = "DEFAULT";
+                sortFromRequest = "DEFAULT";
             }
         }
-
-        if (!sortFromRequest.equals("default")) {
-            if (sortFromRequest.equals("category")) {
-                products.sort(Comparator.comparing(Product::getCategory));
-            } else if (sortFromRequest.equals("name")) {
-                products.sort(Comparator.comparing(Product::getName));
-            } else if (sortFromRequest.equals("popularity")) {
-                products.sort(Comparator.comparing(Product::getPopularity).reversed());
-            } else if (sortFromRequest.equals("price high to low")) {
-                products.sort(Comparator.comparing(Product::getPrice).reversed());
-            } else if (sortFromRequest.equals("price low to high")) {
-                products.sort(Comparator.comparing(Product::getPrice));
-            }
-        }
-
         session.setAttribute("sorting", sortFromSession);
+
+        products = MenuCategories.filter(products, categoryFromRequest, sortFromRequest);
 
         String elementsPerPage = req.getParameter("elementsPerPage");
         String pageIndex = req.getParameter("pageIndex");
@@ -116,14 +76,12 @@ public class HomeServlet extends HttpServlet {
         if (products.size() % elementsPerPageValue != 0) {
             numberOfPages++;
         }
-
         List<Product> productsForCurrentPage = new ArrayList<>();
         for (int i = (pageIndexValue - 1) * elementsPerPageValue; i < pageIndexValue * elementsPerPageValue; i++) {
             if (i < products.size()) {
                 productsForCurrentPage.add(products.get(i));
             }
         }
-
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("elementsPerPage", elementsPerPageValue);
         req.setAttribute("pageIndex", pageIndexValue);
@@ -134,17 +92,15 @@ public class HomeServlet extends HttpServlet {
         if (productsInBucket == null) {
             productsInBucket = new HashMap<>();
         }
-
         String productAddParameter = req.getParameter("addProduct");
         String productRemoveParameter = req.getParameter("removeProduct");
         if (productAddParameter != null || productRemoveParameter != null) {
-            long id;
             if (productAddParameter != null) {
-                id = Long.parseLong(productAddParameter);
+                long id = Long.parseLong(productAddParameter);
                 productsInBucket.merge(id, 1, Integer::sum);
             }
             if (productRemoveParameter != null) {
-                id = Long.parseLong(productRemoveParameter);
+                long id = Long.parseLong(productRemoveParameter);
                 productsInBucket.remove(id);
             }
             session.setAttribute("productsInBucket", productsInBucket);

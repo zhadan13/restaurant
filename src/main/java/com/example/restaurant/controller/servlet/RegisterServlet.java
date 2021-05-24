@@ -29,11 +29,7 @@ public class RegisterServlet extends HttpServlet {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             HttpSession session = req.getSession();
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userEmail", user.getEmail());
-            session.setAttribute("userPhone", user.getPhoneNumber());
-            session.setAttribute("userName", user.getName());
-            session.setAttribute("userRole", user.getRole());
+            session.setAttribute("user", user);
             resp.sendRedirect("/home");
         } else {
             PrintWriter out = resp.getWriter();

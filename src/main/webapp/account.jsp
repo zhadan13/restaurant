@@ -65,9 +65,9 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="">
                             <c:choose>
-                                <c:when test="${sessionScope.userName != null}">
+                                <c:when test="${sessionScope.user != null}">
                                     <strong>
-                                        <c:out value="You are logged as ${sessionScope.userName}"/>
+                                        <c:out value="You are logged as ${sessionScope.user.name}"/>
                                     </strong>
                                 </c:when>
                                 <c:otherwise>
@@ -77,7 +77,7 @@
                         </a></li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.userName != null}">
+                                <c:when test="${sessionScope.user != null}">
                                     <strong>
                                         <a class="dropdown-item" href="">Account</a>
                                     </strong>
@@ -93,7 +93,7 @@
                         </li>
                         <li>
                             <c:choose>
-                                <c:when test="${sessionScope.userName != null}">
+                                <c:when test="${sessionScope.user != null}">
                                     <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
                                 </c:when>
                                 <c:otherwise>
@@ -123,7 +123,7 @@
                                 <div class="col-sm-4 bg-c-lite-green user-profile">
                                     <div class="card-block text-center text-white">
                                         <h6 class="f-w-600">
-                                            <c:out value="${sessionScope.userName}"/>
+                                            <c:out value="${sessionScope.user.name}"/>
                                         </h6>
                                     </div>
                                 </div>
@@ -134,13 +134,13 @@
                                             <div class="col-sm-6">
                                                 <p class="m-b-10 f-w-600">Email</p>
                                                 <h6 class="text-muted f-w-400">
-                                                    <c:out value="${sessionScope.userEmail}"/>
+                                                    <c:out value="${sessionScope.user.email}"/>
                                                 </h6>
                                             </div>
                                             <div class="col-sm-6">
                                                 <p class="m-b-10 f-w-600">Phone number</p>
                                                 <h6 class="text-muted f-w-400">
-                                                    <c:out value="${sessionScope.userPhone}"/>
+                                                    <c:out value="${sessionScope.user.phoneNumber}"/>
                                                 </h6>
                                             </div>
                                         </div>

@@ -19,23 +19,16 @@ public class SignOutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
-        String userName = (String) session.getAttribute("userName");
-        if (userName != null) {
-            session.removeAttribute("userId");
-            session.removeAttribute("userEmail");
-            session.removeAttribute("userPhone");
-            session.removeAttribute("userName");
-            session.removeAttribute("userRole");
-            session.removeAttribute("totalPrice");
-            session.removeAttribute("productsInBucket");
-            session.removeAttribute("bucket");
-            session.removeAttribute("allUserOrders");
-            session.removeAttribute("order");
-            session.removeAttribute("sorting");
-            session.removeAttribute("category");
-            session.removeAttribute("products");
-            session.removeAttribute("deliveryPrice");
-        }
+        session.removeAttribute("user");
+        session.removeAttribute("totalPrice");
+        session.removeAttribute("productsInBucket");
+        session.removeAttribute("bucket");
+        session.removeAttribute("allUserOrders");
+        session.removeAttribute("order");
+        session.removeAttribute("sorting");
+        session.removeAttribute("category");
+        session.removeAttribute("products");
+        session.removeAttribute("deliveryPrice");
 
         resp.sendRedirect("/");
     }

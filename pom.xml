@@ -13,6 +13,10 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <servlet.version>4.0.1</servlet.version>
+        <jstl.version>1.2</jstl.version>
+        <postgresql.version>42.2.20</postgresql.version>
+        <log4j.version>2.14.1</log4j.version>
         <junit.version>5.7.1</junit.version>
     </properties>
 
@@ -20,28 +24,28 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.20</version>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.14.1</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.14.1</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

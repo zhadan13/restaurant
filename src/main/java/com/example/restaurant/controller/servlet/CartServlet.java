@@ -33,17 +33,18 @@ public class CartServlet extends HttpServlet {
 
         String productRemoveParameter = req.getParameter("removeProduct");
         if (productRemoveParameter != null) {
-            long id;
-            id = Long.parseLong(productRemoveParameter);
+            long id = Long.parseLong(productRemoveParameter);
             productsInBucket.remove(id);
             session.setAttribute("productsInBucket", productsInBucket);
-
             resp.sendRedirect("/cart");
         } else {
             ProductService productService = ProductServiceImpl.getInstance();
             Map<Product, Integer> bucket = new HashMap<>();
             productsInBucket.forEach((aLong, integer) -> bucket.put(productService.getProduct(aLong).orElseThrow(RuntimeException::new), integer));
-            double totalPrice = bucket.entrySet().stream().mapToDouble(value -> value.getValue() * value.getKey().getPrice()).sum();
+            double totalPrice = bucket.entrySet()
+                    .stream()
+                    .mapToDouble(value -> value.getValue() * value.getKey().getPrice())
+                    .sum();
             if (totalPrice < Util.DEFAULT_FREE_DELIVERY) {
                 session.setAttribute("deliveryPrice", 50.0);
             } else {

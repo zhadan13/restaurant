@@ -1,6 +1,7 @@
 package com.example.restaurant.controller.servlet;
 
 import com.example.restaurant.model.Order;
+import com.example.restaurant.model.User;
 import com.example.restaurant.service.OrderService;
 import com.example.restaurant.service.impl.OrderServiceImpl;
 
@@ -24,9 +25,9 @@ public class AccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
-        long id = (Long) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
         OrderService orderService = OrderServiceImpl.getInstance();
-        List<Order> orders = orderService.getUserOrders(id);
+        List<Order> orders = orderService.getUserOrders(user.getId());
         session.setAttribute("allUserOrders", orders);
 
         req.getRequestDispatcher("/account.jsp").forward(req, resp);

@@ -1,5 +1,6 @@
 package com.example.restaurant.db.dao.impl;
 
+import com.example.restaurant.constants.MenuCategories;
 import com.example.restaurant.constants.SQLQuery;
 import com.example.restaurant.db.connection_pool.ConnectionPool;
 import com.example.restaurant.db.connection_pool.Pool;
@@ -43,7 +44,7 @@ public class ProductDAOImpl implements ProductDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_NEW_PRODUCT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDetails());
-            preparedStatement.setString(3, product.getCategory());
+            preparedStatement.setString(3, product.getCategory().name());
             preparedStatement.setDouble(4, product.getPrice());
             preparedStatement.setDouble(5, product.getWeight());
             preparedStatement.setInt(6, product.getPopularity());
@@ -85,7 +86,7 @@ public class ProductDAOImpl implements ProductDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_PRODUCT_BY_ID)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDetails());
-            preparedStatement.setString(3, product.getCategory());
+            preparedStatement.setString(3, product.getCategory().name());
             preparedStatement.setDouble(4, product.getPrice());
             preparedStatement.setDouble(5, product.getWeight());
             preparedStatement.setInt(6, product.getPopularity());
@@ -161,7 +162,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     private Product createProduct(final ResultSet resultSet) throws SQLException {
         return Product.createProduct(resultSet.getLong("id"), resultSet.getString("name"),
-                resultSet.getString("details"), resultSet.getString("category"),
+                resultSet.getString("details"), MenuCategories.parseCategory(resultSet.getString("category")),
                 resultSet.getDouble("price"), resultSet.getDouble("weight"),
                 resultSet.getInt("popularity"));
     }

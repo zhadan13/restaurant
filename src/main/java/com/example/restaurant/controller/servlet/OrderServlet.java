@@ -4,6 +4,7 @@ import com.example.restaurant.constants.OrderStatus;
 import com.example.restaurant.constants.Payment;
 import com.example.restaurant.model.Order;
 import com.example.restaurant.model.Product;
+import com.example.restaurant.model.User;
 import com.example.restaurant.service.OrderService;
 import com.example.restaurant.service.ProductService;
 import com.example.restaurant.service.impl.OrderServiceImpl;
@@ -30,7 +31,7 @@ public class OrderServlet extends HttpServlet {
         String address = req.getParameter("address");
         String time = req.getParameter("time");
         int paymentIndex = Integer.parseInt(req.getParameter("payment"));
-        Long userId = (Long) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
         Double cost = (Double) session.getAttribute("totalPrice");
         Double deliveryPrice = (Double) session.getAttribute("deliveryPrice");
         Map<Product, Integer> bucket = (Map<Product, Integer>) session.getAttribute("bucket");
@@ -47,7 +48,7 @@ public class OrderServlet extends HttpServlet {
         }
 
         OrderService orderService = OrderServiceImpl.getInstance();
-        Order orderForRegister = Order.createOrder(userId, OrderStatus.ACCEPTED, address, payment, cost + deliveryPrice, timestamp, bucket);
+        Order orderForRegister = Order.createOrder(user.getId(), OrderStatus.ACCEPTED, address, payment, cost + deliveryPrice, timestamp, bucket);
         Optional<Order> optionalOrder = orderService.saveOrder(orderForRegister);
         if (optionalOrder.isPresent()) {
             Order order = optionalOrder.get();
@@ -57,10 +58,8 @@ public class OrderServlet extends HttpServlet {
             } else {
                 order.setStatus(OrderStatus.CONFIRMED);
                 orderService.updateOrderStatus(order.getId(), OrderStatus.CONFIRMED);
-
                 ProductService productService = ProductServiceImpl.getInstance();
                 order.getProducts().keySet().forEach(product -> productService.updateProductPopularity(product.getId(), product.getPopularity() + 1));
-
                 session.setAttribute("order", order);
                 resp.sendRedirect("/successOrder?orderId=" + order.getId());
             }

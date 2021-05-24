@@ -1,6 +1,7 @@
 package com.example.restaurant.controller.filter;
 
 import com.example.restaurant.constants.Role;
+import com.example.restaurant.model.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -20,8 +21,8 @@ public class RoleFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        Role userRole = (Role) req.getSession().getAttribute("userRole");
-        if (userRole != null && userRole.name().equals("MANAGER")) {
+        User user = (User) req.getSession().getAttribute("user");
+        if (user != null && user.getRole() == Role.MANAGER) {
             filterChain.doFilter(req, resp);
         } else {
             resp.sendRedirect("/home");

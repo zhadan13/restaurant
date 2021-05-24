@@ -1,6 +1,7 @@
 package com.example.restaurant.controller.filter;
 
 import com.example.restaurant.model.Product;
+import com.example.restaurant.model.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -21,8 +22,8 @@ public class OrderFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        String userEmail = (String) req.getSession().getAttribute("userEmail");
-        if (userEmail == null) {
+        User user = (User) req.getSession().getAttribute("user");
+        if (user == null) {
             resp.sendRedirect("/login");
         } else {
             Map<Product, Integer> bucketMap = (Map<Product, Integer>) req.getSession().getAttribute("bucket");

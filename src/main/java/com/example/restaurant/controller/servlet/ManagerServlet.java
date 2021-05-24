@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "admin", urlPatterns = "/admin")
 public class ManagerServlet extends HttpServlet {
@@ -44,39 +42,6 @@ public class ManagerServlet extends HttpServlet {
                 filterFromRequest = "DEFAULT";
             }
         }
-
-        if (!filterFromRequest.equalsIgnoreCase("DEFAULT")) {
-            if (filterFromRequest.equalsIgnoreCase(OrderStatus.ACCEPTED.name())) {
-                orders = orders.stream()
-                        .filter(order -> order.getStatus().name().equalsIgnoreCase(OrderStatus.ACCEPTED.name()))
-                        .collect(Collectors.toList());
-            } else if (filterFromRequest.equalsIgnoreCase(OrderStatus.CONFIRMED.name())) {
-                orders = orders.stream()
-                        .filter(order -> order.getStatus().name().equalsIgnoreCase(OrderStatus.CONFIRMED.name()))
-                        .collect(Collectors.toList());
-            } else if (filterFromRequest.equalsIgnoreCase(OrderStatus.PREPARING.name())) {
-                orders = orders.stream()
-                        .filter(order -> order.getStatus().name().equalsIgnoreCase(OrderStatus.PREPARING.name()))
-                        .collect(Collectors.toList());
-            } else if (filterFromRequest.equalsIgnoreCase(OrderStatus.DELIVERING.name())) {
-                orders = orders.stream()
-                        .filter(order -> order.getStatus().name().equalsIgnoreCase(OrderStatus.DELIVERING.name()))
-                        .collect(Collectors.toList());
-            } else if (filterFromRequest.equalsIgnoreCase(OrderStatus.COMPLETED.name())) {
-                orders = orders.stream()
-                        .filter(order -> order.getStatus().name().equalsIgnoreCase(OrderStatus.COMPLETED.name()))
-                        .collect(Collectors.toList());
-            } else if (filterFromRequest.equalsIgnoreCase(OrderStatus.REJECTED.name())) {
-                orders = orders.stream()
-                        .filter(order -> order.getStatus().name().equalsIgnoreCase(OrderStatus.REJECTED.name()))
-                        .collect(Collectors.toList());
-            } else if (filterFromRequest.equalsIgnoreCase("UNCOMPLETED")) {
-                orders = orders.stream()
-                        .filter(order -> order.getStatus().ordinal() != 5 && order.getStatus().ordinal() != 4)
-                        .collect(Collectors.toList());
-            }
-        }
-
         session.setAttribute("filter", filterFromSession);
 
         String sortFromRequest = req.getParameter("sorting");
@@ -91,20 +56,9 @@ public class ManagerServlet extends HttpServlet {
                 sortFromRequest = "default";
             }
         }
-
-        if (!sortFromRequest.equals("default")) {
-            if (sortFromRequest.equals("user id")) {
-                orders.sort(Comparator.comparing(Order::getUserId));
-            } else if (sortFromRequest.equals("status")) {
-                orders.sort(Comparator.comparing(Order::getStatus));
-            } else if (sortFromRequest.equals("date from old to new")) {
-                orders.sort(Comparator.comparing(Order::getDate));
-            } else if (sortFromRequest.equals("date from new to old")) {
-                orders.sort(Comparator.comparing(Order::getDate).reversed());
-            }
-        }
-
         session.setAttribute("sorting", sortFromSession);
+
+        orders = OrderStatus.filter(orders, filterFromRequest, sortFromRequest);
 
         String elementsPerPage = req.getParameter("elementsPerPage");
         String pageIndex = req.getParameter("pageIndex");
@@ -120,14 +74,12 @@ public class ManagerServlet extends HttpServlet {
         if (orders.size() % elementsPerPageValue != 0) {
             numberOfPages++;
         }
-
         List<Order> ordersForCurrentPage = new ArrayList<>();
         for (int i = (pageIndexValue - 1) * elementsPerPageValue; i < pageIndexValue * elementsPerPageValue; i++) {
             if (i < orders.size()) {
                 ordersForCurrentPage.add(orders.get(i));
             }
         }
-
         req.setAttribute("numberOfPages", numberOfPages);
         req.setAttribute("elementsPerPage", elementsPerPageValue);
         req.setAttribute("pageIndex", pageIndexValue);
@@ -135,11 +87,9 @@ public class ManagerServlet extends HttpServlet {
         String changeStatusId = req.getParameter("changeStatusFor");
         String changeStatusTo = req.getParameter("newStatus");
         String productRemoveParameter = req.getParameter("removeOrder");
-
         if ((changeStatusId != null && changeStatusTo != null) || productRemoveParameter != null) {
             if (productRemoveParameter != null) {
-                long id;
-                id = Long.parseLong(productRemoveParameter);
+                long id = Long.parseLong(productRemoveParameter);
                 orderService.deleteOrder(id);
                 orders.removeIf(order -> order.getId().equals(id));
             } else {

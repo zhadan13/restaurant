@@ -1,5 +1,7 @@
 package com.example.restaurant.model;
 
+import com.example.restaurant.constants.MenuCategories;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,7 +11,7 @@ public class Product implements Serializable {
     private Long id;
     private String name;
     private String details;
-    private String category;
+    private MenuCategories category;
     private Double price;
     private Double weight;
     private Integer popularity;
@@ -17,7 +19,7 @@ public class Product implements Serializable {
     private Product() {
     }
 
-    private Product(String name, String details, String category, Double price, Double weight, Integer popularity) {
+    private Product(String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         this.name = name;
         this.details = details;
         this.category = category;
@@ -26,7 +28,7 @@ public class Product implements Serializable {
         this.popularity = popularity;
     }
 
-    private Product(Long id, String name, String details, String category, Double price, Double weight, Integer popularity) {
+    private Product(Long id, String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         this.id = id;
         this.name = name;
         this.details = details;
@@ -40,11 +42,11 @@ public class Product implements Serializable {
         return new Product();
     }
 
-    public static Product createProduct(String name, String details, String category, Double price, Double weight, Integer popularity) {
+    public static Product createProduct(String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         return new Product(name, details, category, price, weight, popularity);
     }
 
-    public static Product createProduct(Long id, String name, String details, String category, Double price, Double weight, Integer popularity) {
+    public static Product createProduct(Long id, String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         return new Product(id, name, details, category, price, weight, popularity);
     }
 
@@ -76,11 +78,11 @@ public class Product implements Serializable {
         this.details = details;
     }
 
-    public String getCategory() {
+    public MenuCategories getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(MenuCategories category) {
         this.category = category;
     }
 

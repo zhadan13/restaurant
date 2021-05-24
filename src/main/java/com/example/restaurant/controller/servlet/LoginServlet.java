@@ -1,5 +1,6 @@
 package com.example.restaurant.controller.servlet;
 
+import com.example.restaurant.constants.Role;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.UserService;
 import com.example.restaurant.service.impl.UserServiceImpl;
@@ -25,12 +26,8 @@ public class LoginServlet extends HttpServlet {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             HttpSession session = req.getSession();
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userEmail", user.getEmail());
-            session.setAttribute("userPhone", user.getPhoneNumber());
-            session.setAttribute("userName", user.getName());
-            session.setAttribute("userRole", user.getRole());
-            if (user.getRole().name().equals("USER")) {
+            session.setAttribute("user", user);
+            if (user.getRole() == Role.USER) {
                 resp.sendRedirect("/home");
             } else {
                 resp.sendRedirect("/admin");

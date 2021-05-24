@@ -4,12 +4,13 @@ import com.example.restaurant.db.dao.UserDAO;
 import com.example.restaurant.db.dao.impl.UserDAOImpl;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.UserService;
-import com.example.restaurant.util.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.restaurant.util.UserValidator.*;
 
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
@@ -33,10 +34,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> registration(User user) {
-        boolean isEmailValid = UserValidator.validateEmail(user.getEmail());
-        boolean isPasswordValid = UserValidator.validatePassword(String.valueOf(user.getPassword()));
-        boolean isPhoneNumberValid = UserValidator.validatePhoneNumber(user.getPhoneNumber());
-        boolean isNameValid = UserValidator.validateName(user.getName());
+        boolean isEmailValid = validateEmail(user.getEmail());
+        boolean isPasswordValid = validatePassword(String.valueOf(user.getPassword()));
+        boolean isPhoneNumberValid = validatePhoneNumber(user.getPhoneNumber());
+        boolean isNameValid = validateName(user.getName());
         if (isEmailValid && isPasswordValid && isPhoneNumberValid && isNameValid) {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.registration(user);
@@ -47,8 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> authorization(String email, String password) {
-        boolean isEmailValid = UserValidator.validateEmail(email);
-        boolean isPasswordValid = UserValidator.validatePassword(password);
+        boolean isEmailValid = validateEmail(email);
+        boolean isPasswordValid = validatePassword(password);
         if (isEmailValid && isPasswordValid) {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.authorization(email, password);
@@ -59,10 +60,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUser(User user) {
-        boolean isEmailValid = UserValidator.validateEmail(user.getEmail());
-        boolean isPasswordValid = UserValidator.validatePassword(String.valueOf(user.getPassword()));
-        boolean isPhoneNumberValid = UserValidator.validatePhoneNumber(user.getPhoneNumber());
-        boolean isNameValid = UserValidator.validateName(user.getName());
+        boolean isEmailValid = validateEmail(user.getEmail());
+        boolean isPasswordValid = validatePassword(String.valueOf(user.getPassword()));
+        boolean isPhoneNumberValid = validatePhoneNumber(user.getPhoneNumber());
+        boolean isNameValid = validateName(user.getName());
         if (isEmailValid && isPasswordValid && isPhoneNumberValid && isNameValid) {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.update(user);
@@ -73,9 +74,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUserInformation(User user) {
-        boolean isEmailValid = UserValidator.validateEmail(user.getEmail());
-        boolean isPhoneNumberValid = UserValidator.validatePhoneNumber(user.getPhoneNumber());
-        boolean isNameValid = UserValidator.validateName(user.getName());
+        boolean isEmailValid = validateEmail(user.getEmail());
+        boolean isPhoneNumberValid = validatePhoneNumber(user.getPhoneNumber());
+        boolean isNameValid = validateName(user.getName());
         if (isEmailValid && isPhoneNumberValid && isNameValid) {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.updateInfo(user);

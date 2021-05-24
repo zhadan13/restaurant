@@ -1,6 +1,7 @@
 package com.example.restaurant.controller.filter;
 
 import com.example.restaurant.constants.Role;
+import com.example.restaurant.model.User;
 
 import java.io.IOException;
 import javax.servlet.*;
@@ -20,12 +21,11 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        String userEmail = (String) req.getSession().getAttribute("userEmail");
-        Role userRole = (Role) req.getSession().getAttribute("userRole");
-        if (userEmail != null && userRole != null && userRole.name().equals("USER")) {
+        User user = (User) req.getSession().getAttribute("user");
+        if (user != null && user.getRole() == Role.USER) {
             filterChain.doFilter(req, resp);
         } else {
-            if (userRole != null && userRole.name().equals("MANAGER")) {
+            if (user != null && user.getRole() == Role.MANAGER) {
                 resp.sendRedirect("/admin");
             } else {
                 resp.sendRedirect("/login");
