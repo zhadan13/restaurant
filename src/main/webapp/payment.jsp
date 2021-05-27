@@ -11,60 +11,9 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
-
     <style>
-        body {
-            background: linear-gradient(to right, rgba(235, 224, 232, 1) 50%, rgba(254, 191, 1, 1) 51%, rgba(254, 191, 1, 1) 100%);
-        }
-
-        .card {
-            border: none;
-            max-width: 450px;
-            border-radius: 20px;
-            margin: 150px;
-            padding: 20px;
-        }
-
-        .heading {
-            font-size: 14px;
-            font-weight: 600
-        }
-
-        img {
-            transform: translate(100px, -10px)
-        }
-
-        .text-warning {
-            font-size: 12px;
-            font-weight: 500;
-            color: #edb537
-        }
-
-        #cno {
-            transform: translateY(-10px)
-        }
-
-        input {
-            font-weight: bold;
-            border-radius: 0;
-            border: 0;
-            border-bottom: 2px solid #E8E5D2
-        }
-
-        .form-group input:focus {
-            border: 0;
-            outline: 0
-        }
-
-        .btn {
-            background: #F3A002;
-            border: none;
-            border-radius: 30px
-        }
-
-        .btn:focus {
-            box-shadow: none
-        }
+        <%@include file="bootstrap/css/bootstrap.min.css"%>
+        <%@include file="css/payment_style.css"%>
     </style>
 </head>
 

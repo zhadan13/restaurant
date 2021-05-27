@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tags" uri="http://localhost:8080/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,82 +12,9 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
-
     <style>
-        .payment-form form {
-            border-top: 3px solid royalblue;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            background-color: #FFFFFF;
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .payment-form .title {
-            font-size: 1em;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-            margin-bottom: 0.8em;
-            font-weight: 600;
-            padding-bottom: 8px;
-        }
-
-        .payment-form .products .item-name {
-            font-weight: 600;
-        }
-
-        .payment-form .products .item-description {
-            font-size: 0.8em;
-            opacity: 0.6;
-        }
-
-        .payment-form .products .item p {
-            margin-bottom: 0.2em;
-        }
-
-        .payment-form .products .price {
-            float: right;
-            font-weight: 600;
-        }
-
-        .payment-form .products .total {
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            margin-top: 10px;
-            padding-top: 15px;
-            font-weight: 600;
-        }
-
-        .payment-form .input-details label {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #79818a;
-            text-transform: uppercase;
-        }
-
-        @media (min-width: 576px) {
-            .payment-form .title {
-                font-size: 1.2em;
-            }
-
-            .payment-form .products {
-                padding: 40px;
-            }
-
-            .payment-form .products .item-name {
-                font-size: 1em;
-            }
-
-            .payment-form .products .price {
-                font-size: 1em;
-            }
-
-            .payment-form .input-details {
-                padding: 40px 40px 30px;
-            }
-
-            .payment-form .input-details button {
-                margin-top: 2em;
-            }
-        }
+        <%@include file="bootstrap/css/bootstrap.min.css"%>
+        <%@include file="css/order_style.css"%>
     </style>
 </head>
 
@@ -240,9 +168,7 @@
                                 <div class="col-sm-auto">
                                     <label>Date and time:&nbsp;</label>
                                     <strong>
-                                        <c:out value="${requestScope.order.date.toLocalDateTime().toLocalTime()}"/>
-                                        &#183;
-                                        <c:out value="${requestScope.order.date.toLocalDateTime().toLocalDate()}"/>
+                                        <tags:dateFormatTag dateTime="${requestScope.order.date}"/>
                                     </strong>
                                 </div>
                                 <div class="col-sm-auto">

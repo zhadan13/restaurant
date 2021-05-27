@@ -18,7 +18,7 @@ public class Pool {
     private static Pool INSTANCE;
     public final Map<ConnectionPool, Boolean> connections;
     private static final int WAIT_TIME = 1000;
-    private static final String PROPERTIES_PATH = "/pool-configuration.properties";
+    private static final String PROPERTIES_PATH = "/connection-pool.properties";
     private static String URL;
     private static String USER;
     private static String PASSWORD;

@@ -1,6 +1,8 @@
 package com.example.restaurant.controller.servlet;
 
 import com.example.restaurant.model.Order;
+import com.example.restaurant.model.User;
+import com.example.restaurant.util.SendMail;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +32,10 @@ public class SuccessOrderServlet extends HttpServlet {
         session.removeAttribute("bucket");
         session.removeAttribute("order");
 
+        User user = (User) session.getAttribute("user");
+        if (order != null) {
+            SendMail.sendOrderMail(user.getEmail(), user.getName(), order.getId());
+        }
         req.getRequestDispatcher("/successOrder.jsp").forward(req, resp);
     }
 }

@@ -11,6 +11,10 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
+    <style>
+        <%@include file="bootstrap/css/bootstrap.min.css"%>
+        <%@include file="css/main_style.css"%>
+    </style>
 </head>
 
 <body>

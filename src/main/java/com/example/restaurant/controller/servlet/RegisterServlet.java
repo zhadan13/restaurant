@@ -4,6 +4,7 @@ import com.example.restaurant.constants.Role;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.UserService;
 import com.example.restaurant.service.impl.UserServiceImpl;
+import com.example.restaurant.util.SendMail;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +31,7 @@ public class RegisterServlet extends HttpServlet {
             User user = optionalUser.get();
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
+            SendMail.sendInvitationMail(user.getEmail(), user.getName());
             resp.sendRedirect("/home");
         } else {
             PrintWriter out = resp.getWriter();

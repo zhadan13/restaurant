@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tags" uri="http://localhost:8080/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,11 @@
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
+    <style>
+        <%@include file="bootstrap/css/bootstrap.min.css"%>
+        <%@include file="css/index_style.css"%>
+        <%@include file="css/account_style.css"%>
+    </style>
 </head>
 
 <body>
@@ -198,9 +204,7 @@
                                                         <div class="col-sm-6">
                                                             <p class="m-b-10 f-w-600">Date and time</p>
                                                             <h6 class="text-muted f-w-400">
-                                                                <c:out value="${currentOrder.date.toLocalDateTime().toLocalTime()}"/>
-                                                                &#183;
-                                                                <c:out value="${currentOrder.date.toLocalDateTime().toLocalDate()}"/>
+                                                                <tags:dateFormatTag dateTime="${currentOrder.date}"/>
                                                             </h6>
                                                         </div>
                                                         <div class="col-sm-6">
