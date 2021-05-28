@@ -23,6 +23,8 @@ public interface UserDAO extends DAO<User> {
 
     boolean updateInfo(User user);
 
+    boolean updateAuthorizationStatus(Long id, Boolean status);
+
     Optional<User> registration(User user);
 
     Optional<User> authorization(String email, String password);

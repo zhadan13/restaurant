@@ -10,9 +10,13 @@ public interface UserService {
 
     Optional<User> authorization(String email, String password);
 
+    boolean validation(User user);
+
     boolean updateUser(User user);
 
     boolean updateUserInformation(User user);
+
+    boolean updateAuthorizationStatus(Long id);
 
     Optional<User> getUser(Long id);
 

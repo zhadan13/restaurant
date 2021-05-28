@@ -15,6 +15,10 @@ public final class PasswordEncryptor {
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 512;
 
+    private PasswordEncryptor() {
+
+    }
+
     public static String getSalt(final int length) {
         StringBuilder salt = new StringBuilder(length);
         for (int i = 0; i < length; i++) {

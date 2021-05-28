@@ -25,12 +25,20 @@ public class LoginServlet extends HttpServlet {
         Optional<User> optionalUser = userService.authorization(email, password);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            HttpSession session = req.getSession();
-            session.setAttribute("user", user);
-            if (user.getRole() == Role.USER) {
-                resp.sendRedirect("/home");
+            if (user.getAuthorized()) {
+                HttpSession session = req.getSession();
+                session.setAttribute("user", user);
+                if (user.getRole() == Role.USER) {
+                    resp.sendRedirect("/home");
+                } else {
+                    resp.sendRedirect("/admin");
+                }
             } else {
-                resp.sendRedirect("/admin");
+                PrintWriter out = resp.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Email address not confirmed! Please check your mailbox and confirm it!');");
+                out.println("location.href='/login';");
+                out.println("</script>");
             }
         } else {
             PrintWriter out = resp.getWriter();

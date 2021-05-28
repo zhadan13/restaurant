@@ -4,6 +4,7 @@ import com.example.restaurant.db.dao.UserDAO;
 import com.example.restaurant.db.dao.impl.UserDAOImpl;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.UserService;
+import com.example.restaurant.util.SendMail;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,11 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> registration(User user) {
-        boolean isEmailValid = validateEmail(user.getEmail());
-        boolean isPasswordValid = validatePassword(String.valueOf(user.getPassword()));
-        boolean isPhoneNumberValid = validatePhoneNumber(user.getPhoneNumber());
-        boolean isNameValid = validateName(user.getName());
-        if (isEmailValid && isPasswordValid && isPhoneNumberValid && isNameValid) {
+        if (validation((user))) {
             UserDAO userDAO = UserDAOImpl.getInstance();
             return userDAO.registration(user);
         }
@@ -56,6 +53,15 @@ public class UserServiceImpl implements UserService {
         }
         LOGGER.info("Not valid data for authorization");
         return Optional.empty();
+    }
+
+    @Override
+    public boolean validation(User user) {
+        boolean isEmailValid = validateEmail(user.getEmail());
+        boolean isPasswordValid = validatePassword(String.valueOf(user.getPassword()));
+        boolean isPhoneNumberValid = validatePhoneNumber(user.getPhoneNumber());
+        boolean isNameValid = validateName(user.getName());
+        return isEmailValid && isPasswordValid && isPhoneNumberValid && isNameValid;
     }
 
     @Override
@@ -83,6 +89,19 @@ public class UserServiceImpl implements UserService {
         }
         LOGGER.info("Not valid data for update user info");
         return false;
+    }
+
+    @Override
+    public boolean updateAuthorizationStatus(Long id) {
+        UserDAO userDAO = UserDAOImpl.getInstance();
+        boolean result = userDAO.updateAuthorizationStatus(id, true);
+        if (result) {
+            Optional<User> optionalUser = userDAO.get(id);
+            optionalUser.ifPresent(user -> SendMail.sendInvitationMail(user.getEmail(), user.getName()));
+        } else {
+            LOGGER.warn("Can't update authorization status for user");
+        }
+        return result;
     }
 
     @Override

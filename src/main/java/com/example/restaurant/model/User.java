@@ -15,37 +15,40 @@ public class User implements Serializable {
     private String phoneNumber;
     private String name;
     private Role role;
+    private Boolean authorized;
 
     private User() {
     }
 
-    private User(String email, char[] password, String phoneNumber, String name, Role role) {
+    private User(String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.role = role;
+        this.authorized = authorized;
     }
 
-    private User(Long id, String email, char[] password, String phoneNumber, String name, Role role) {
+    private User(Long id, String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.role = role;
+        this.authorized = authorized;
     }
 
     public static User createUser() {
         return new User();
     }
 
-    public static User createUser(String email, char[] password, String phoneNumber, String name, Role role) {
-        return new User(email, password, phoneNumber, name, role);
+    public static User createUser(String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
+        return new User(email, password, phoneNumber, name, role, authorized);
     }
 
-    public static User createUser(Long id, String email, char[] password, String phoneNumber, String name, Role role) {
-        return new User(id, email, password, phoneNumber, name, role);
+    public static User createUser(Long id, String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
+        return new User(id, email, password, phoneNumber, name, role, authorized);
     }
 
     public static long getSerialVersionUID() {
@@ -100,6 +103,14 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public Boolean getAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(Boolean authorized) {
+        this.authorized = authorized;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -111,12 +122,12 @@ public class User implements Serializable {
         User user = (User) o;
         return Objects.equals(id, user.id) && Objects.equals(email, user.email)
                 && Arrays.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber)
-                && Objects.equals(name, user.name) && role == user.role;
+                && Objects.equals(name, user.name) && role == user.role && Objects.equals(authorized, user.authorized);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, email, phoneNumber, name, role);
+        int result = Objects.hash(id, email, phoneNumber, name, role, authorized);
         result = 31 * result + Arrays.hashCode(password);
         return result;
     }
@@ -129,6 +140,7 @@ public class User implements Serializable {
                 ", phoneNumber = '" + phoneNumber + '\'' +
                 ", name = '" + name + '\'' +
                 ", role = " + role +
+                ", authorized = " + authorized +
                 '}';
     }
 }

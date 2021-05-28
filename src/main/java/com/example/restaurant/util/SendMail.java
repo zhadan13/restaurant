@@ -36,6 +36,26 @@ public final class SendMail {
         });
     }
 
+    public static void sendVerificationMail(final String to, final Long userId, final String userName, final String token) {
+        try {
+            MimeMessage message = new MimeMessage(SESSION);
+            message.setFrom(new InternetAddress(MAIL));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject("Welcome to Restaurant!");
+            String text = "<h1>" + "Hello " + userName + "! " + message.getSubject() + "</h1>" +
+                    "<p>" +
+                    "One more thing... " +
+                    "Please confirm your email address by going by link: " +
+                    "</p>" +
+                    "<a href='http://localhost:8080/authorization?user=" + userId + "&token=" + token + "''> Restaurant &#183; Confirm email address</a>";
+            message.setContent(text, "text/html; charset=utf-8");
+            message.saveChanges();
+            Transport.send(message);
+        } catch (MessagingException e) {
+            LOGGER.error("Can't send email to user", e);
+        }
+    }
+
     public static void sendInvitationMail(final String to, final String name) {
         try {
             MimeMessage message = new MimeMessage(SESSION);
@@ -65,7 +85,7 @@ public final class SendMail {
             String text = "<h1>" + "Hello " + name + "! " + message.getSubject() + "</h1>" +
                     "<p>" +
                     "Your order in the restaurant chain has been successfully created and accepted for processing by the manager. " +
-                    "<br>" + "Order number: " + orderId + "<br>" +
+                    "<br><strong>" + "Order number: " + orderId + "</strong><br>" +
                     "You can always track and check the order in your personal account by the link: " +
                     "</p>" +
                     "<a href='http://localhost:8080/account'> Restaurant &#183; Account</a>";

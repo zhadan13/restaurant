@@ -54,6 +54,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(3, user.getPhoneNumber());
             preparedStatement.setString(4, user.getName());
             preparedStatement.setString(5, user.getRole().name());
+            preparedStatement.setBoolean(6, user.getAuthorized());
             preparedStatement.executeUpdate();
 
             resultSet = preparedStatement.getGeneratedKeys();
@@ -175,6 +176,22 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public boolean updateAuthorizationStatus(Long id, Boolean status) {
+        ConnectionPool connection = POOL.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_USER_AUTHORIZATION_STATUS_BY_ID)) {
+            preparedStatement.setBoolean(1, status);
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Can't update user authorization status", e);
+            return false;
+        } finally {
+            POOL.releaseConnection(connection);
+        }
+        return true;
+    }
+
+    @Override
     public Optional<User> registration(User user) {
         if (!checkIfUserExistsByUniqueParameters(user)) {
             return save(user);
@@ -285,6 +302,6 @@ public class UserDAOImpl implements UserDAO {
         return User.createUser(resultSet.getLong("id"), resultSet.getString("email"),
                 resultSet.getString("password").toCharArray(), resultSet.getString("phone_number"),
                 resultSet.getString("name"), "USER".equalsIgnoreCase(resultSet.getString("role"))
-                        ? Role.USER : Role.MANAGER);
+                        ? Role.USER : Role.MANAGER, resultSet.getBoolean("authorized"));
     }
 }
