@@ -1,8 +1,7 @@
 package com.example.restaurant.db.dao.impl;
 
 import com.example.restaurant.constants.SQLQuery;
-import com.example.restaurant.db.connection_pool.ConnectionPool;
-import com.example.restaurant.db.connection_pool.Pool;
+import com.example.restaurant.db.connection_pool.ConnectionImpl;
 import com.example.restaurant.db.dao.AuthorizationTokenDAO;
 import com.example.restaurant.model.AuthorizationToken;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +18,6 @@ public class AuthorizationTokenDAOImpl implements AuthorizationTokenDAO {
     private static final Logger LOGGER = LogManager.getLogger(AuthorizationTokenDAOImpl.class);
 
     private static AuthorizationTokenDAOImpl INSTANCE;
-    private static final Pool POOL = Pool.getInstance();
 
     private AuthorizationTokenDAOImpl() {
 
@@ -38,17 +36,16 @@ public class AuthorizationTokenDAOImpl implements AuthorizationTokenDAO {
 
     @Override
     public Optional<AuthorizationToken> save(AuthorizationToken authorizationToken) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_NEW_AUTHORIZATION_TOKEN, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, authorizationToken.getUserId());
             preparedStatement.setString(2, authorizationToken.getToken());
             preparedStatement.executeUpdate();
-
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                Long field = resultSet.getLong(1);
-                authorizationToken.setId(field);
+                Long id = resultSet.getLong(1);
+                authorizationToken.setId(id);
             }
         } catch (SQLException e) {
             LOGGER.error("Can't save authorization token", e);
@@ -62,7 +59,7 @@ public class AuthorizationTokenDAOImpl implements AuthorizationTokenDAO {
 
     @Override
     public boolean delete(Long id) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.DELETE_AUTHORIZATION_TOKEN_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -77,7 +74,7 @@ public class AuthorizationTokenDAOImpl implements AuthorizationTokenDAO {
 
     @Override
     public boolean update(AuthorizationToken authorizationToken) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_AUTHORIZATION_TOKEN)) {
             preparedStatement.setString(1, authorizationToken.getToken());
             preparedStatement.setLong(2, authorizationToken.getUserId());
@@ -93,13 +90,12 @@ public class AuthorizationTokenDAOImpl implements AuthorizationTokenDAO {
 
     @Override
     public Optional<AuthorizationToken> get(Long id) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         AuthorizationToken authorizationToken = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_AUTHORIZATION_TOKEN_BY_ID)) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 authorizationToken = createToken(resultSet);
             }
@@ -115,12 +111,11 @@ public class AuthorizationTokenDAOImpl implements AuthorizationTokenDAO {
 
     @Override
     public List<AuthorizationToken> getAll() {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         List<AuthorizationToken> authorizationTokens = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_ALL_AUTHORIZATION_TOKENS)) {
             resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()) {
                 AuthorizationToken authorizationToken = createToken(resultSet);
                 authorizationTokens.add(authorizationToken);
@@ -136,13 +131,12 @@ public class AuthorizationTokenDAOImpl implements AuthorizationTokenDAO {
 
     @Override
     public Optional<AuthorizationToken> getByUserId(final Long id) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         AuthorizationToken authorizationToken = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_AUTHORIZATION_TOKEN_BY_USER_ID)) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 authorizationToken = createToken(resultSet);
             }

@@ -23,19 +23,17 @@ public class SuccessOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
+        User user = (User) session.getAttribute("user");
         Order order = (Order) session.getAttribute("order");
-        if (order != null) {
-            req.setAttribute("order", order);
-        }
+
+        SendMail.sendOrderMail(user, order.getId());
+
+        req.setAttribute("order", order);
         session.removeAttribute("totalPrice");
         session.removeAttribute("productsInBucket");
         session.removeAttribute("bucket");
         session.removeAttribute("order");
 
-        User user = (User) session.getAttribute("user");
-        if (order != null) {
-            SendMail.sendOrderMail(user.getEmail(), user.getName(), order.getId());
-        }
-        req.getRequestDispatcher("/successOrder.jsp").forward(req, resp);
+        req.getRequestDispatcher("successOrder.jsp").forward(req, resp);
     }
 }

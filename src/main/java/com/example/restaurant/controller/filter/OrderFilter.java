@@ -13,7 +13,7 @@ import java.util.Map;
 @WebFilter(filterName = "orderFilter", urlPatterns = "/order")
 public class OrderFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -24,13 +24,13 @@ public class OrderFilter implements Filter {
 
         User user = (User) req.getSession().getAttribute("user");
         if (user == null) {
-            resp.sendRedirect("/login");
+            resp.sendRedirect("login");
         } else {
             Map<Product, Integer> bucketMap = (Map<Product, Integer>) req.getSession().getAttribute("bucket");
             if (bucketMap != null && bucketMap.size() > 0) {
                 filterChain.doFilter(req, resp);
             } else {
-                resp.sendRedirect("/home");
+                resp.sendRedirect("home");
             }
         }
     }

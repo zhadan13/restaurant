@@ -1,5 +1,7 @@
 package com.example.restaurant.controller.servlet;
 
+import com.example.restaurant.constants.Util;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,18 +20,7 @@ public class SignOutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-
-        session.removeAttribute("user");
-        session.removeAttribute("totalPrice");
-        session.removeAttribute("productsInBucket");
-        session.removeAttribute("bucket");
-        session.removeAttribute("allUserOrders");
-        session.removeAttribute("order");
-        session.removeAttribute("sorting");
-        session.removeAttribute("category");
-        session.removeAttribute("products");
-        session.removeAttribute("deliveryPrice");
-
-        resp.sendRedirect("/");
+        session.invalidate();
+        resp.sendRedirect(Util.APPLICATION_NAME);
     }
 }

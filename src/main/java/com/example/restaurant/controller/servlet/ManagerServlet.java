@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +53,8 @@ public class ManagerServlet extends HttpServlet {
             if (sortFromSession != null) {
                 sortFromRequest = sortFromSession;
             } else {
-                sortFromSession = "default";
-                sortFromRequest = "default";
+                sortFromSession = "DEFAULT";
+                sortFromRequest = "DEFAULT";
             }
         }
         session.setAttribute("sorting", sortFromSession);
@@ -90,16 +91,33 @@ public class ManagerServlet extends HttpServlet {
         if ((changeStatusId != null && changeStatusTo != null) || productRemoveParameter != null) {
             if (productRemoveParameter != null) {
                 long id = Long.parseLong(productRemoveParameter);
-                orderService.deleteOrder(id);
-                orders.removeIf(order -> order.getId().equals(id));
+                boolean result = orderService.deleteOrder(id);
+                if (result) {
+                    orders.removeIf(order -> order.getId().equals(id));
+                } else {
+                    PrintWriter out = resp.getWriter();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('An error occurred while deleting the order! " +
+                            "Please try again, if the order is not deleted (Order ID: " + productRemoveParameter + ")!');");
+                    out.println("location.href='admin';");
+                    out.println("</script>");
+                }
             } else {
-                orderService.updateOrderStatus(Long.parseLong(changeStatusId), OrderStatus.parseStatus(changeStatusTo));
+                boolean result = orderService.updateOrderStatus(Long.parseLong(changeStatusId), OrderStatus.parseStatus(changeStatusTo));
+                if (!result) {
+                    PrintWriter out = resp.getWriter();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('An error occurred while changing order status! " +
+                            "Please try again, if order status is not changed (Order ID: " + changeStatusId + ")!');");
+                    out.println("location.href='admin';");
+                    out.println("</script>");
+                }
             }
             session.setAttribute("orders", ordersForCurrentPage);
-            resp.sendRedirect("/admin");
+            resp.sendRedirect("admin");
         } else {
             session.setAttribute("orders", ordersForCurrentPage);
-            req.getRequestDispatcher("/admin.jsp").forward(req, resp);
+            req.getRequestDispatcher("admin.jsp").forward(req, resp);
         }
     }
 }

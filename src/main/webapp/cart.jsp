@@ -1,14 +1,16 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tags" uri="http://localhost:8080/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restaurant &#183; Cart</title>
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/index_style.css">
-    <link rel="stylesheet" href="css/cart_style.css">
+    <title>Diamond Restaurant &#183; Cart</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index_style.css">
+    <link rel="stylesheet" type="text/css" href="css/cart_style.css">
+    <link rel="stylesheet" type="text/css" href="css/button_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
@@ -16,6 +18,7 @@
         <%@include file="bootstrap/css/bootstrap.min.css"%>
         <%@include file="css/index_style.css"%>
         <%@include file="css/cart_style.css"%>
+        <%@include file="css/button_style.css"%>
     </style>
 </head>
 
@@ -23,89 +26,90 @@
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-            <a href="<c:url value="/"/>" class="d-flex align-items-center text-dark text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="me-2" viewBox="0 0 118 94"
-                     role="img">
-                    <title>Restaurant</title>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"
-                          fill="currentColor"></path>
+            <a href="${applicationScope.APPLICATION_NAME}"
+               class="d-flex align-items-center text-dark text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-gem"
+                     viewBox="0 0 16 16">
+                    <title>Diamond Restaurant</title>
+                    <path d="M3.1.7a.5.5 0 0 1 .4-.2h9a.5.5 0 0 1 .4.2l2.976 3.974c.149.185.156.45.01.644L8.4 15.3a.5.5 0 0 1-.8 0L.1 5.3a.5.5 0 0 1 0-.6l3-4zm11.386 3.785-1.806-2.41-.776 2.413 2.582-.003zm-3.633.004.961-2.989H4.186l.963 2.995 5.704-.006zM5.47 5.495 8 13.366l2.532-7.876-5.062.005zm-1.371-.999-.78-2.422-1.818 2.425 2.598-.003zM1.499 5.5l5.113 6.817-2.192-6.82L1.5 5.5zm7.889 6.817 5.123-6.83-2.928.002-2.195 6.828z"></path>
                 </svg>
-                <span class="fs-4">Restaurant &#183; Order</span>
+                <span class="fs-4">&nbsp; Diamond Restaurant &#183; Order</span>
             </a>
 
             <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-                <a class="me-3 py-2 text-dark text-decoration-none" href="<c:url value="/home"/>">Menu</a>
+                <a class="me-3 py-2 text-dark text-decoration-none" href="home">Menu</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="about.jsp">About</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="delivery.jsp">Delivery</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">Support</a>
-                <div class="me-3 text-dark text-decoration-none">
-                    <button type="button" class="btn btn-outline-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="black" class="bi bi-basket"
-                             viewBox="0 0 16 16">
-                            <title>Basket</title>
-                            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
-                        </svg>
+                <div class="me-3">
+                    <button type="button" class="btn button border text-muted" onclick="function cart() {
+                      location.href = 'cart';
+                    }cart()" style="border-radius: 10px; font-size: 15px">
+                        <span class="button-span">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                 class="bi bi-basket"
+                                 viewBox="0 0 16 16">
+                                <title>Basket</title>
+                                <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"></path>
+                            </svg>
+                            <c:choose>
+                                <c:when test="${sessionScope.productsInBucket != null && sessionScope.productsInBucket.size() > 0}">
+                                    <div class="badge bg-purple">
+                                        <tags:countProducts bucket="${sessionScope.productsInBucket}"/>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="badge bg-gradient">
+                                        <c:out value="0"/>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </span>
+                    </button>
+                </div>
+                <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
+                        aria-expanded="false"><span class="button-span" style="font-size: 16px">Account</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="">
                         <c:choose>
-                            <c:when test="${sessionScope.productsInBucket != null && sessionScope.productsInBucket.size() > 0}">
-                                <span class="badge bg-success">
-                                    <c:out value="${sessionScope.productsInBucket.values().stream().reduce(0, (x, y) -> x + y)}"/>
-                                </span>
+                            <c:when test="${sessionScope.user != null}">
+                                <strong>
+                                    <c:out value="You are logged as ${sessionScope.user.name}"/>
+                                </strong>
                             </c:when>
                             <c:otherwise>
-                                <span class="badge bg-secondary">
-                                    <c:out value="0"/>
-                                </span>
+                                <c:out value="You are not logged"/>
                             </c:otherwise>
                         </c:choose>
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        Account
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">
-                            <c:choose>
-                                <c:when test="${sessionScope.user != null}">
-                                    <strong>
-                                        <c:out value="You are logged as ${sessionScope.user.name}"/>
-                                    </strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:out value="You are not logged"/>
-                                </c:otherwise>
-                            </c:choose>
-                        </a></li>
-                        <li>
-                            <c:choose>
-                                <c:when test="${sessionScope.user != null}">
-                                    <strong>
-                                        <a class="dropdown-item" href="<c:url value="/account"/>">Account</a>
-                                    </strong>
-                                </c:when>
-                                <c:otherwise>
-                                    <a class="dropdown-item disabled" href="" tabindex="-1"
-                                       aria-disabled="true">Account</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <c:choose>
-                                <c:when test="${sessionScope.user != null}">
-                                    <a class="dropdown-item" href="<c:url value="/signOut"/>"><strong>Sign out</strong></a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a class="dropdown-item" href="<c:url value="/login"/>"><strong>Sign in</strong></a>
-                                </c:otherwise>
-                            </c:choose>
-                        </li>
-                    </ul>
-                </div>
+                    </a></li>
+                    <li>
+                        <c:choose>
+                            <c:when test="${sessionScope.user != null}">
+                                <strong>
+                                    <a class="dropdown-item" href="account">Account</a>
+                                </strong>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="dropdown-item disabled" href="" tabindex="-1"
+                                   aria-disabled="true">Account</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <c:choose>
+                            <c:when test="${sessionScope.user != null}">
+                                <a class="dropdown-item" href="signOut"><strong>Sign out</strong></a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="dropdown-item" href="login"><strong>Sign in</strong></a>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                </ul>
             </nav>
         </div>
     </header>
@@ -160,8 +164,11 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-right d-none d-md-block">
-                                                    <a href="<c:url value="/cart?removeProduct=${product.key.id}"/>"
-                                                       class="btn btn-light" data-abc="true">Remove</a>
+                                                    <a href="<c:url value="cart?removeProduct=${product.key.id}"/>"
+                                                       class="btn button orange border text-danger" data-abc="true"
+                                                       style="font-size: 12px">
+                                                        <span class="button-span">Remove</span>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -192,17 +199,21 @@
                                     <hr>
                                     <dl class="dlist-align">
                                         <dt>Total:&nbsp;&nbsp;</dt>
-                                        <dd class="text-right text-success ml-3">
+                                        <dd class="text-right ml-3" style="color: #735beb">
                                             <strong>${sessionScope.totalPrice + sessionScope.deliveryPrice} UAH</strong>
                                         </dd>
                                     </dl>
                                     <hr>
-                                    <a href="<c:url value="/order"/>"
-                                       class="btn btn-out btn-primary btn-main" data-abc="true">Make Purchase
-                                    </a>
-                                    <a href="<c:url value="/home"/>"
-                                       class="btn btn-out btn-success btn-main mt-2" data-abc="true">Continue Shopping
-                                    </a>
+                                    <div style="text-align: center">
+                                        <a href="order" class="btn button orange border text-dark" data-abc="true"
+                                           style="font-size: 13px">
+                                            <span class="button-span">Make Purchase</span>
+                                        </a>
+                                        <a href="home" class="btn button border text-dark mt-2" data-abc="true"
+                                           style="font-size: 13px">
+                                            <span class="button-span">Continue Shopping</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </aside>
@@ -214,7 +225,33 @@
 
     <footer class="footer mt-auto py-3 bg-light border-top mx-auto text-center">
         <div class="container">
-            <span class="text-muted"> &copy; 2021 Restaurant.</span>
+            <div class="row">
+                <div class="col"></div>
+
+                <div class="col text-center">
+                    <div class="container">
+                        <span class="text-muted"> &copy; 2021 Diamond Restaurant.</span>
+                    </div>
+                </div>
+
+                <div class="col text-end">
+                    <button type="button" class="btn button orange border text-muted mx-auto" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="font-size: 13px">
+                        <span class="button-span">Change language</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="">
+                            ENGLISH
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            RUSSIAN
+                        </a></li>
+                        <li><a class="dropdown-item" href="">
+                            ANOTHER ONE
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
 </div>

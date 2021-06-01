@@ -33,25 +33,49 @@ public class AuthorizationTokenServiceImpl implements AuthorizationTokenService 
     @Override
     public Optional<AuthorizationToken> saveToken(AuthorizationToken authorizationToken) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
-        return authorizationTokenDAO.save(authorizationToken);
+        Optional<AuthorizationToken> optional = authorizationTokenDAO.save(authorizationToken);
+        if (optional.isPresent()) {
+            LOGGER.info("Service: Successfully saved authorization token");
+        } else {
+            LOGGER.error("Service: Can't save authorization token");
+        }
+        return optional;
     }
 
     @Override
     public boolean deleteToken(Long id) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
-        return authorizationTokenDAO.delete(id);
+        boolean result = authorizationTokenDAO.delete(id);
+        if (result) {
+            LOGGER.info("Service: Successfully deleted authorization token");
+        } else {
+            LOGGER.error("Service: Can't delete authorization token");
+        }
+        return result;
     }
 
     @Override
     public boolean updateToken(AuthorizationToken authorizationToken) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
-        return authorizationTokenDAO.update(authorizationToken);
+        boolean result = authorizationTokenDAO.update(authorizationToken);
+        if (result) {
+            LOGGER.info("Service: Successfully updated authorization token");
+        } else {
+            LOGGER.error("Service: Can't update authorization token");
+        }
+        return result;
     }
 
     @Override
     public Optional<AuthorizationToken> getToken(Long id) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
-        return authorizationTokenDAO.get(id);
+        Optional<AuthorizationToken> optional = authorizationTokenDAO.get(id);
+        if (optional.isPresent()) {
+            LOGGER.info("Service: Successfully got authorization token");
+        } else {
+            LOGGER.error("Service: Can't get authorization token");
+        }
+        return optional;
     }
 
     @Override
@@ -63,6 +87,12 @@ public class AuthorizationTokenServiceImpl implements AuthorizationTokenService 
     @Override
     public Optional<AuthorizationToken> getUserToken(Long id) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
-        return authorizationTokenDAO.getByUserId(id);
+        Optional<AuthorizationToken> optional = authorizationTokenDAO.getByUserId(id);
+        if (optional.isPresent()) {
+            LOGGER.info("Service: Successfully got authorization token by user id");
+        } else {
+            LOGGER.error("Service: Can't get authorization token by user id");
+        }
+        return optional;
     }
 }

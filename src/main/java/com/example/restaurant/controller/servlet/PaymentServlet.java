@@ -6,6 +6,8 @@ import com.example.restaurant.service.OrderService;
 import com.example.restaurant.service.ProductService;
 import com.example.restaurant.service.impl.OrderServiceImpl;
 import com.example.restaurant.service.impl.ProductServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +22,8 @@ import static com.example.restaurant.util.PaymentValidator.*;
 
 @WebServlet(name = "payment", urlPatterns = "/payment")
 public class PaymentServlet extends HttpServlet {
+    private static final Logger LOGGER = LogManager.getLogger(PaymentServlet.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -36,19 +40,24 @@ public class PaymentServlet extends HttpServlet {
             orderService.updateOrderStatus(order.getId(), OrderStatus.CONFIRMED);
             session.setAttribute("order", order);
             ProductService productService = ProductServiceImpl.getInstance();
-            order.getProducts().keySet().forEach(product -> productService.updateProductPopularity(product.getId(), product.getPopularity() + 1));
-            resp.sendRedirect("/successOrder?orderId=" + order.getId());
+            order.getProducts().keySet().forEach(product -> {
+                boolean result = productService.updateProductPopularity(product.getId(), product.getPopularity() + 1);
+                if (!result) {
+                    LOGGER.warn("Can't update product popularity. Product id: " + product.getId());
+                }
+            });
+            resp.sendRedirect("successOrder?orderId=" + order.getId());
         } else {
             PrintWriter out = resp.getWriter();
             out.println("<script type=\"text/javascript\">");
-            out.println("alert('Not valid information! Check this out!');");
-            out.println("location.href='/payment';");
+            out.println("alert('Not valid payment information! Check this out!');");
+            out.println("location.href='payment';");
             out.println("</script>");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/payment.jsp").forward(req, resp);
+        req.getRequestDispatcher("payment.jsp").forward(req, resp);
     }
 }

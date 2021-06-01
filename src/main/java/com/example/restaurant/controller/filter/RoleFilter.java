@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebFilter(filterName = "roleFilter", urlPatterns = "/admin")
 public class RoleFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -25,7 +25,7 @@ public class RoleFilter implements Filter {
         if (user != null && user.getRole() == Role.MANAGER) {
             filterChain.doFilter(req, resp);
         } else {
-            resp.sendRedirect("/home");
+            resp.sendRedirect("home");
         }
     }
 

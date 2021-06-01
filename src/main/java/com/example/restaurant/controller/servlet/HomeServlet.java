@@ -104,10 +104,10 @@ public class HomeServlet extends HttpServlet {
                 productsInBucket.remove(id);
             }
             session.setAttribute("productsInBucket", productsInBucket);
-            resp.sendRedirect("/home");
+            resp.sendRedirect("home");
         } else {
             session.setAttribute("productsInBucket", productsInBucket);
-            req.getRequestDispatcher("/home.jsp").forward(req, resp);
+            req.getRequestDispatcher("home.jsp").forward(req, resp);
         }
     }
 }

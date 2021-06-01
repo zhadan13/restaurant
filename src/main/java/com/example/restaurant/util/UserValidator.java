@@ -9,6 +9,10 @@ public final class UserValidator {
     private static final int MIN_PHONE_NUMBER_LENGTH = 10;
     private static final int MIN_NAME_LENGTH = 1;
 
+    private UserValidator() {
+
+    }
+
     public static boolean validateEmail(final String email) {
         if (email != null && email.trim().length() >= MIN_EMAIL_LENGTH) {
             String regex = "^[A-Za-z0-9+_.-]+@(.+)$";

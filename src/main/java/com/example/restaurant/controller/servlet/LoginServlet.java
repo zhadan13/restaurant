@@ -29,28 +29,28 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
                 if (user.getRole() == Role.USER) {
-                    resp.sendRedirect("/home");
+                    resp.sendRedirect("home");
                 } else {
-                    resp.sendRedirect("/admin");
+                    resp.sendRedirect("admin");
                 }
             } else {
                 PrintWriter out = resp.getWriter();
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Email address not confirmed! Please check your mailbox and confirm it!');");
-                out.println("location.href='/login';");
+                out.println("location.href='login';");
                 out.println("</script>");
             }
         } else {
             PrintWriter out = resp.getWriter();
             out.println("<script type=\"text/javascript\">");
             out.println("alert('Email or Password incorrect! Check this out!');");
-            out.println("location.href='/login';");
+            out.println("location.href='login';");
             out.println("</script>");
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 }

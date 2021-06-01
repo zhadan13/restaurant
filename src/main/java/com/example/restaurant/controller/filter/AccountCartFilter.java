@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebFilter(filterName = "accountCartFilter", urlPatterns = {"/account", "/cart"})
 public class AccountCartFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -24,12 +24,12 @@ public class AccountCartFilter implements Filter {
         User user = (User) req.getSession().getAttribute("user");
         if (user != null) {
             if (user.getRole() == Role.MANAGER) {
-                resp.sendRedirect("/admin");
+                resp.sendRedirect("admin");
             } else {
                 filterChain.doFilter(req, resp);
             }
         } else {
-            resp.sendRedirect("/login");
+            resp.sendRedirect("login");
         }
     }
 

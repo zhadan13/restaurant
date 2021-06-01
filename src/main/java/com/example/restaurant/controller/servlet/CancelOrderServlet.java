@@ -1,6 +1,7 @@
 package com.example.restaurant.controller.servlet;
 
 import com.example.restaurant.constants.OrderStatus;
+import com.example.restaurant.constants.Util;
 import com.example.restaurant.model.Order;
 import com.example.restaurant.service.OrderService;
 import com.example.restaurant.service.impl.OrderServiceImpl;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "cancelOrder", urlPatterns = "/cancelOrder")
 public class CancelOrderServlet extends HttpServlet {
@@ -29,9 +31,17 @@ public class CancelOrderServlet extends HttpServlet {
         session.removeAttribute("bucket");
         Order order = (Order) session.getAttribute("order");
         OrderService orderService = OrderServiceImpl.getInstance();
-        orderService.updateOrderStatus(order.getId(), OrderStatus.REJECTED);
+        boolean result = orderService.updateOrderStatus(order.getId(), OrderStatus.REJECTED);
+        if (!result) {
+            PrintWriter out = resp.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Sorry, an error occurred while canceling the order! " +
+                    "Please check your account page and if the order is not deleted (Order ID: " + order.getId().toString() + "), try to cancel it again!');");
+            out.println("location.href='account';");
+            out.println("</script>");
+        }
         session.removeAttribute("order");
 
-        resp.sendRedirect("/");
+        resp.sendRedirect(Util.APPLICATION_NAME);
     }
 }

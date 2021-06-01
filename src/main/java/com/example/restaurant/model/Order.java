@@ -4,7 +4,7 @@ import com.example.restaurant.constants.OrderStatus;
 import com.example.restaurant.constants.Payment;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,14 +17,14 @@ public class Order implements Serializable {
     private String address;
     private Payment payment;
     private Double cost;
-    private Timestamp date;
+    private LocalDateTime date;
     private Map<Product, Integer> products;
 
     private Order() {
 
     }
 
-    private Order(Long userId, OrderStatus status, String address, Payment payment, Double cost, Timestamp date, Map<Product, Integer> products) {
+    private Order(Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         this.userId = userId;
         this.status = status;
         this.address = address;
@@ -34,7 +34,7 @@ public class Order implements Serializable {
         this.products = products;
     }
 
-    private Order(Long id, Long userId, OrderStatus status, String address, Payment payment, Double cost, Timestamp date, Map<Product, Integer> products) {
+    private Order(Long id, Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         this.id = id;
         this.userId = userId;
         this.status = status;
@@ -49,11 +49,11 @@ public class Order implements Serializable {
         return new Order();
     }
 
-    public static Order createOrder(Long userId, OrderStatus status, String address, Payment payment, Double cost, Timestamp date, Map<Product, Integer> products) {
+    public static Order createOrder(Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         return new Order(userId, status, address, payment, cost, date, products);
     }
 
-    public static Order createOrder(Long id, Long userId, OrderStatus status, String address, Payment payment, Double cost, Timestamp date, Map<Product, Integer> products) {
+    public static Order createOrder(Long id, Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         return new Order(id, userId, status, address, payment, cost, date, products);
     }
 
@@ -109,11 +109,11 @@ public class Order implements Serializable {
         this.cost = cost;
     }
 
-    public Timestamp getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

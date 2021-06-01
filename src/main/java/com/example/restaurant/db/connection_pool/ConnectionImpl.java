@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-public class ConnectionPool implements Connection {
+public class ConnectionImpl implements Connection {
     private final Connection connection;
     private final Pool pool;
 
-    public ConnectionPool(Connection connection, Pool pool) {
+    public ConnectionImpl(Connection connection, Pool pool) {
         this.connection = connection;
         this.pool = pool;
     }
@@ -64,7 +64,7 @@ public class ConnectionPool implements Connection {
         return connection.isClosed();
     }
 
-    public void closeConnection() throws SQLException {
+    public void forceClose() throws SQLException {
         connection.close();
     }
 

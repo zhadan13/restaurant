@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebFilter(filterName = "authenticationFilter", urlPatterns = "/home")
 public class AuthenticationFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -22,13 +22,13 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         User user = (User) req.getSession().getAttribute("user");
-        if (user != null && user.getRole() == Role.USER) {
-            filterChain.doFilter(req, resp);
+        if (user == null) {
+            resp.sendRedirect("login");
         } else {
-            if (user != null && user.getRole() == Role.MANAGER) {
-                resp.sendRedirect("/admin");
+            if (user.getRole() == Role.USER) {
+                filterChain.doFilter(req, resp);
             } else {
-                resp.sendRedirect("/login");
+                resp.sendRedirect("admin");
             }
         }
     }

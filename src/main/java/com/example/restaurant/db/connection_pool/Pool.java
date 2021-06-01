@@ -16,7 +16,7 @@ public class Pool {
     private static final Logger LOGGER = LogManager.getLogger(Pool.class);
 
     private static Pool INSTANCE;
-    public final Map<ConnectionPool, Boolean> connections;
+    public final Map<ConnectionImpl, Boolean> connections;
     private static final int WAIT_TIME = 1000;
     private static final String PROPERTIES_PATH = "/connection-pool.properties";
     private static String URL;
@@ -37,7 +37,7 @@ public class Pool {
                 NUMBER_OF_CONNECTIONS = Integer.parseInt(properties.getProperty("db.pool_size"));
             } catch (NumberFormatException e) {
                 NUMBER_OF_CONNECTIONS = DEFAULT_NUMBER_OF_CONNECTIONS;
-                LOGGER.warn(e);
+                LOGGER.warn("Can't parse number of connection pool, set to default", e);
             }
             connections = new HashMap<>(NUMBER_OF_CONNECTIONS);
             initConnections();
@@ -63,13 +63,13 @@ public class Pool {
         }
     }
 
-    private ConnectionPool createConnection() throws SQLException {
-        return new ConnectionPool(DriverManager.getConnection(URL, USER, PASSWORD), this);
+    private ConnectionImpl createConnection() throws SQLException {
+        return new ConnectionImpl(DriverManager.getConnection(URL, USER, PASSWORD), this);
     }
 
-    public ConnectionPool getConnection() {
-        ConnectionPool connection = null;
-        for (Map.Entry<ConnectionPool, Boolean> entry : connections.entrySet()) {
+    public ConnectionImpl getConnection() {
+        ConnectionImpl connection = null;
+        for (Map.Entry<ConnectionImpl, Boolean> entry : connections.entrySet()) {
             if (entry.getValue()) {
                 synchronized (this) {
                     if (entry.getValue()) {
@@ -85,19 +85,23 @@ public class Pool {
                 Thread.sleep(WAIT_TIME);
             } catch (InterruptedException e) {
                 LOGGER.error(e.getMessage());
-                LOGGER.info("Trying to get connection again");
             }
+            LOGGER.info("Trying to get connection again");
             return getConnection();
         } else {
             return connection;
         }
     }
 
+    public void releaseConnection(final ConnectionImpl connectionImpl) {
+        connections.put(connectionImpl, true);
+    }
+
     public void closeAllConnections() throws SQLException {
-        for (Map.Entry<ConnectionPool, Boolean> entry : connections.entrySet()) {
+        for (Map.Entry<ConnectionImpl, Boolean> entry : connections.entrySet()) {
             synchronized (this) {
-                ConnectionPool connection = entry.getKey();
-                connection.closeConnection();
+                ConnectionImpl connection = entry.getKey();
+                connection.forceClose();
             }
         }
         connections.clear();
@@ -106,10 +110,6 @@ public class Pool {
     public void reloadConnectionPool() throws SQLException {
         closeAllConnections();
         initConnections();
-    }
-
-    public void releaseConnection(final ConnectionPool connectionPool) {
-        connections.put(connectionPool, true);
     }
 
     public void closeResources(final Statement statement) {

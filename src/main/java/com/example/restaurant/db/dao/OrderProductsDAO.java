@@ -1,5 +1,6 @@
 package com.example.restaurant.db.dao;
 
+import com.example.restaurant.db.connection_pool.ConnectionImpl;
 import com.example.restaurant.model.OrderProducts;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface OrderProductsDAO extends DAO<OrderProducts> {
 
     @Override
     List<OrderProducts> getAll();
+
+    Optional<OrderProducts> save(OrderProducts orderProducts, ConnectionImpl connection);
 
     boolean deleteById(OrderProducts orderProducts);
 }

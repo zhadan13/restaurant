@@ -28,38 +28,45 @@ public class AuthorizationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("user");
-        Long idValue = null;
+        String userId = req.getParameter("user");
+        Long id = null;
         try {
-            idValue = Long.parseLong(id);
+            id = Long.parseLong(userId);
         } catch (NumberFormatException e) {
             LOGGER.error("Can't parse Long from String", e);
-            resp.sendRedirect("confirmEmailError.jsp");
         }
         String token = req.getParameter("token");
 
-        if (idValue == null || token == null) {
-            LOGGER.error("token or id is null");
+        if (id == null || token == null) {
+            LOGGER.error("Token or id is null");
             resp.sendRedirect("confirmEmailError.jsp");
         } else {
             AuthorizationTokenService authorizationTokenService = AuthorizationTokenServiceImpl.getInstance();
-            Optional<AuthorizationToken> authorizationTokenOptional = authorizationTokenService.getUserToken(idValue);
-            if (authorizationTokenOptional.isPresent()) {
-                AuthorizationToken authorizationToken = authorizationTokenOptional.get();
+            Optional<AuthorizationToken> optionalToken = authorizationTokenService.getUserToken(id);
+            if (optionalToken.isPresent()) {
+                AuthorizationToken authorizationToken = optionalToken.get();
                 if (authorizationToken.getToken().equals(token)) {
                     UserService userService = UserServiceImpl.getInstance();
-                    Optional<User> optionalUser = userService.getUser(idValue);
+                    Optional<User> optionalUser = userService.getUser(id);
                     if (optionalUser.isPresent() && !optionalUser.get().getAuthorized()) {
-                        userService.updateAuthorizationStatus(idValue);
-                        resp.sendRedirect("confirmEmail.jsp");
+                        boolean result = userService.updateAuthorizationStatus(id);
+                        if (result) {
+                            LOGGER.info("User email successfully verified. User id: " + id);
+                            resp.sendRedirect("confirmEmail.jsp");
+                        } else {
+                            LOGGER.error("Can't update authorization status for user. User id: " + id);
+                            resp.sendRedirect("confirmEmailError.jsp");
+                        }
                     } else {
+                        LOGGER.error("Can't get user or user email already verified. User id: " + id);
                         resp.sendRedirect("confirmEmailError.jsp");
                     }
                 } else {
-                    LOGGER.error("tokens not equals");
+                    LOGGER.error("Tokens not equals");
                     resp.sendRedirect("confirmEmailError.jsp");
                 }
             } else {
+                LOGGER.error("Can't get token. User id: " + id);
                 resp.sendRedirect("confirmEmailError.jsp");
             }
         }

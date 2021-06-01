@@ -30,6 +30,6 @@ public class AccountServlet extends HttpServlet {
         List<Order> orders = orderService.getUserOrders(user.getId());
         session.setAttribute("allUserOrders", orders);
 
-        req.getRequestDispatcher("/account.jsp").forward(req, resp);
+        req.getRequestDispatcher("account.jsp").forward(req, resp);
     }
 }

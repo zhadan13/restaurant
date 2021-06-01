@@ -33,31 +33,61 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> saveProduct(Product product) {
         ProductDAO productDAO = ProductDAOImpl.getInstance();
-        return productDAO.save(product);
+        Optional<Product> optionalProduct = productDAO.save(product);
+        if (optionalProduct.isPresent()) {
+            LOGGER.info("Service: Successfully saved product. Product id: " + product.getId());
+        } else {
+            LOGGER.error("Service: Can't save product. Product id: " + product.getId());
+        }
+        return optionalProduct;
     }
 
     @Override
     public boolean deleteProduct(Long id) {
         ProductDAO productDAO = ProductDAOImpl.getInstance();
-        return productDAO.delete(id);
+        boolean result = productDAO.delete(id);
+        if (result) {
+            LOGGER.info("Service: Successfully deleted product. Product id: " + id);
+        } else {
+            LOGGER.error("Service: Can't delete product. Product id: " + id);
+        }
+        return result;
     }
 
     @Override
     public boolean updateProduct(Product product) {
         ProductDAO productDAO = ProductDAOImpl.getInstance();
-        return productDAO.update(product);
+        boolean result = productDAO.update(product);
+        if (result) {
+            LOGGER.info("Service: Successfully updated product. Product id: " + product.getId());
+        } else {
+            LOGGER.error("Service: Can't update product. Product id: " + product.getId());
+        }
+        return result;
     }
 
     @Override
     public boolean updateProductPopularity(Long id, Integer popularity) {
         ProductDAO productDAO = ProductDAOImpl.getInstance();
-        return productDAO.updatePopularity(id, popularity);
+        boolean result = productDAO.updatePopularity(id, popularity);
+        if (result) {
+            LOGGER.info("Service: Successfully updated product popularity. Product id: " + id);
+        } else {
+            LOGGER.error("Service: Can't update product popularity. Product id: " + id);
+        }
+        return result;
     }
 
     @Override
     public Optional<Product> getProduct(Long id) {
         ProductDAO productDAO = ProductDAOImpl.getInstance();
-        return productDAO.get(id);
+        Optional<Product> optionalProduct = productDAO.get(id);
+        if (optionalProduct.isPresent()) {
+            LOGGER.info("Service: Successfully got product. Product id: " + id);
+        } else {
+            LOGGER.error("Service: Can't get product. Product id: " + id);
+        }
+        return optionalProduct;
     }
 
     @Override

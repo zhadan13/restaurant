@@ -8,6 +8,10 @@ public final class PaymentValidator {
     private static final int MIN_NAME_LENGTH = 1;
     private static final int CVV_NUMBER_LENGTH = 3;
 
+    private PaymentValidator() {
+
+    }
+
     public static boolean validateCardNumber(final String cardNumber) {
         if (cardNumber != null && cardNumber.trim().length() == CARD_NUMBER_LENGTH) {
             String regex = "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$";

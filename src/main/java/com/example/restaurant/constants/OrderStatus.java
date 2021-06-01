@@ -70,9 +70,9 @@ public enum OrderStatus {
                 orders.sort(Comparator.comparing(Order::getUserId));
             } else if (sorting.equalsIgnoreCase("STATUS")) {
                 orders.sort(Comparator.comparing(Order::getStatus));
-            } else if (sorting.equalsIgnoreCase("DATE FROM OLD TO NEW")) {
+            } else if (sorting.equalsIgnoreCase("DATE OLD TO NEW")) {
                 orders.sort(Comparator.comparing(Order::getDate));
-            } else if (sorting.equalsIgnoreCase("DATE FROM NEW TO OLD")) {
+            } else if (sorting.equalsIgnoreCase("DATE NEW TO OLD")) {
                 orders.sort(Comparator.comparing(Order::getDate).reversed());
             }
         }

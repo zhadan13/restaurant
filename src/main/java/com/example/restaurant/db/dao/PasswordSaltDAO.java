@@ -1,5 +1,6 @@
 package com.example.restaurant.db.dao;
 
+import com.example.restaurant.db.connection_pool.ConnectionImpl;
 import com.example.restaurant.model.PasswordSalt;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public interface PasswordSaltDAO extends DAO<PasswordSalt> {
 
     @Override
     List<PasswordSalt> getAll();
+
+    Optional<PasswordSalt> save(PasswordSalt passwordSalt, ConnectionImpl connection);
+
+    boolean update(PasswordSalt passwordSalt, ConnectionImpl connection);
 
     Optional<PasswordSalt> getByUserId(Long id);
 }

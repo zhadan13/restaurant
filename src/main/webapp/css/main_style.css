@@ -10,6 +10,48 @@ button {
     text-transform: uppercase;
 }
 
+.btn-outline-purple {
+    color: black;
+    background-color: transparent;
+    background-image: none;
+    border-color: #735beb
+}
+
+.btn-outline-purple:hover {
+    background: linear-gradient(to bottom, #7f53ac, #647dee);
+    color: #FFFFFF;
+    transition-delay: 0.05s;
+}
+
+.btn-outline-purple:focus,
+.btn-outline-purple.focus {
+    box-shadow: 0 0 0 .2rem #735beb
+}
+
+.btn-outline-purple.disabled,
+.btn-outline-purple:disabled {
+    color: #735beb;
+    background-color: transparent
+}
+
+.bg-gradient {
+    background: darkgrey;
+}
+
+.bg-purple {
+    background-color: #735beb;
+}
+
+.border-gradient {
+    border-color: #735beb;
+}
+
+.list-group-item-action:active,
+.active {
+    border: none;
+    background: linear-gradient(to bottom, #7f53ac, #647dee);
+}
+
 .pagination_rounded {
     display: flex;
     justify-content: center;
@@ -27,9 +69,9 @@ button {
 }
 
 .pagination_rounded ul li a:hover {
-    background: #0c63e4;
+    background: #735beb;
     color: #FFFFFF;
-    border: 1px solid #0c63e4
+    border: 1px solid #735beb
 }
 
 a {
@@ -53,7 +95,7 @@ a {
 
 .pagination_rounded ul li a {
     float: left;
-    color: #0c63e4;
+    color: #735beb;
     border-radius: 50%;
     line-height: 30px;
     height: 30px;

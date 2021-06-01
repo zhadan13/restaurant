@@ -2,8 +2,7 @@ package com.example.restaurant.db.dao.impl;
 
 import com.example.restaurant.constants.MenuCategories;
 import com.example.restaurant.constants.SQLQuery;
-import com.example.restaurant.db.connection_pool.ConnectionPool;
-import com.example.restaurant.db.connection_pool.Pool;
+import com.example.restaurant.db.connection_pool.ConnectionImpl;
 import com.example.restaurant.db.dao.ProductDAO;
 import com.example.restaurant.model.Product;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +19,6 @@ public class ProductDAOImpl implements ProductDAO {
     private static final Logger LOGGER = LogManager.getLogger(ProductDAOImpl.class);
 
     private static ProductDAOImpl INSTANCE;
-    private static final Pool POOL = Pool.getInstance();
 
     private ProductDAOImpl() {
 
@@ -39,7 +37,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Optional<Product> save(Product product) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_NEW_PRODUCT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, product.getName());
@@ -49,11 +47,10 @@ public class ProductDAOImpl implements ProductDAO {
             preparedStatement.setDouble(5, product.getWeight());
             preparedStatement.setInt(6, product.getPopularity());
             preparedStatement.executeUpdate();
-
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                Long field = resultSet.getLong(1);
-                product.setId(field);
+                Long id = resultSet.getLong(1);
+                product.setId(id);
             }
         } catch (SQLException e) {
             LOGGER.error("Can't save product", e);
@@ -67,7 +64,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public boolean delete(Long id) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.DELETE_PRODUCT_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -82,7 +79,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public boolean update(Product product) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_PRODUCT_BY_ID)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDetails());
@@ -103,13 +100,12 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public Optional<Product> get(Long id) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         Product product = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_PRODUCT_BY_ID)) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 product = createProduct(resultSet);
             }
@@ -125,12 +121,11 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public List<Product> getAll() {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         List<Product> products = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_ALL_PRODUCTS)) {
             resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()) {
                 Product product = createProduct(resultSet);
                 products.add(product);
@@ -146,7 +141,7 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public boolean updatePopularity(Long id, Integer popularity) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_PRODUCT_POPULARITY_BY_ID)) {
             preparedStatement.setInt(1, popularity);
             preparedStatement.setLong(2, id);

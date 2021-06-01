@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to right, rgba(235, 224, 232, 1) 50%, rgba(254, 191, 1, 1) 51%, rgba(254, 191, 1, 1) 100%);
+    background: linear-gradient(to right, #7f53ac, #647dee);
 }
 
 .card {
@@ -22,7 +22,7 @@ img {
 .text-warning {
     font-size: 12px;
     font-weight: 500;
-    color: #edb537
+    color: #f7b42c
 }
 
 #cno {
@@ -33,7 +33,7 @@ input {
     font-weight: bold;
     border-radius: 0;
     border: 0;
-    border-bottom: 2px solid #E8E5D2
+    border-bottom: 2px solid lightgrey;
 }
 
 .form-group input:focus {
@@ -42,7 +42,7 @@ input {
 }
 
 .btn {
-    background: #F3A002;
+    background: #f7b42c;
     border: none;
     border-radius: 30px
 }

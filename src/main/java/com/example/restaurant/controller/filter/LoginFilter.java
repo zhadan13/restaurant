@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebFilter(filterName = "loginFilter", urlPatterns = {"/login", "/register"})
 public class LoginFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -22,13 +22,13 @@ public class LoginFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         User user = (User) req.getSession().getAttribute("user");
-        if (user != null && user.getRole() == Role.USER) {
-            resp.sendRedirect("/home");
+        if (user == null) {
+            filterChain.doFilter(req, resp);
         } else {
-            if (user != null && user.getRole() == Role.MANAGER) {
-                resp.sendRedirect("/admin");
+            if (user.getRole() == Role.USER) {
+                resp.sendRedirect("home");
             } else {
-                filterChain.doFilter(req, resp);
+                resp.sendRedirect("admin");
             }
         }
     }

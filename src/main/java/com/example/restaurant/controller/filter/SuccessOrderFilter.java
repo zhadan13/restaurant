@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebFilter(filterName = "successOrderFilter", urlPatterns = "/successOrder")
 public class SuccessOrderFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -25,7 +25,7 @@ public class SuccessOrderFilter implements Filter {
 
         User user = (User) req.getSession().getAttribute("user");
         if (user == null) {
-            resp.sendRedirect("/login");
+            resp.sendRedirect("login");
         } else {
             Order order = (Order) req.getSession().getAttribute("order");
             if (order != null) {
@@ -35,11 +35,11 @@ public class SuccessOrderFilter implements Filter {
                     if (order.getStatus() == OrderStatus.CONFIRMED) {
                         filterChain.doFilter(req, resp);
                     } else {
-                        resp.sendRedirect("/home");
+                        resp.sendRedirect("home");
                     }
                 }
             } else {
-                resp.sendRedirect("/home");
+                resp.sendRedirect("home");
             }
         }
     }

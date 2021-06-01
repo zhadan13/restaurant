@@ -3,8 +3,7 @@ package com.example.restaurant.db.dao.impl;
 import com.example.restaurant.constants.Role;
 import com.example.restaurant.constants.SQLQuery;
 import com.example.restaurant.constants.Util;
-import com.example.restaurant.db.connection_pool.ConnectionPool;
-import com.example.restaurant.db.connection_pool.Pool;
+import com.example.restaurant.db.connection_pool.ConnectionImpl;
 import com.example.restaurant.db.dao.PasswordSaltDAO;
 import com.example.restaurant.db.dao.UserDAO;
 import com.example.restaurant.model.PasswordSalt;
@@ -24,7 +23,6 @@ public class UserDAOImpl implements UserDAO {
     private static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
 
     private static UserDAOImpl INSTANCE;
-    private static final Pool POOL = Pool.getInstance();
 
     private UserDAOImpl() {
 
@@ -43,12 +41,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> save(User user) {
-        ConnectionPool connection = POOL.getConnection();
+        final String salt = PasswordEncryptor.getSalt(Util.SALT_DEFAULT_LENGTH);
+        final String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword(), salt);
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_NEW_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            String salt = PasswordEncryptor.getSalt(Util.SALT_DEFAULT_LENGTH);
-            String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword(), salt);
-
+            connection.setAutoCommit(false);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, securePassword);
             preparedStatement.setString(3, user.getPhoneNumber());
@@ -56,15 +54,26 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(5, user.getRole().name());
             preparedStatement.setBoolean(6, user.getAuthorized());
             preparedStatement.executeUpdate();
-
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
-                Long field = resultSet.getLong(1);
-                user.setId(field);
+                Long id = resultSet.getLong(1);
+                user.setId(id);
                 PasswordSaltDAO passwordSaltDAO = PasswordSaltDAOImpl.getInstance();
-                passwordSaltDAO.save(PasswordSalt.createSalt(salt, user.getId()));
+                Optional<PasswordSalt> optionalPasswordSalt = passwordSaltDAO.save(PasswordSalt.createSalt(salt, user.getId()), connection);
+                optionalPasswordSalt.orElseThrow(() -> new SQLException("Can't save password salt in transaction for save user"));
             }
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                LOGGER.error("Can't rollback", ex);
+            }
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                LOGGER.error("Can't set autocommit for connection to TRUE");
+            }
             LOGGER.error("Can't save user", e);
             return Optional.empty();
         } finally {
@@ -76,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean delete(Long id) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.DELETE_USER_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
@@ -91,21 +100,34 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User user) {
-        ConnectionPool connection = POOL.getConnection();
+        final String salt = PasswordEncryptor.getSalt(Util.SALT_DEFAULT_LENGTH);
+        final String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword(), salt);
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_USER_BY_ID)) {
-            String salt = PasswordEncryptor.getSalt(Util.SALT_DEFAULT_LENGTH);
-            String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword(), salt);
-
+            connection.setAutoCommit(false);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, securePassword);
             preparedStatement.setString(3, user.getPhoneNumber());
             preparedStatement.setString(4, user.getName());
             preparedStatement.setLong(5, user.getId());
             preparedStatement.executeUpdate();
-
             PasswordSaltDAO passwordSaltDAO = PasswordSaltDAOImpl.getInstance();
-            passwordSaltDAO.update(PasswordSalt.createSalt(salt, user.getId()));
+            boolean result = passwordSaltDAO.update(PasswordSalt.createSalt(salt, user.getId()), connection);
+            if (!result) {
+                throw new SQLException("Can't update password salt in transaction for update user");
+            }
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                LOGGER.error("Can't rollback", ex);
+            }
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                LOGGER.error("Can't set autocommit for connection to TRUE");
+            }
             LOGGER.error("Can't update user", e);
             return false;
         } finally {
@@ -116,13 +138,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> get(Long id) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         User user = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_USER_BY_ID)) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 user = createUser(resultSet);
             }
@@ -138,12 +159,11 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         List<User> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_ALL_USERS)) {
             resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()) {
                 User user = createUser(resultSet);
                 users.add(user);
@@ -159,7 +179,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean updateInfo(User user) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_USER_INFO_BY_ID)) {
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPhoneNumber());
@@ -177,7 +197,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean updateAuthorizationStatus(Long id, Boolean status) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_USER_AUTHORIZATION_STATUS_BY_ID)) {
             preparedStatement.setBoolean(1, status);
             preparedStatement.setLong(2, id);
@@ -222,7 +242,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean checkIfUserExistsByUniqueParameters(User user) {
         boolean exists = false;
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.CHECK_IF_USER_EXISTS_BY_EMAIL)) {
             preparedStatement.setString(1, user.getEmail());
@@ -257,18 +277,18 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean checkIfUserExistsByEmailAndPassword(String email, String password) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.CHECK_IF_USER_EXISTS_BY_EMAIL_AND_PASSWORD)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 return true;
             }
         } catch (SQLException e) {
             LOGGER.error("Can't check if user exists by email and password", e);
+            return false;
         } finally {
             POOL.closeResources(resultSet);
             POOL.releaseConnection(connection);
@@ -278,13 +298,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> getByEmail(String email) {
-        ConnectionPool connection = POOL.getConnection();
+        ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         User user = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_USER_BY_EMAIL)) {
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 user = createUser(resultSet);
             }

@@ -36,11 +36,11 @@ public class CartServlet extends HttpServlet {
             long id = Long.parseLong(productRemoveParameter);
             productsInBucket.remove(id);
             session.setAttribute("productsInBucket", productsInBucket);
-            resp.sendRedirect("/cart");
+            resp.sendRedirect("cart");
         } else {
             ProductService productService = ProductServiceImpl.getInstance();
             Map<Product, Integer> bucket = new HashMap<>();
-            productsInBucket.forEach((aLong, integer) -> bucket.put(productService.getProduct(aLong).orElseThrow(RuntimeException::new), integer));
+            productsInBucket.forEach((aLong, integer) -> productService.getProduct(aLong).ifPresent(product -> bucket.put(product, integer)));
             double totalPrice = bucket.entrySet()
                     .stream()
                     .mapToDouble(value -> value.getValue() * value.getKey().getPrice())
@@ -53,7 +53,7 @@ public class CartServlet extends HttpServlet {
             session.setAttribute("bucket", bucket);
             session.setAttribute("totalPrice", totalPrice);
 
-            req.getRequestDispatcher("/cart.jsp").forward(req, resp);
+            req.getRequestDispatcher("cart.jsp").forward(req, resp);
         }
     }
 }
