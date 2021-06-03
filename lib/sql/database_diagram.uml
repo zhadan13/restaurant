@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>0c757375-70f8-410d-8d7b-0c4e51519616</OriginalElement>
+  <nodes>
+    <node x="138.49999999999997" y="0.0">0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.users</node>
+    <node x="0.0" y="239.0">0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.orders</node>
+    <node x="151.99999999999997" y="283.0">0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.password_salts</node>
+    <node x="441.0" y="239.0">0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.products</node>
+    <node x="304.0" y="283.0">0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.users_tokens</node>
+    <node x="219.58333333333331" y="478.0">0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.orders_products</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.orders" target="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.users" relationship="REFERENCES">
+      <point x="0.0" y="-94.5" />
+      <point x="66.0" y="214.0" />
+      <point x="217.99999999999997" y="214.0" />
+      <point x="0.0" y="94.5" />
+    </edge>
+    <edge source="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.users_tokens" target="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.users" relationship="REFERENCES">
+      <point x="0.0" y="-50.5" />
+      <point x="362.5" y="214.0" />
+      <point x="217.99999999999997" y="214.0" />
+      <point x="0.0" y="94.5" />
+    </edge>
+    <edge source="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.orders_products" target="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.products" relationship="REFERENCES">
+      <point x="35.0" y="-39.0" />
+      <point x="324.5833333333333" y="453.0" />
+      <point x="511.5" y="453.0" />
+      <point x="0.0" y="94.5" />
+    </edge>
+    <edge source="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.orders_products" target="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.orders" relationship="REFERENCES">
+      <point x="-35.0" y="-39.0" />
+      <point x="254.58333333333331" y="453.0" />
+      <point x="66.0" y="453.0" />
+      <point x="0.0" y="94.5" />
+    </edge>
+    <edge source="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.password_salts" target="0c757375-70f8-410d-8d7b-0c4e51519616.TABLE:restaurant.public.users" relationship="REFERENCES">
+      <point x="0.0" y="-50.5" />
+      <point x="0.0" y="94.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="291.0" y="278.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

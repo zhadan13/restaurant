@@ -18,6 +18,8 @@ import java.util.Optional;
 public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String locale = (String) req.getSession().getAttribute("locale");
+
         String name = req.getParameter("name");
         String phoneNumber = req.getParameter("phoneNumber");
         String email = req.getParameter("email");
@@ -30,12 +32,21 @@ public class RegisterServlet extends HttpServlet {
             resp.sendRedirect("login");
         } else {
             PrintWriter out = resp.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Not valid information or entered email/phone has been already registered! " +
-                    "Check this out! " +
-                    "(Password must contain at least 8 chars: one digit, one letter lowercase and one letter uppercase)');");
-            out.println("location.href='register';");
-            out.println("</script>");
+            if (locale != null && locale.equals("ru_UA")) {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Введены неверные данные или введенные почта/телефон уже зарегистрированы! " +
+                        "Проверьте введенные данные! " +
+                        "(Пароль должен содержать не менее 8 символов: одну цифру, одну букву в нижнем и верхнем регистре)');");
+                out.println("location.href='register';");
+                out.println("</script>");
+            } else {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Not valid information or entered email/phone has been already registered! " +
+                        "Check this out! " +
+                        "(Password must contain at least 8 chars: one digit, one letter lowercase and one letter uppercase)');");
+                out.println("location.href='register';");
+                out.println("</script>");
+            }
         }
     }
 

@@ -1,10 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@include file="WEB-INF/localization.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Diamond Restaurant &#183; Email confirm</title>
+    <title>${title} &#183; ${email_confirm}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/confirm_email_style.css">
@@ -26,10 +27,10 @@
             <div class="icon-box">
                 <i class="material-icons">&#xE876;</i>
             </div>
-            <h4 class="modal-title w-100">Email successfully confirmed!</h4>
+            <h4 class="modal-title w-100">${email_confirm_success}</h4>
         </div>
         <div class="modal-body">
-            <p class="text-center">Your email address has been confirmed. This tab will close in 3 seconds.</p>
+            <p class="text-center">${email_confirm_success_info}</p>
         </div>
         <div class="modal-footer">
             <button class="btn btn-success btn-block" data-dismiss="modal" onclick="function closeTabAfterTimeout() {

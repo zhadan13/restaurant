@@ -32,9 +32,4 @@ public class AccountCartFilter implements Filter {
             resp.sendRedirect("login");
         }
     }
-
-    @Override
-    public void destroy() {
-
-    }
 }

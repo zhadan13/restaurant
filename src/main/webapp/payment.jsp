@@ -1,11 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="WEB-INF/localization.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Diamond Restaurant &#183; Order</title>
+    <title>${title} &#183; ${_order}</title>
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/payment_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
@@ -24,10 +25,10 @@
             <a href="" class="d-flex align-items-center text-light text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-gem"
                      viewBox="0 0 16 16">
-                    <title>Diamond Restaurant</title>
+                    <title>${title}</title>
                     <path d="M3.1.7a.5.5 0 0 1 .4-.2h9a.5.5 0 0 1 .4.2l2.976 3.974c.149.185.156.45.01.644L8.4 15.3a.5.5 0 0 1-.8 0L.1 5.3a.5.5 0 0 1 0-.6l3-4zm11.386 3.785-1.806-2.41-.776 2.413 2.582-.003zm-3.633.004.961-2.989H4.186l.963 2.995 5.704-.006zM5.47 5.495 8 13.366l2.532-7.876-5.062.005zm-1.371-.999-.78-2.422-1.818 2.425 2.598-.003zM1.499 5.5l5.113 6.817-2.192-6.82L1.5 5.5zm7.889 6.817 5.123-6.83-2.928.002-2.195 6.828z"></path>
                 </svg>
-                <span class="fs-4">&nbsp;Diamond Restaurant &#183; Payment</span>
+                <span class="fs-4">&nbsp;${title} &#183; ${payment_payment}</span>
             </a>
         </div>
     </header>
@@ -37,10 +38,10 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-sm-12">
                     <div class="card mx-auto">
-                        <p class="heading text-uppercase text-muted">Payment details</p>
+                        <p class="heading text-uppercase text-muted">${payment_details}</p>
                         <form class="card-details" action="payment" method="post">
                             <div class="form-group mb-0">
-                                <p class="text-warning mb-0">Card Number</p>
+                                <p class="text-warning mb-0">${card_number}</p>
                                 <label for="cno"></label>
                                 <input type="text" name="cardNumber" placeholder="1234 5678 9012 3457" size="15"
                                        id="cno" minlength="16" maxlength="16"
@@ -52,7 +53,7 @@
                                      alt=""/>
                             </div>
                             <div class="form-group">
-                                <p class="text-warning mb-0">Cardholder's Name</p>
+                                <p class="text-warning mb-0">${card_holders_name}</p>
                                 <label>
                                     <input type="text" name="name" placeholder="Name" size="16" required>
                                 </label>
@@ -60,7 +61,7 @@
                             <div class="form-group pt-2">
                                 <div class="row d-flex">
                                     <div class="col-sm-4">
-                                        <p class="text-warning mb-0">Expiration date</p>
+                                        <p class="text-warning mb-0">${card_expiration_date}</p>
                                         <label for="exp"></label>
                                         <input type="text" name="expiration" placeholder="MM/YYYY" size="6" id="exp"
                                                minlength="7" maxlength="7"
@@ -106,7 +107,7 @@
 
     <footer class="footer mt-auto py-3 mx-auto text-center">
         <div class="container">
-            <span class="text-light"> &copy; 2021 Diamond Restaurant.</span>
+            <span class="text-light"> &copy; 2021 ${title}.</span>
         </div>
     </footer>
 </div>

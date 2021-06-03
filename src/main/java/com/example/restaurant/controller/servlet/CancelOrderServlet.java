@@ -33,12 +33,21 @@ public class CancelOrderServlet extends HttpServlet {
         OrderService orderService = OrderServiceImpl.getInstance();
         boolean result = orderService.updateOrderStatus(order.getId(), OrderStatus.REJECTED);
         if (!result) {
+            String locale = (String) session.getAttribute("locale");
             PrintWriter out = resp.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Sorry, an error occurred while canceling the order! " +
-                    "Please check your account page and if the order is not deleted (Order ID: " + order.getId().toString() + "), try to cancel it again!');");
-            out.println("location.href='account';");
-            out.println("</script>");
+            if (locale != null && locale.equals("ru_UA")) {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Произошла ошибка при отмене заказа! " +
+                        "Пожалуйста, проверьте ваш аккаунт и если заказ не отменен - отмените его снова (Номер заказа: " + order.getId().toString() + ")!');");
+                out.println("location.href='account';");
+                out.println("</script>");
+            } else {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Sorry, an error occurred while canceling the order! " +
+                        "Please check your account page and if the order is not deleted (Order ID: " + order.getId().toString() + "), try to cancel it again!');");
+                out.println("location.href='account';");
+                out.println("</script>");
+            }
         }
         session.removeAttribute("order");
 

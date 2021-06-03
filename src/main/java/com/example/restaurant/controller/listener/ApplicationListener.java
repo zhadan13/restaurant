@@ -8,10 +8,12 @@ import javax.servlet.annotation.WebListener;
 
 @WebListener
 public class ApplicationListener implements ServletContextListener {
+    @Override
     public void contextInitialized(ServletContextEvent sce) {
         sce.getServletContext().setAttribute("APPLICATION_NAME", Util.APPLICATION_NAME);
     }
 
+    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         sce.getServletContext().removeAttribute("APPLICATION_NAME");
     }

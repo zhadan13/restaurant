@@ -43,9 +43,4 @@ public class SuccessOrderFilter implements Filter {
             }
         }
     }
-
-    @Override
-    public void destroy() {
-
-    }
 }

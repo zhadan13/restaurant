@@ -28,9 +28,4 @@ public class RoleFilter implements Filter {
             resp.sendRedirect("home");
         }
     }
-
-    @Override
-    public void destroy() {
-
-    }
 }

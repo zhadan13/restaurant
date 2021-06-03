@@ -19,6 +19,7 @@ import java.util.Optional;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String locale = (String) req.getSession().getAttribute("locale");
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         UserService userService = UserServiceImpl.getInstance();
@@ -35,17 +36,31 @@ public class LoginServlet extends HttpServlet {
                 }
             } else {
                 PrintWriter out = resp.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Email address not confirmed! Please check your mailbox and confirm it!');");
-                out.println("location.href='login';");
-                out.println("</script>");
+                if (locale != null && locale.equals("ru_UA")) {
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Электронная почта не подтверждена! Пожалуйста, проверьте свой почтовый ящик и подтвердите регистрацию!');");
+                    out.println("location.href='login';");
+                    out.println("</script>");
+                } else {
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Email address not confirmed! Please check your mailbox and confirm it!');");
+                    out.println("location.href='login';");
+                    out.println("</script>");
+                }
             }
         } else {
             PrintWriter out = resp.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Email or Password incorrect! Check this out!');");
-            out.println("location.href='login';");
-            out.println("</script>");
+            if (locale != null && locale.equals("ru_UA")) {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Электронная почта или пароль введены неверно! Проверьте правильность данных!');");
+                out.println("location.href='login';");
+                out.println("</script>");
+            } else {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Email or Password incorrect! Check this out!');");
+                out.println("location.href='login';");
+                out.println("</script>");
+            }
         }
     }
 

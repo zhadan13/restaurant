@@ -70,11 +70,19 @@ public class OrderServlet extends HttpServlet {
                 resp.sendRedirect("successOrder?orderId=" + order.getId());
             }
         } else {
+            String locale = (String) session.getAttribute("locale");
             PrintWriter out = resp.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Not valid order information! Check this out!');");
-            out.println("location.href='order';");
-            out.println("</script>");
+            if (locale != null && locale.equals("ru_UA")) {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Введенные данные не валидны! Проверьте данные!');");
+                out.println("location.href='order';");
+                out.println("</script>");
+            } else {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Not valid order information! Check this out!');");
+                out.println("location.href='order';");
+                out.println("</script>");
+            }
         }
     }
 

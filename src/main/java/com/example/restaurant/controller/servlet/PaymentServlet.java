@@ -48,11 +48,19 @@ public class PaymentServlet extends HttpServlet {
             });
             resp.sendRedirect("successOrder?orderId=" + order.getId());
         } else {
+            String locale = (String) session.getAttribute("locale");
             PrintWriter out = resp.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Not valid payment information! Check this out!');");
-            out.println("location.href='payment';");
-            out.println("</script>");
+            if (locale != null && locale.equals("ru_UA")) {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Платежные данные не валидны! Проверьте данные!');");
+                out.println("location.href='payment';");
+                out.println("</script>");
+            } else {
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Not valid payment information! Check this out!');");
+                out.println("location.href='payment';");
+                out.println("</script>");
+            }
         }
     }
 

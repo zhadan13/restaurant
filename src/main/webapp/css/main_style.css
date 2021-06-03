@@ -80,15 +80,15 @@ a {
 
 .pagination_rounded .prev {
     border-radius: 20px;
-    width: 90px;
+    width: 120px;
     height: 35px;
     line-height: 33px
 }
 
 .pagination_rounded .prev-disabled {
     border-radius: 20px;
-    width: 90px;
-    height: 34px;
+    width: 120px;
+    height: 35px;
     line-height: 33px;
     color: #808080;
 }
@@ -106,14 +106,14 @@ a {
 
 .pagination_rounded .next {
     border-radius: 20px;
-    width: 90px;
+    width: 120px;
     height: 35px;
     line-height: 33px
 }
 
 .pagination_rounded .next-disabled {
     border-radius: 20px;
-    width: 90px;
+    width: 120px;
     height: 35px;
     line-height: 33px;
     color: #808080;

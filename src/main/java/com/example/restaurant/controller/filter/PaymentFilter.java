@@ -33,9 +33,4 @@ public class PaymentFilter implements Filter {
             }
         }
     }
-
-    @Override
-    public void destroy() {
-
-    }
 }

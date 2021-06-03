@@ -5,6 +5,8 @@ import com.example.restaurant.constants.Util;
 import com.example.restaurant.model.Order;
 import com.example.restaurant.service.OrderService;
 import com.example.restaurant.service.impl.OrderServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,14 +21,56 @@ import java.util.List;
 
 @WebServlet(name = "admin", urlPatterns = "/admin")
 public class ManagerServlet extends HttpServlet {
+    private static final Logger LOGGER = LogManager.getLogger(ManagerServlet.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+        HttpSession session = req.getSession();
+
+        String locale = (String) session.getAttribute("locale");
+
+        OrderService orderService = OrderServiceImpl.getInstance();
+        List<Order> orders = orderService.getAllOrders();
+
+        String removeOrder = req.getParameter("removeOrder");
+        if (removeOrder != null) {
+            Long id = null;
+            try {
+                id = Long.parseLong(removeOrder);
+            } catch (NumberFormatException e) {
+                LOGGER.warn("Can't parse id to delete order");
+            }
+            if (id != null) {
+                boolean result = orderService.deleteOrder(id);
+                if (result) {
+                    Long finalId = id;
+                    orders.removeIf(order -> order.getId().equals(finalId));
+                } else {
+                    PrintWriter out = resp.getWriter();
+                    if (locale != null && locale.equals("ru_UA")) {
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Произошла ошибка при удалении заказа! " +
+                                "Попробуйте снова, если заказ не удалился (Номер заказа: " + removeOrder + ")!');");
+                        out.println("location.href='admin';");
+                        out.println("</script>");
+                    } else {
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('An error occurred while deleting the order! " +
+                                "Please try again, if the order is not deleted (Order ID: " + removeOrder + ")!');");
+                        out.println("location.href='admin';");
+                        out.println("</script>");
+                    }
+                }
+            }
+        }
+        resp.sendRedirect("admin");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+
+        String locale = (String) req.getSession().getAttribute("locale");
 
         OrderService orderService = OrderServiceImpl.getInstance();
         List<Order> orders = orderService.getAllOrders();
@@ -87,31 +131,34 @@ public class ManagerServlet extends HttpServlet {
 
         String changeStatusId = req.getParameter("changeStatusFor");
         String changeStatusTo = req.getParameter("newStatus");
-        String productRemoveParameter = req.getParameter("removeOrder");
-        if ((changeStatusId != null && changeStatusTo != null) || productRemoveParameter != null) {
-            if (productRemoveParameter != null) {
-                long id = Long.parseLong(productRemoveParameter);
-                boolean result = orderService.deleteOrder(id);
-                if (result) {
-                    orders.removeIf(order -> order.getId().equals(id));
-                } else {
-                    PrintWriter out = resp.getWriter();
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('An error occurred while deleting the order! " +
-                            "Please try again, if the order is not deleted (Order ID: " + productRemoveParameter + ")!');");
-                    out.println("location.href='admin';");
-                    out.println("</script>");
-                }
-            } else {
+        if (changeStatusId != null && changeStatusTo != null) {
+            Long id = null;
+            try {
+                id = Long.parseLong(changeStatusId);
+            } catch (NumberFormatException e) {
+                LOGGER.warn("Can't parse order id to change status", e);
+            }
+            OrderStatus status = OrderStatus.parseStatus(changeStatusTo);
+            if (id != null && status != null) {
                 boolean result = orderService.updateOrderStatus(Long.parseLong(changeStatusId), OrderStatus.parseStatus(changeStatusTo));
                 if (!result) {
                     PrintWriter out = resp.getWriter();
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('An error occurred while changing order status! " +
-                            "Please try again, if order status is not changed (Order ID: " + changeStatusId + ")!');");
-                    out.println("location.href='admin';");
-                    out.println("</script>");
+                    if (locale != null && locale.equals("ru_UA")) {
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Произошла ошибка при изменении статуса заказа! " +
+                                "Попробуйте снова, если статус заказа не поменялся (Номер заказа: " + changeStatusId + ")!');");
+                        out.println("location.href='admin';");
+                        out.println("</script>");
+                    } else {
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('An error occurred while deleting the order! " +
+                                "Please try again, if the order is not deleted (Order ID: " + changeStatusId + ")!');");
+                        out.println("location.href='admin';");
+                        out.println("</script>");
+                    }
                 }
+            } else {
+                LOGGER.warn("Can't parse parameters to change order status");
             }
             session.setAttribute("orders", ordersForCurrentPage);
             resp.sendRedirect("admin");
