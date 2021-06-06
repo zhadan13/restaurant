@@ -1,7 +1,13 @@
 package com.example.restaurant.db.dao.exception;
 
-public class DAOException extends Exception {
+/**
+ * Custom exception class for DAO operations.
+ *
+ * @author Zhadan Artem
+ * @see java.lang.Exception
+ */
 
+public class DAOException extends Exception {
     public DAOException() {
     }
 

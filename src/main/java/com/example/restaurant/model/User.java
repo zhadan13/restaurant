@@ -6,6 +6,13 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Entity class for user.
+ *
+ * @author Zhadan Artem
+ * @see Serializable
+ */
+
 public class User implements Serializable {
     private static final long serialVersionUID = -621743728221983352L;
 
@@ -17,9 +24,23 @@ public class User implements Serializable {
     private Role role;
     private Boolean authorized;
 
+    /**
+     * Constructs an <b>User</b> without parameters.
+     */
     private User() {
     }
 
+    /**
+     * Constructs an <b>User</b> with parameters.
+     *
+     * @param email       user's email
+     * @param password    user's password
+     * @param phoneNumber user's phone number
+     * @param name        user's name
+     * @param role        {@link Role} user's role
+     * @param authorized  user's authorization status
+     * @see Role
+     */
     private User(String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
         this.email = email;
         this.password = password;
@@ -29,6 +50,18 @@ public class User implements Serializable {
         this.authorized = authorized;
     }
 
+    /**
+     * Constructs an <b>User</b> with identifier and parameters.
+     *
+     * @param id          identifier
+     * @param email       user's email
+     * @param password    user's password
+     * @param phoneNumber user's phone number
+     * @param name        user's name
+     * @param role        {@link Role} user's role
+     * @param authorized  user's authorization status
+     * @see Role
+     */
     private User(Long id, String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
         this.id = id;
         this.email = email;
@@ -39,14 +72,44 @@ public class User implements Serializable {
         this.authorized = authorized;
     }
 
+    /**
+     * Fabric method for creating new <b>User</b>.
+     *
+     * @return {@link User}
+     */
     public static User createUser() {
         return new User();
     }
 
+    /**
+     * Fabric method for creating new <b>User</b>.
+     *
+     * @param email       user's email
+     * @param password    user's password
+     * @param phoneNumber user's phone number
+     * @param name        user's name
+     * @param role        {@link Role} user's role
+     * @param authorized  user's authorization status
+     * @return {@link User}
+     * @see Role
+     */
     public static User createUser(String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
         return new User(email, password, phoneNumber, name, role, authorized);
     }
 
+    /**
+     * Fabric method for creating new <b>User</b>.
+     *
+     * @param id          identifier
+     * @param email       user's email
+     * @param password    user's password
+     * @param phoneNumber user's phone number
+     * @param name        user's name
+     * @param role        {@link Role} user's role
+     * @param authorized  user's authorization status
+     * @return {@link User}
+     * @see Role
+     */
     public static User createUser(Long id, String email, char[] password, String phoneNumber, String name, Role role, Boolean authorized) {
         return new User(id, email, password, phoneNumber, name, role, authorized);
     }

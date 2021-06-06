@@ -20,10 +20,27 @@ import java.io.PrintWriter;
 
 import static com.example.restaurant.util.PaymentValidator.*;
 
+/**
+ * Servlet mapping payment page.
+ * This servlet processing payment information and confirm new order.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "payment", urlPatterns = "/payment")
 public class PaymentServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(PaymentServlet.class);
 
+    /**
+     * Method checks payment information from input form and confirm order if data is valid.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     * @see com.example.restaurant.util.PaymentValidator
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -33,7 +50,7 @@ public class PaymentServlet extends HttpServlet {
         String date = req.getParameter("expiration");
         String cvv = req.getParameter("cvv");
 
-        if (validateCardNumber(cardNumber) && validateName(name) && validateExpirationDate(date) && validateCVV(cvv)) {
+        if (validatePayment(cardNumber, name, date, cvv)) {
             Order order = (Order) session.getAttribute("order");
             OrderService orderService = OrderServiceImpl.getInstance();
             order.setStatus(OrderStatus.CONFIRMED);
@@ -52,7 +69,7 @@ public class PaymentServlet extends HttpServlet {
             PrintWriter out = resp.getWriter();
             if (locale != null && locale.equals("ru_UA")) {
                 out.println("<script type=\"text/javascript\">");
-                out.println("alert('Платежные данные не валидны! Проверьте данные!');");
+                out.println("alert('Платежные данные не валидны! Проверьте правильность ввереденных данных!');");
                 out.println("location.href='payment';");
                 out.println("</script>");
             } else {

@@ -6,9 +6,21 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Enum with possible statuses for order.
+ *
+ * @author Zhadan Artem
+ */
+
 public enum OrderStatus {
     ACCEPTED, CONFIRMED, PREPARING, DELIVERING, COMPLETED, REJECTED;
 
+    /**
+     * Returns the enum value corresponding to the string representation, or <tt>null</tt> if string representation is incorrect.
+     *
+     * @param status the string value of enum value
+     * @return {@link OrderStatus} value, or <tt>null</tt> if category string can't parse to enum value
+     */
     public static OrderStatus parseStatus(final String status) {
         if (ACCEPTED.name().equalsIgnoreCase(status)) {
             return ACCEPTED;
@@ -31,33 +43,42 @@ public enum OrderStatus {
         return null;
     }
 
-    public static List<Order> filter(List<Order> orders, String filter, String sorting) {
+    /**
+     * Returns list filtered by category and sorted products.
+     *
+     * @param orders  the list of {@link Order} to be filtered and sorted
+     * @param filter  the string category by which the list will be filtered
+     * @param sorting the string parameter by which the list will be sorted
+     * @return filtered list
+     * @see Order
+     */
+    public static List<Order> filter(List<Order> orders, final String filter, final String sorting) {
         if (!filter.equalsIgnoreCase("DEFAULT")) {
-            if (filter.equalsIgnoreCase(OrderStatus.ACCEPTED.name())) {
+            if (filter.equalsIgnoreCase(ACCEPTED.name())) {
                 orders = orders
                         .stream()
-                        .filter(order -> order.getStatus() == OrderStatus.ACCEPTED)
+                        .filter(order -> order.getStatus() == ACCEPTED)
                         .collect(Collectors.toList());
-            } else if (filter.equalsIgnoreCase(OrderStatus.CONFIRMED.name())) {
+            } else if (filter.equalsIgnoreCase(CONFIRMED.name())) {
                 orders = orders
                         .stream()
-                        .filter(order -> order.getStatus() == OrderStatus.CONFIRMED)
+                        .filter(order -> order.getStatus() == CONFIRMED)
                         .collect(Collectors.toList());
-            } else if (filter.equalsIgnoreCase(OrderStatus.PREPARING.name())) {
+            } else if (filter.equalsIgnoreCase(PREPARING.name())) {
                 orders = orders.stream()
-                        .filter(order -> order.getStatus() == OrderStatus.PREPARING)
+                        .filter(order -> order.getStatus() == PREPARING)
                         .collect(Collectors.toList());
-            } else if (filter.equalsIgnoreCase(OrderStatus.DELIVERING.name())) {
+            } else if (filter.equalsIgnoreCase(DELIVERING.name())) {
                 orders = orders.stream()
-                        .filter(order -> order.getStatus() == OrderStatus.DELIVERING)
+                        .filter(order -> order.getStatus() == DELIVERING)
                         .collect(Collectors.toList());
-            } else if (filter.equalsIgnoreCase(OrderStatus.COMPLETED.name())) {
+            } else if (filter.equalsIgnoreCase(COMPLETED.name())) {
                 orders = orders.stream()
-                        .filter(order -> order.getStatus() == OrderStatus.COMPLETED)
+                        .filter(order -> order.getStatus() == COMPLETED)
                         .collect(Collectors.toList());
-            } else if (filter.equalsIgnoreCase(OrderStatus.REJECTED.name())) {
+            } else if (filter.equalsIgnoreCase(REJECTED.name())) {
                 orders = orders.stream()
-                        .filter(order -> order.getStatus() == OrderStatus.REJECTED)
+                        .filter(order -> order.getStatus() == REJECTED)
                         .collect(Collectors.toList());
             } else if (filter.equalsIgnoreCase("UNCOMPLETED")) {
                 orders = orders.stream()

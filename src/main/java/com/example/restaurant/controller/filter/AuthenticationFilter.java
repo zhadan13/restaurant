@@ -9,6 +9,12 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Filter restricting access to home page.
+ *
+ * @author Zhadan Artem
+ */
+
 @WebFilter(filterName = "authenticationFilter", urlPatterns = "/home")
 public class AuthenticationFilter implements Filter {
     @Override

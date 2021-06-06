@@ -6,6 +6,13 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+/**
+ * Listener that puts the name of the application in the context.
+ *
+ * @author Zhadan Artem
+ * @see Util#APPLICATION_NAME
+ */
+
 @WebListener
 public class ApplicationListener implements ServletContextListener {
     @Override

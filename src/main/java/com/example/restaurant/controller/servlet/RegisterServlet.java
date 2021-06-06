@@ -14,12 +14,28 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
 
+/**
+ * Servlet mapping registration page.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "register", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
+
+    /**
+     * Method controlling and checking register form.
+     * According to entered information to the form performing registration or showing error alert.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     * @see com.example.restaurant.util.UserValidator
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String locale = (String) req.getSession().getAttribute("locale");
-
         String name = req.getParameter("name");
         String phoneNumber = req.getParameter("phoneNumber");
         String email = req.getParameter("email");
@@ -31,6 +47,7 @@ public class RegisterServlet extends HttpServlet {
         if (optionalUser.isPresent()) {
             resp.sendRedirect("login");
         } else {
+            String locale = (String) req.getSession().getAttribute("locale");
             PrintWriter out = resp.getWriter();
             if (locale != null && locale.equals("ru_UA")) {
                 out.println("<script type=\"text/javascript\">");

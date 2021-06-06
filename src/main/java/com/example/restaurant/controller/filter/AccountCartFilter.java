@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter restricting access to account and shopping cart.
+ *
+ * @author Zhadan Artem
+ */
+
 @WebFilter(filterName = "accountCartFilter", urlPatterns = {"/account", "/cart"})
 public class AccountCartFilter implements Filter {
     @Override

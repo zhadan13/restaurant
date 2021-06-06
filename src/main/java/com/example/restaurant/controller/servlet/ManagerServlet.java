@@ -19,14 +19,29 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Servlet mapping admin page.
+ * This servlet handles all changes at admin page and show order list with details.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "admin", urlPatterns = "/admin")
 public class ManagerServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(ManagerServlet.class);
 
+    /**
+     * Method-handler for deleting order by manager.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-
         String locale = (String) session.getAttribute("locale");
 
         OrderService orderService = OrderServiceImpl.getInstance();
@@ -38,7 +53,7 @@ public class ManagerServlet extends HttpServlet {
             try {
                 id = Long.parseLong(removeOrder);
             } catch (NumberFormatException e) {
-                LOGGER.warn("Can't parse id to delete order");
+                LOGGER.warn("Can't parse id to delete order", e);
             }
             if (id != null) {
                 boolean result = orderService.deleteOrder(id);
@@ -50,7 +65,7 @@ public class ManagerServlet extends HttpServlet {
                     if (locale != null && locale.equals("ru_UA")) {
                         out.println("<script type=\"text/javascript\">");
                         out.println("alert('Произошла ошибка при удалении заказа! " +
-                                "Попробуйте снова, если заказ не удалился (Номер заказа: " + removeOrder + ")!');");
+                                "Попробуйте снова, если заказ не удален (Номер заказа: " + removeOrder + ")!');");
                         out.println("location.href='admin';");
                         out.println("</script>");
                     } else {
@@ -66,15 +81,24 @@ public class ManagerServlet extends HttpServlet {
         resp.sendRedirect("admin");
     }
 
+    /**
+     * Method shows order list according to filter and sorting option.
+     * Also method implementing pagination and handle changing status for orders.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-
         String locale = (String) req.getSession().getAttribute("locale");
 
         OrderService orderService = OrderServiceImpl.getInstance();
         List<Order> orders = orderService.getAllOrders();
 
+        // Getting filter from request, and save it in session to remember manager's filter
         String filterFromRequest = req.getParameter("filter");
         String filterFromSession = (String) session.getAttribute("filter");
         if (filterFromRequest != null) {
@@ -89,6 +113,7 @@ public class ManagerServlet extends HttpServlet {
         }
         session.setAttribute("filter", filterFromSession);
 
+        // Getting sorting from request, and save it in session to remember manager's sorting
         String sortFromRequest = req.getParameter("sorting");
         String sortFromSession = (String) session.getAttribute("sorting");
         if (sortFromRequest != null) {
@@ -103,8 +128,10 @@ public class ManagerServlet extends HttpServlet {
         }
         session.setAttribute("sorting", sortFromSession);
 
+        // Filtering orders by selected filter and sorting option
         orders = OrderStatus.filter(orders, filterFromRequest, sortFromRequest);
 
+        // Pagination
         String elementsPerPage = req.getParameter("elementsPerPage");
         String pageIndex = req.getParameter("pageIndex");
         int elementsPerPageValue = Util.DEFAULT_ELEMENTS_PER_PAGE_FOR_MANAGER;
@@ -129,6 +156,7 @@ public class ManagerServlet extends HttpServlet {
         req.setAttribute("elementsPerPage", elementsPerPageValue);
         req.setAttribute("pageIndex", pageIndexValue);
 
+        // Changing order status
         String changeStatusId = req.getParameter("changeStatusFor");
         String changeStatusTo = req.getParameter("newStatus");
         if (changeStatusId != null && changeStatusTo != null) {
@@ -140,8 +168,9 @@ public class ManagerServlet extends HttpServlet {
             }
             OrderStatus status = OrderStatus.parseStatus(changeStatusTo);
             if (id != null && status != null) {
-                boolean result = orderService.updateOrderStatus(Long.parseLong(changeStatusId), OrderStatus.parseStatus(changeStatusTo));
+                boolean result = orderService.updateOrderStatus(id, status);
                 if (!result) {
+                    LOGGER.error("Error while trying change order status");
                     PrintWriter out = resp.getWriter();
                     if (locale != null && locale.equals("ru_UA")) {
                         out.println("<script type=\"text/javascript\">");

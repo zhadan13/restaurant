@@ -1,6 +1,10 @@
 /*
+    SQL Scripts to create tables users, password_salts, users_tokens
     DATABASE restaurant
-    TABLES users, password_salts, users_tokens
+*/
+
+/*
+    TABLE users
 */
 
 CREATE TABLE IF NOT EXISTS users
@@ -15,6 +19,10 @@ CREATE TABLE IF NOT EXISTS users
     PRIMARY KEY (id)
 );
 
+/*
+    TABLE password_salts
+*/
+
 CREATE TABLE IF NOT EXISTS password_salts
 (
     id      BIGINT  NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -23,6 +31,10 @@ CREATE TABLE IF NOT EXISTS password_salts
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
+
+/*
+    TABLE users_tokens
+*/
 
 CREATE TABLE IF NOT EXISTS users_tokens
 (

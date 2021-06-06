@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" uri="http://localhost:8080/tags" %>
-<%@include file="WEB-INF/localization.jsp" %>
+<%@ include file="WEB-INF/localization.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,9 +15,9 @@
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
     <style>
-        <%@include file="bootstrap/css/bootstrap.min.css"%>
-        <%@include file="css/main_style.css"%>
-        <%@include file="css/button_style.css"%>
+        <%@ include file="bootstrap/css/bootstrap.min.css" %>
+        <%@ include file="css/main_style.css" %>
+        <%@ include file="css/button_style.css" %>
     </style>
 </head>
 
@@ -307,7 +307,7 @@
                                                         <c:out value="${confirmed}"/>
                                                     </c:if>
                                                     <c:if test="${'PREPARING'.equals(order.status.name())}">
-                                                        <c:out value="${previous}"/>
+                                                        <c:out value="${preparing}"/>
                                                     </c:if>
                                                     <c:if test="${'DELIVERING'.equals(order.status.name())}">
                                                         <c:out value="${delivering}"/>

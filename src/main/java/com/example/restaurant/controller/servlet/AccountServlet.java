@@ -1,6 +1,7 @@
 package com.example.restaurant.controller.servlet;
 
-import com.example.restaurant.constants.OrderStatus;
+import static com.example.restaurant.constants.OrderStatus.*;
+
 import com.example.restaurant.model.Order;
 import com.example.restaurant.model.User;
 import com.example.restaurant.service.OrderService;
@@ -19,10 +20,26 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Servlet mapping account page.
+ * This servlet handles all changes at account page and show user's information and user's orders.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "account", urlPatterns = "/account")
 public class AccountServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(AccountServlet.class);
 
+    /**
+     * Method-handler for remove order from user's account if this order not PREPARING or DELIVERING.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -43,7 +60,7 @@ public class AccountServlet extends HttpServlet {
                 Optional<Order> optionalOrder = orders.stream().filter(order -> order.getId().equals(finalId)).findAny();
                 if (optionalOrder.isPresent()) {
                     Order order = optionalOrder.get();
-                    if (order.getStatus() != OrderStatus.PREPARING && order.getStatus() != OrderStatus.DELIVERING) {
+                    if (order.getStatus() != PREPARING && order.getStatus() != DELIVERING) {
                         boolean result = orderService.deleteOrder(id);
                         if (result) {
                             orders.removeIf(order1 -> order1.getId().equals(finalId));

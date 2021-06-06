@@ -10,6 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Servlet mapping signOut page.
+ * This servlet invalidates the session keeping the localization.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "signOut", urlPatterns = "/signOut")
 public class SignOutServlet extends HttpServlet {
     @Override

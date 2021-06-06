@@ -11,6 +11,12 @@ import java.util.Properties;
 
 import static com.example.restaurant.constants.Util.*;
 
+/**
+ * Util class for sending mail to user.
+ *
+ * @author Zhadan Artem
+ */
+
 public final class SendMail {
     private static final Logger LOGGER = LogManager.getLogger(SendMail.class);
 
@@ -39,6 +45,13 @@ public final class SendMail {
         });
     }
 
+    /**
+     * Method sends verification email with authorization token to user.
+     *
+     * @param user  {@link User} recipient
+     * @param token authorization token for current user
+     * @see User
+     */
     public static void sendVerificationMail(final User user, final String token) {
         try {
             MimeMessage message = new MimeMessage(SESSION);
@@ -48,7 +61,7 @@ public final class SendMail {
             String text = "<h1>" + "Hello " + user.getName() + "! " + message.getSubject() + "</h1>" +
                     "<p>" +
                     "One more thing... " +
-                    "Please confirm your email address by going by link: " +
+                    "Please confirm your email address by going by following link: " +
                     "</p>" +
                     "<a href='http://localhost:8080" + APPLICATION_NAME + "/authorization?user=" + user.getId() + "&token=" + token + "''> Diamond Restaurant &#183; Confirm email address</a>";
             message.setContent(text, "text/html; charset=utf-8");
@@ -59,6 +72,12 @@ public final class SendMail {
         }
     }
 
+    /**
+     * Method sends invitation email to user.
+     *
+     * @param user {@link User} recipient
+     * @see User
+     */
     public static void sendInvitationMail(final User user) {
         try {
             MimeMessage message = new MimeMessage(SESSION);
@@ -75,10 +94,18 @@ public final class SendMail {
             message.saveChanges();
             Transport.send(message);
         } catch (MessagingException e) {
-            LOGGER.error("Can't send email to user", e);
+            LOGGER.error("Can't send invitation email to user", e);
         }
     }
 
+    /**
+     * Method sends order email to user.
+     *
+     * @param user    {@link User} recipient
+     * @param orderId identifier of user's order
+     * @see User
+     * @see com.example.restaurant.model.Order
+     */
     public static void sendOrderMail(final User user, final Long orderId) {
         try {
             MimeMessage message = new MimeMessage(SESSION);
@@ -87,7 +114,7 @@ public final class SendMail {
             message.setSubject("Order successfully created!");
             String text = "<h1>" + "Hello " + user.getName() + "! " + message.getSubject() + "</h1>" +
                     "<p>" +
-                    "Your order in the restaurant chain has been successfully created and accepted for processing by the manager. " +
+                    "Your order in Diamond Restaurant has been successfully created and accepted for processing by the manager. " +
                     "<br><strong>" + "Order number: " + orderId + "</strong><br>" +
                     "You can always track and check the order in your personal account by the link: " +
                     "</p>" +
@@ -96,7 +123,7 @@ public final class SendMail {
             message.saveChanges();
             Transport.send(message);
         } catch (MessagingException e) {
-            LOGGER.error("Can't send email to user", e);
+            LOGGER.error("Can't send order email to user", e);
         }
     }
 }

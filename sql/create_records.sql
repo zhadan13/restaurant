@@ -1,4 +1,8 @@
 /*
+    Sample scripts to insert new users and products
+*/
+
+/*
     users (sample for user and manager)
 */
 
@@ -7,7 +11,6 @@ VALUES (DEFAULT, 'user@mail.com', '123456Aa', '0501234567', 'User', 'USER', TRUE
 
 INSERT INTO users
 VALUES (DEFAULT, 'admin@mail.com', '123456Admin', '0661234567', 'Admin', 'MANAGER', TRUE);
-
 
 /*
     products (all products in menu)

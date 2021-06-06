@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter restricting access to login/register page and sending redirect to main pages if user already logged in.
+ *
+ * @author Zhadan Artem
+ */
+
 @WebFilter(filterName = "loginFilter", urlPatterns = {"/login", "/register"})
 public class LoginFilter implements Filter {
     @Override

@@ -10,6 +10,13 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Custom tag implementation for formatting date and time.
+ *
+ * @author Zhadan Artem
+ * @see TagSupport
+ */
+
 public class DateTimeFormatTag extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger(DateTimeFormatTag.class);
 
@@ -31,7 +38,7 @@ public class DateTimeFormatTag extends TagSupport {
             JspWriter out = pageContext.getOut();
             out.write(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT_PATTERN).format(dateTime));
         } catch (IOException e) {
-            LOGGER.error("Error while trying format date and time", e);
+            LOGGER.error("Tag: Error while trying format date and time", e);
         }
         return SKIP_BODY;
     }

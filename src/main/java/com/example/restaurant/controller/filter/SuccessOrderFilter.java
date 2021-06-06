@@ -3,13 +3,18 @@ package com.example.restaurant.controller.filter;
 import com.example.restaurant.constants.OrderStatus;
 import com.example.restaurant.constants.Payment;
 import com.example.restaurant.model.Order;
-import com.example.restaurant.model.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * Filter restricting access to checkout page about successfully created order if order not created.
+ *
+ * @author Zhadan Artem
+ */
 
 @WebFilter(filterName = "successOrderFilter", urlPatterns = "/successOrder")
 public class SuccessOrderFilter implements Filter {
@@ -23,24 +28,19 @@ public class SuccessOrderFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        User user = (User) req.getSession().getAttribute("user");
-        if (user == null) {
-            resp.sendRedirect("login");
-        } else {
-            Order order = (Order) req.getSession().getAttribute("order");
-            if (order != null) {
-                if (order.getPayment() != Payment.CARD_ONLINE) {
+        Order order = (Order) req.getSession().getAttribute("order");
+        if (order != null) {
+            if (order.getPayment() != Payment.CARD_ONLINE) {
+                filterChain.doFilter(req, resp);
+            } else {
+                if (order.getStatus() == OrderStatus.CONFIRMED) {
                     filterChain.doFilter(req, resp);
                 } else {
-                    if (order.getStatus() == OrderStatus.CONFIRMED) {
-                        filterChain.doFilter(req, resp);
-                    } else {
-                        resp.sendRedirect("home");
-                    }
+                    resp.sendRedirect("home");
                 }
-            } else {
-                resp.sendRedirect("home");
             }
+        } else {
+            resp.sendRedirect("home");
         }
     }
 }

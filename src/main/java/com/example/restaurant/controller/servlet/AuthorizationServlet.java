@@ -17,7 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "authorizationServlet", urlPatterns = "/authorization")
+/**
+ * Servlet mapping authorization page.
+ * This servlet mapping page for email verification and updates verification status for user.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
+@WebServlet(name = "authorization", urlPatterns = "/authorization")
 public class AuthorizationServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(AuthorizationServlet.class);
 
@@ -26,6 +34,16 @@ public class AuthorizationServlet extends HttpServlet {
         doGet(req, resp);
     }
 
+    /**
+     * Method handles request to authorization page and update verification status for user.
+     * This method ignores incorrect request attributes and if attributes are correct,
+     * compare requested token with token from database and update verification status.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userId = req.getParameter("user");
@@ -33,7 +51,7 @@ public class AuthorizationServlet extends HttpServlet {
         try {
             id = Long.parseLong(userId);
         } catch (NumberFormatException e) {
-            LOGGER.error("Can't parse Long from String", e);
+            LOGGER.warn("Can't parse user id", e);
         }
         String token = req.getParameter("token");
 
@@ -41,8 +59,8 @@ public class AuthorizationServlet extends HttpServlet {
             LOGGER.error("Token or id is null");
             resp.sendRedirect("confirmEmailError.jsp");
         } else {
-            AuthorizationTokenService authorizationTokenService = AuthorizationTokenServiceImpl.getInstance();
-            Optional<AuthorizationToken> optionalToken = authorizationTokenService.getUserToken(id);
+            AuthorizationTokenService ats = AuthorizationTokenServiceImpl.getInstance();
+            Optional<AuthorizationToken> optionalToken = ats.getUserToken(id);
             if (optionalToken.isPresent()) {
                 AuthorizationToken authorizationToken = optionalToken.get();
                 if (authorizationToken.getToken().equals(token)) {

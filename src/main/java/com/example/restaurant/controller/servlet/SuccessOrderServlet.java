@@ -12,6 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Servlet mapping successOrder page.
+ * This servlet sends email to user about order and clears session.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "successOrder", urlPatterns = "/successOrder")
 public class SuccessOrderServlet extends HttpServlet {
     @Override
@@ -26,6 +34,7 @@ public class SuccessOrderServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         Order order = (Order) session.getAttribute("order");
 
+        // Sending email to user with order details
         SendMail.sendOrderMail(user, order.getId());
 
         req.setAttribute("order", order);

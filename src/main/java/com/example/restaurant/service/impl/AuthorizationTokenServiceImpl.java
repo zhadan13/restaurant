@@ -10,15 +10,34 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Authorization Token Service implementation.
+ *
+ * @author Zhadan Artem
+ * @see AuthorizationToken
+ * @see AuthorizationTokenService
+ */
+
 public class AuthorizationTokenServiceImpl implements AuthorizationTokenService {
     private static final Logger LOGGER = LogManager.getLogger(AuthorizationTokenServiceImpl.class);
 
+    /**
+     * Singleton instance.
+     */
     private static AuthorizationTokenServiceImpl INSTANCE;
 
+    /**
+     * Constructs an <b>AuthorizationTokenServiceImpl</b>.
+     */
     private AuthorizationTokenServiceImpl() {
 
     }
 
+    /**
+     * Returns already created instance of <b>AuthorizationTokenServiceImpl</b>, or creates new and then returns.
+     *
+     * @return {@link AuthorizationTokenServiceImpl} instance
+     */
     public static AuthorizationTokenServiceImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (AuthorizationTokenServiceImpl.class) {
@@ -30,6 +49,9 @@ public class AuthorizationTokenServiceImpl implements AuthorizationTokenService 
         return INSTANCE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<AuthorizationToken> saveToken(AuthorizationToken authorizationToken) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
@@ -42,6 +64,9 @@ public class AuthorizationTokenServiceImpl implements AuthorizationTokenService 
         return optional;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean deleteToken(Long id) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
@@ -54,6 +79,9 @@ public class AuthorizationTokenServiceImpl implements AuthorizationTokenService 
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateToken(AuthorizationToken authorizationToken) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
@@ -66,6 +94,9 @@ public class AuthorizationTokenServiceImpl implements AuthorizationTokenService 
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<AuthorizationToken> getToken(Long id) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
@@ -78,12 +109,18 @@ public class AuthorizationTokenServiceImpl implements AuthorizationTokenService 
         return optional;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<AuthorizationToken> getAllTokens() {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();
         return authorizationTokenDAO.getAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<AuthorizationToken> getUserToken(Long id) {
         AuthorizationTokenDAO authorizationTokenDAO = AuthorizationTokenDAOImpl.getInstance();

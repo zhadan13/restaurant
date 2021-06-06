@@ -8,6 +8,13 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Entity class for order.
+ *
+ * @author Zhadan Artem
+ * @see Serializable
+ */
+
 public class Order implements Serializable {
     private static final long serialVersionUID = 2520944750127782682L;
 
@@ -20,10 +27,26 @@ public class Order implements Serializable {
     private LocalDateTime date;
     private Map<Product, Integer> products;
 
+    /**
+     * Constructs an <b>Order</b> without parameters.
+     */
     private Order() {
 
     }
 
+    /**
+     * Constructs an <b>Order</b> with parameters.
+     *
+     * @param userId   user's identifier
+     * @param status   {@link OrderStatus} order status
+     * @param address  address
+     * @param payment  {@link Payment} payment type
+     * @param cost     order cost
+     * @param date     date and time
+     * @param products order products
+     * @see OrderStatus
+     * @see Payment
+     */
     private Order(Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         this.userId = userId;
         this.status = status;
@@ -34,6 +57,20 @@ public class Order implements Serializable {
         this.products = products;
     }
 
+    /**
+     * Constructs an <b>Order</b> with identifier and parameters.
+     *
+     * @param id       identifier
+     * @param userId   user's identifier
+     * @param status   {@link OrderStatus} order status
+     * @param address  address
+     * @param payment  {@link Payment} payment type
+     * @param cost     order cost
+     * @param date     date and time
+     * @param products order products
+     * @see OrderStatus
+     * @see Payment
+     */
     private Order(Long id, Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         this.id = id;
         this.userId = userId;
@@ -45,14 +82,48 @@ public class Order implements Serializable {
         this.products = products;
     }
 
+    /**
+     * Fabric method for creating new <b>Order</b>.
+     *
+     * @return {@link Order}
+     */
     public static Order createOrder() {
         return new Order();
     }
 
+    /**
+     * Fabric method for creating new <b>Order</b>.
+     *
+     * @param userId   user's identifier
+     * @param status   {@link OrderStatus} order status
+     * @param address  address
+     * @param payment  {@link Payment} payment type
+     * @param cost     order cost
+     * @param date     date and time
+     * @param products order products
+     * @return {@link Order}
+     * @see OrderStatus
+     * @see Payment
+     */
     public static Order createOrder(Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         return new Order(userId, status, address, payment, cost, date, products);
     }
 
+    /**
+     * Fabric method for creating new <b>Order</b>.
+     *
+     * @param id       identifier
+     * @param userId   user's identifier
+     * @param status   {@link OrderStatus} order status
+     * @param address  address
+     * @param payment  {@link Payment} payment type
+     * @param cost     order cost
+     * @param date     date and time
+     * @param products order products
+     * @return {@link Order}
+     * @see OrderStatus
+     * @see Payment
+     */
     public static Order createOrder(Long id, Long userId, OrderStatus status, String address, Payment payment, Double cost, LocalDateTime date, Map<Product, Integer> products) {
         return new Order(id, userId, status, address, payment, cost, date, products);
     }

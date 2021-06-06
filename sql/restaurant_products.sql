@@ -1,5 +1,9 @@
 /*
+    SQL Script to create table products
     DATABASE restaurant
+*/
+
+/*
     TABLE products
 */
 

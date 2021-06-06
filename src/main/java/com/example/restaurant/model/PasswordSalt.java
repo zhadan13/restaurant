@@ -3,6 +3,13 @@ package com.example.restaurant.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Entity class for password salt.
+ *
+ * @author Zhadan Artem
+ * @see Serializable
+ */
+
 public class PasswordSalt implements Serializable {
     private static final long serialVersionUID = 8309036786780438521L;
 
@@ -10,29 +17,69 @@ public class PasswordSalt implements Serializable {
     private String salt;
     private Long userId;
 
+    /**
+     * Constructs an <b>PasswordSalt</b> without parameters.
+     */
     private PasswordSalt() {
 
     }
 
+    /**
+     * Constructs an <b>PasswordSalt</b> with <tt>salt</tt> and <tt>userId</tt> parameters.
+     *
+     * @param salt   password salt
+     * @param userId user's identifier
+     * @see User
+     */
     private PasswordSalt(String salt, Long userId) {
         this.salt = salt;
         this.userId = userId;
     }
 
+    /**
+     * Constructs an <b>PasswordSalt</b> with <tt>id</tt> <tt>salt</tt> and <tt>userId</tt> parameters.
+     *
+     * @param id     identifier
+     * @param salt   password salt
+     * @param userId user's identifier
+     * @see User
+     */
     private PasswordSalt(Long id, String salt, Long userId) {
         this.id = id;
         this.salt = salt;
         this.userId = userId;
     }
 
+    /**
+     * Fabric method for creating new <b>PasswordSalt</b>.
+     *
+     * @return {@link PasswordSalt}
+     */
     public static PasswordSalt createSalt() {
         return new PasswordSalt();
     }
 
+    /**
+     * Fabric method for creating new <b>PasswordSalt</b>.
+     *
+     * @param salt   password salt
+     * @param userId user's identifier
+     * @return {@link PasswordSalt}
+     * @see User
+     */
     public static PasswordSalt createSalt(String salt, Long userId) {
         return new PasswordSalt(salt, userId);
     }
 
+    /**
+     * Fabric method for creating new <b>PasswordSalt</b>.
+     *
+     * @param id     identifier
+     * @param salt   password salt
+     * @param userId user's identifier
+     * @return {@link PasswordSalt}
+     * @see User
+     */
     public static PasswordSalt createSalt(Long id, String salt, Long userId) {
         return new PasswordSalt(id, salt, userId);
     }

@@ -6,6 +6,12 @@ import java.io.IOException;
 
 import static com.example.restaurant.constants.Util.*;
 
+/**
+ * Filter setting encoding to default (<tt>UTF-8</tt>).
+ *
+ * @author Zhadan Artem
+ */
+
 @WebFilter(filterName = "encodingFilter", urlPatterns = "/*")
 public class EncodingFilter implements Filter {
     @Override

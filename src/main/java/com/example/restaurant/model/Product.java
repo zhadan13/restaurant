@@ -5,6 +5,13 @@ import com.example.restaurant.constants.MenuCategories;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Entity class for product.
+ *
+ * @author Zhadan Artem
+ * @see Serializable
+ */
+
 public class Product implements Serializable {
     private static final long serialVersionUID = -2527253164384388237L;
 
@@ -16,9 +23,24 @@ public class Product implements Serializable {
     private Double weight;
     private Integer popularity;
 
+    /**
+     * Constructs an <b>Product</b> without parameters.
+     */
     private Product() {
+
     }
 
+    /**
+     * Constructs an <b>Product</b> with parameters.
+     *
+     * @param name       product name
+     * @param details    product's details
+     * @param category   {@link MenuCategories} product's category
+     * @param price      product's price
+     * @param weight     product's weight
+     * @param popularity product's popularity
+     * @see MenuCategories
+     */
     private Product(String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         this.name = name;
         this.details = details;
@@ -28,6 +50,18 @@ public class Product implements Serializable {
         this.popularity = popularity;
     }
 
+    /**
+     * Constructs an <b>Product</b> with identifier and parameters.
+     *
+     * @param id         identifier
+     * @param name       product name
+     * @param details    product's details
+     * @param category   {@link MenuCategories} product's category
+     * @param price      product's price
+     * @param weight     product's weight
+     * @param popularity product's popularity
+     * @see MenuCategories
+     */
     private Product(Long id, String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         this.id = id;
         this.name = name;
@@ -38,14 +72,44 @@ public class Product implements Serializable {
         this.popularity = popularity;
     }
 
+    /**
+     * Fabric method for creating new <b>Product</b>.
+     *
+     * @return {@link Product}
+     */
     public static Product createProduct() {
         return new Product();
     }
 
+    /**
+     * Fabric method for creating new <b>Product</b>.
+     *
+     * @param name       product name
+     * @param details    product's details
+     * @param category   {@link MenuCategories} product's category
+     * @param price      product's price
+     * @param weight     product's weight
+     * @param popularity product's popularity
+     * @return {@link Product}
+     * @see MenuCategories
+     */
     public static Product createProduct(String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         return new Product(name, details, category, price, weight, popularity);
     }
 
+    /**
+     * Fabric method for creating new <b>Product</b>.
+     *
+     * @param id         identifier
+     * @param name       product name
+     * @param details    product's details
+     * @param category   {@link MenuCategories} product's category
+     * @param price      product's price
+     * @param weight     product's weight
+     * @param popularity product's popularity
+     * @return {@link Product}
+     * @see MenuCategories
+     */
     public static Product createProduct(Long id, String name, String details, MenuCategories category, Double price, Double weight, Integer popularity) {
         return new Product(id, name, details, category, price, weight, popularity);
     }

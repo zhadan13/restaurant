@@ -1,9 +1,8 @@
 package com.example.restaurant.db.dao.impl;
 
 import com.example.restaurant.constants.Role;
-import com.example.restaurant.constants.SQLQuery;
-import com.example.restaurant.constants.Util;
 import com.example.restaurant.db.connection_pool.ConnectionImpl;
+import com.example.restaurant.db.dao.DAO;
 import com.example.restaurant.db.dao.PasswordSaltDAO;
 import com.example.restaurant.db.dao.UserDAO;
 import com.example.restaurant.model.PasswordSalt;
@@ -19,15 +18,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.restaurant.constants.SQLQuery.*;
+import static com.example.restaurant.constants.Util.*;
+
+/**
+ * User Data Access Object implementation.
+ *
+ * @author Zhadan Artem
+ * @see UserDAO
+ * @see DAO
+ * @see User
+ */
+
 public class UserDAOImpl implements UserDAO {
     private static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
 
+    /**
+     * Singleton instance.
+     */
     private static UserDAOImpl INSTANCE;
 
+    /**
+     * Constructs an <b>UserDAOImpl</b>.
+     */
     private UserDAOImpl() {
 
     }
 
+    /**
+     * Returns already created instance of <b>UserDAOImpl</b>, or creates new and then returns.
+     *
+     * @return {@link UserDAOImpl} instance
+     */
     public static UserDAOImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (UserDAOImpl.class) {
@@ -39,13 +61,16 @@ public class UserDAOImpl implements UserDAO {
         return INSTANCE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> save(User user) {
-        final String salt = PasswordEncryptor.getSalt(Util.SALT_DEFAULT_LENGTH);
+        final String salt = PasswordEncryptor.getSalt(SALT_DEFAULT_LENGTH);
         final String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword(), salt);
         ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.INSERT_NEW_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NEW_USER, PreparedStatement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, securePassword);
@@ -58,6 +83,8 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 Long id = resultSet.getLong(1);
                 user.setId(id);
+
+                // Saving passwordSalt for user in current transaction
                 PasswordSaltDAO passwordSaltDAO = PasswordSaltDAOImpl.getInstance();
                 Optional<PasswordSalt> optionalPasswordSalt = passwordSaltDAO.save(PasswordSalt.createSalt(salt, user.getId()), connection);
                 optionalPasswordSalt.orElseThrow(() -> new SQLException("Can't save password salt in transaction for save user"));
@@ -72,7 +99,7 @@ public class UserDAOImpl implements UserDAO {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {
-                LOGGER.error("Can't set autocommit for connection to TRUE");
+                LOGGER.error("Can't set autocommit for connection to TRUE", ex);
             }
             LOGGER.error("Can't save user", e);
             return Optional.empty();
@@ -83,10 +110,14 @@ public class UserDAOImpl implements UserDAO {
         return Optional.of(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean delete(Long id) {
         ConnectionImpl connection = POOL.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.DELETE_USER_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID)) {
+            connection.setAutoCommit(true);
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -98,12 +129,15 @@ public class UserDAOImpl implements UserDAO {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean update(User user) {
-        final String salt = PasswordEncryptor.getSalt(Util.SALT_DEFAULT_LENGTH);
+        final String salt = PasswordEncryptor.getSalt(SALT_DEFAULT_LENGTH);
         final String securePassword = PasswordEncryptor.generateSecurePassword(user.getPassword(), salt);
         ConnectionImpl connection = POOL.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_USER_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_BY_ID)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, securePassword);
@@ -111,6 +145,8 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(4, user.getName());
             preparedStatement.setLong(5, user.getId());
             preparedStatement.executeUpdate();
+
+            // Updating passwordSalt for user in current transaction
             PasswordSaltDAO passwordSaltDAO = PasswordSaltDAOImpl.getInstance();
             boolean result = passwordSaltDAO.update(PasswordSalt.createSalt(salt, user.getId()), connection);
             if (!result) {
@@ -126,7 +162,7 @@ public class UserDAOImpl implements UserDAO {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {
-                LOGGER.error("Can't set autocommit for connection to TRUE");
+                LOGGER.error("Can't set autocommit for connection to TRUE", ex);
             }
             LOGGER.error("Can't update user", e);
             return false;
@@ -136,12 +172,16 @@ public class UserDAOImpl implements UserDAO {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> get(Long id) {
         ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         User user = null;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_USER_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID)) {
+            connection.setAutoCommit(true);
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -157,12 +197,16 @@ public class UserDAOImpl implements UserDAO {
         return Optional.ofNullable(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getAll() {
         ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         List<User> users = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_ALL_USERS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USERS)) {
+            connection.setAutoCommit(true);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = createUser(resultSet);
@@ -177,10 +221,14 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateInfo(User user) {
         ConnectionImpl connection = POOL.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_USER_INFO_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_INFO_BY_ID)) {
+            connection.setAutoCommit(true);
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPhoneNumber());
             preparedStatement.setString(3, user.getName());
@@ -195,10 +243,14 @@ public class UserDAOImpl implements UserDAO {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateAuthorizationStatus(Long id, Boolean status) {
         ConnectionImpl connection = POOL.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.UPDATE_USER_AUTHORIZATION_STATUS_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_AUTHORIZATION_STATUS_BY_ID)) {
+            connection.setAutoCommit(true);
             preparedStatement.setBoolean(1, status);
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
@@ -211,6 +263,9 @@ public class UserDAOImpl implements UserDAO {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> registration(User user) {
         if (!checkIfUserExistsByUniqueParameters(user)) {
@@ -220,6 +275,9 @@ public class UserDAOImpl implements UserDAO {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> authorization(String email, String password) {
         Optional<User> optionalUser = getByEmail(email);
@@ -239,12 +297,16 @@ public class UserDAOImpl implements UserDAO {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean checkIfUserExistsByUniqueParameters(User user) {
         boolean exists = false;
         ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.CHECK_IF_USER_EXISTS_BY_EMAIL)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(CHECK_IF_USER_EXISTS_BY_EMAIL)) {
+            connection.setAutoCommit(true);
             preparedStatement.setString(1, user.getEmail());
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -259,7 +321,7 @@ public class UserDAOImpl implements UserDAO {
         if (!exists) {
             connection = POOL.getConnection();
             resultSet = null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.CHECK_IF_USER_EXISTS_BY_PHONE_NUMBER)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(CHECK_IF_USER_EXISTS_BY_PHONE_NUMBER)) {
                 preparedStatement.setString(1, user.getPhoneNumber());
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
@@ -275,11 +337,15 @@ public class UserDAOImpl implements UserDAO {
         return exists;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean checkIfUserExistsByEmailAndPassword(String email, String password) {
         ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.CHECK_IF_USER_EXISTS_BY_EMAIL_AND_PASSWORD)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(CHECK_IF_USER_EXISTS_BY_EMAIL_AND_PASSWORD)) {
+            connection.setAutoCommit(true);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             resultSet = preparedStatement.executeQuery();
@@ -296,12 +362,16 @@ public class UserDAOImpl implements UserDAO {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> getByEmail(String email) {
         ConnectionImpl connection = POOL.getConnection();
         ResultSet resultSet = null;
         User user = null;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQuery.GET_USER_BY_EMAIL)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_EMAIL)) {
+            connection.setAutoCommit(true);
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -317,6 +387,13 @@ public class UserDAOImpl implements UserDAO {
         return Optional.ofNullable(user);
     }
 
+    /**
+     * Method mapping <b>ResultSet</b> to <b>User</b>.
+     *
+     * @param resultSet resultSet which should be mapped
+     * @return {@link User}
+     * @throws SQLException {@inheritDoc}
+     */
     private User createUser(final ResultSet resultSet) throws SQLException {
         return User.createUser(resultSet.getLong("id"), resultSet.getString("email"),
                 resultSet.getString("password").toCharArray(), resultSet.getString("phone_number"),

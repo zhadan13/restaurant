@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Filter setting localization for each page.
+ *
+ * @author Zhadan Artem
+ */
+
 @WebFilter(filterName = "localizationFilter", urlPatterns = "/*")
 public class LocalizationFilter implements Filter {
     private static final Logger LOGGER = LogManager.getLogger(LocalizationFilter.class);

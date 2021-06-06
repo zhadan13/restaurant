@@ -10,6 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * Filter restricting access to order page if user not logged or order not created.
+ *
+ * @author Zhadan Artem
+ */
+
 @WebFilter(filterName = "orderFilter", urlPatterns = "/order")
 public class OrderFilter implements Filter {
     @Override
@@ -26,8 +32,8 @@ public class OrderFilter implements Filter {
         if (user == null) {
             resp.sendRedirect("login");
         } else {
-            Map<Product, Integer> bucketMap = (Map<Product, Integer>) req.getSession().getAttribute("bucket");
-            if (bucketMap != null && bucketMap.size() > 0) {
+            Map<Product, Integer> bucket = (Map<Product, Integer>) req.getSession().getAttribute("bucket");
+            if (bucket != null && bucket.size() > 0) {
                 filterChain.doFilter(req, resp);
             } else {
                 resp.sendRedirect("home");

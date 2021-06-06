@@ -3,6 +3,13 @@ package com.example.restaurant.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Entity class for user's authorization token.
+ *
+ * @author Zhadan Artem
+ * @see Serializable
+ */
+
 public class AuthorizationToken implements Serializable {
     private static final long serialVersionUID = 7309036786780438521L;
 
@@ -10,29 +17,69 @@ public class AuthorizationToken implements Serializable {
     private Long userId;
     private String token;
 
+    /**
+     * Constructs an <b>AuthorizationToken</b> without parameters.
+     */
     private AuthorizationToken() {
 
     }
 
+    /**
+     * Constructs an <b>AuthorizationToken</b> with <tt>token</tt> and <tt>userId</tt> parameters.
+     *
+     * @param token  user's token
+     * @param userId user's identifier
+     * @see User
+     */
     private AuthorizationToken(String token, Long userId) {
         this.token = token;
         this.userId = userId;
     }
 
+    /**
+     * Constructs an <b>AuthorizationToken</b> with <tt>id</tt>, <tt>token</tt> and <tt>userId</tt> parameters.
+     *
+     * @param id     identifier
+     * @param token  user's token
+     * @param userId user's identifier
+     * @see User
+     */
     private AuthorizationToken(Long id, String token, Long userId) {
         this.id = id;
         this.token = token;
         this.userId = userId;
     }
 
+    /**
+     * Fabric method for creating new <b>AuthorizationToken</b>.
+     *
+     * @return {@link AuthorizationToken}
+     */
     public static AuthorizationToken createToken() {
         return new AuthorizationToken();
     }
 
+    /**
+     * Fabric method for creating new <b>AuthorizationToken</b>.
+     *
+     * @param token  user's token
+     * @param userId user's identifier
+     * @return {@link AuthorizationToken}
+     * @see User
+     */
     public static AuthorizationToken createToken(String token, Long userId) {
         return new AuthorizationToken(token, userId);
     }
 
+    /**
+     * Fabric method for creating new <b>AuthorizationToken</b>.
+     *
+     * @param id     identifier
+     * @param token  user's token
+     * @param userId user's identifier
+     * @return {@link AuthorizationToken}
+     * @see User
+     */
     public static AuthorizationToken createToken(Long id, Long userId, String token) {
         return new AuthorizationToken(id, token, userId);
     }

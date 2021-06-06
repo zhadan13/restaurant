@@ -17,15 +17,34 @@ import java.util.Optional;
 
 import static com.example.restaurant.util.UserValidator.*;
 
+/**
+ * User Service implementation.
+ *
+ * @author Zhadan Artem
+ * @see User
+ * @see UserService
+ */
+
 public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
+    /**
+     * Singleton instance.
+     */
     private static UserServiceImpl INSTANCE;
 
+    /**
+     * Constructs an <b>UserServiceImpl</b>.
+     */
     private UserServiceImpl() {
 
     }
 
+    /**
+     * Returns already created instance of <b>UserServiceImpl</b>, or creates new and then returns.
+     *
+     * @return {@link UserServiceImpl} instance
+     */
     public static UserServiceImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (UserServiceImpl.class) {
@@ -37,6 +56,9 @@ public class UserServiceImpl implements UserService {
         return INSTANCE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> registration(User user) {
         if (validation(user)) {
@@ -62,6 +84,9 @@ public class UserServiceImpl implements UserService {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> authorization(String email, String password) {
         boolean isEmailValid = validateEmail(email);
@@ -80,15 +105,17 @@ public class UserServiceImpl implements UserService {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean validation(User user) {
-        boolean isEmailValid = validateEmail(user.getEmail());
-        boolean isPasswordValid = validatePassword(String.valueOf(user.getPassword()));
-        boolean isPhoneNumberValid = validatePhoneNumber(user.getPhoneNumber());
-        boolean isNameValid = validateName(user.getName());
-        return isEmailValid && isPasswordValid && isPhoneNumberValid && isNameValid;
+        return validateUser(user.getEmail(), String.valueOf(user.getPassword()), user.getPhoneNumber(), user.getName());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateUser(User user) {
         if (validation(user)) {
@@ -105,6 +132,9 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateUserInformation(User user) {
         boolean isEmailValid = validateEmail(user.getEmail());
@@ -124,6 +154,9 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateAuthorizationStatus(Long id) {
         UserDAO userDAO = UserDAOImpl.getInstance();
@@ -137,6 +170,9 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> getUser(Long id) {
         UserDAO userDAO = UserDAOImpl.getInstance();
@@ -149,6 +185,9 @@ public class UserServiceImpl implements UserService {
         return optionalUser;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<User> getUser(String email) {
         UserDAO userDAO = UserDAOImpl.getInstance();
@@ -161,12 +200,18 @@ public class UserServiceImpl implements UserService {
         return optionalUser;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getAllUsers() {
         UserDAO userDAO = UserDAOImpl.getInstance();
         return userDAO.getAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean deleteUser(Long id) {
         UserDAO userDAO = UserDAOImpl.getInstance();

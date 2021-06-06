@@ -14,15 +14,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Order Service implementation.
+ *
+ * @author Zhadan Artem
+ * @see Order
+ * @see OrderService
+ */
+
 public class OrderServiceImpl implements OrderService {
     private static final Logger LOGGER = LogManager.getLogger(OrderServiceImpl.class);
 
+    /**
+     * Singleton instance.
+     */
     private static OrderServiceImpl INSTANCE;
 
+    /**
+     * Constructs an <b>OrderServiceImpl</b>.
+     */
     private OrderServiceImpl() {
 
     }
 
+    /**
+     * Returns already created instance of <b>OrderServiceImpl</b>, or creates new and then returns.
+     *
+     * @return {@link OrderServiceImpl} instance
+     */
     public static OrderServiceImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (OrderServiceImpl.class) {
@@ -34,6 +53,9 @@ public class OrderServiceImpl implements OrderService {
         return INSTANCE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Order> saveOrder(Order order) {
         if (order.getAddress().trim().length() > 0 && order.getDate().isAfter(LocalDateTime.now())) {
@@ -51,6 +73,9 @@ public class OrderServiceImpl implements OrderService {
         return Optional.empty();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean deleteOrder(Long id) {
         OrderDAO orderDAO = OrderDAOImpl.getInstance();
@@ -63,6 +88,9 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateOrder(Order order) {
         if (order.getAddress().trim().length() > 0 && order.getDate().isAfter(LocalDateTime.now())) {
@@ -79,6 +107,9 @@ public class OrderServiceImpl implements OrderService {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateOrderDetails(Long id, Map<Product, Integer> products) {
         OrderDAO orderDAO = OrderDAOImpl.getInstance();
@@ -91,6 +122,9 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean updateOrderStatus(Long id, OrderStatus status) {
         OrderDAO orderDAO = OrderDAOImpl.getInstance();
@@ -103,6 +137,9 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Optional<Order> getOrder(Long id) {
         OrderDAO orderDAO = OrderDAOImpl.getInstance();
@@ -115,18 +152,27 @@ public class OrderServiceImpl implements OrderService {
         return optionalOrder;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Order> getAllOrders() {
         OrderDAO orderDAO = OrderDAOImpl.getInstance();
         return orderDAO.getAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Order> getUserOrders(Long id) {
         OrderDAO orderDAO = OrderDAOImpl.getInstance();
         return orderDAO.getAllUserOrders(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Order> getUncompletedUserOrders(Long id) {
         OrderDAO orderDAO = OrderDAOImpl.getInstance();

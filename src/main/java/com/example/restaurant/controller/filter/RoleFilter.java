@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter restricting access to admin page if user not registered as admin.
+ *
+ * @author Zhadan Artem
+ */
+
 @WebFilter(filterName = "roleFilter", urlPatterns = "/admin")
 public class RoleFilter implements Filter {
     @Override

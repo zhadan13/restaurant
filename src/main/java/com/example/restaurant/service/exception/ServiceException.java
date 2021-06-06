@@ -1,7 +1,13 @@
 package com.example.restaurant.service.exception;
 
-public class ServiceException extends Exception {
+/**
+ * Custom exception class for Service operations.
+ *
+ * @author Zhadan Artem
+ * @see java.lang.Exception
+ */
 
+public class ServiceException extends Exception {
     public ServiceException() {
     }
 

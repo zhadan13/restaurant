@@ -15,11 +15,30 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
 
+/**
+ * Servlet mapping login page.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+
+    /**
+     * Method controlling and checking login form.
+     * According to entered information to the form performing authorization or showing error alert.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String locale = (String) req.getSession().getAttribute("locale");
+        HttpSession session = req.getSession();
+        String locale = (String) session.getAttribute("locale");
+
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         UserService userService = UserServiceImpl.getInstance();
@@ -27,7 +46,6 @@ public class LoginServlet extends HttpServlet {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.getAuthorized()) {
-                HttpSession session = req.getSession();
                 session.setAttribute("user", user);
                 if (user.getRole() == Role.USER) {
                     resp.sendRedirect("home");

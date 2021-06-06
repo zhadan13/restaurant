@@ -15,6 +15,14 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Servlet mapping cancelOrder page.
+ * This servlet sets status of order to REJECTED when user cancel it.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "cancelOrder", urlPatterns = "/cancelOrder")
 public class CancelOrderServlet extends HttpServlet {
     @Override

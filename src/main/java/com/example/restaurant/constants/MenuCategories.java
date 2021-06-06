@@ -6,9 +6,21 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Enum with possible categories from menu.
+ *
+ * @author Zhadan Artem
+ */
+
 public enum MenuCategories {
     DEFAULT, PIZZA, SUSHI, SALAD, PASTA, DESSERT, DRINKS;
 
+    /**
+     * Returns the enum value corresponding to the string representation, or <tt>null</tt> if string representation is incorrect.
+     *
+     * @param category the string value of enum value
+     * @return {@link MenuCategories} value, or <tt>null</tt> if category string can't parse to enum value
+     */
     public static MenuCategories parseCategory(final String category) {
         if (DEFAULT.name().equalsIgnoreCase(category)) {
             return DEFAULT;
@@ -34,37 +46,46 @@ public enum MenuCategories {
         return null;
     }
 
-    public static List<Product> filter(List<Product> products, String category, String sorting) {
-        if (!category.equalsIgnoreCase(MenuCategories.DEFAULT.name())) {
-            if (category.equalsIgnoreCase(MenuCategories.PIZZA.name())) {
+    /**
+     * Returns list filtered by category and sorted products.
+     *
+     * @param products the list of {@link Product} to be filtered and sorted
+     * @param category the string category by which the list will be filtered
+     * @param sorting  the string parameter by which the list will be sorted
+     * @return filtered list
+     * @see Product
+     */
+    public static List<Product> filter(List<Product> products, final String category, final String sorting) {
+        if (!category.equalsIgnoreCase(DEFAULT.name())) {
+            if (category.equalsIgnoreCase(PIZZA.name())) {
                 products = products
                         .stream()
-                        .filter(product -> product.getCategory() == MenuCategories.PIZZA)
+                        .filter(product -> product.getCategory() == PIZZA)
                         .collect(Collectors.toList());
-            } else if (category.equalsIgnoreCase(MenuCategories.SUSHI.name())) {
+            } else if (category.equalsIgnoreCase(SUSHI.name())) {
                 products = products
                         .stream()
-                        .filter(product -> product.getCategory() == MenuCategories.SUSHI)
+                        .filter(product -> product.getCategory() == SUSHI)
                         .collect(Collectors.toList());
-            } else if (category.equalsIgnoreCase(MenuCategories.SALAD.name())) {
+            } else if (category.equalsIgnoreCase(SALAD.name())) {
                 products = products
                         .stream()
-                        .filter(product -> product.getCategory() == MenuCategories.SALAD)
+                        .filter(product -> product.getCategory() == SALAD)
                         .collect(Collectors.toList());
-            } else if (category.equalsIgnoreCase(MenuCategories.PASTA.name())) {
+            } else if (category.equalsIgnoreCase(PASTA.name())) {
                 products = products
                         .stream()
-                        .filter(product -> product.getCategory() == MenuCategories.PASTA)
+                        .filter(product -> product.getCategory() == PASTA)
                         .collect(Collectors.toList());
-            } else if (category.equalsIgnoreCase(MenuCategories.DESSERT.name())) {
+            } else if (category.equalsIgnoreCase(DESSERT.name())) {
                 products = products
                         .stream()
-                        .filter(product -> product.getCategory() == MenuCategories.DESSERT)
+                        .filter(product -> product.getCategory() == DESSERT)
                         .collect(Collectors.toList());
-            } else if (category.equalsIgnoreCase(MenuCategories.DRINKS.name())) {
+            } else if (category.equalsIgnoreCase(DRINKS.name())) {
                 products = products
                         .stream()
-                        .filter(product -> product.getCategory() == MenuCategories.DRINKS)
+                        .filter(product -> product.getCategory() == DRINKS)
                         .collect(Collectors.toList());
             }
         }

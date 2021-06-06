@@ -1,5 +1,9 @@
 /*
+    SQL Script to create table orders_products
     DATABASE restaurant
+*/
+
+/*
     TABLE orders_products
 */
 

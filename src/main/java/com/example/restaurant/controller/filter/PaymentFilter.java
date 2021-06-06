@@ -1,13 +1,18 @@
 package com.example.restaurant.controller.filter;
 
 import com.example.restaurant.model.Order;
-import com.example.restaurant.model.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * Filter restricting access to payment page if order not created.
+ *
+ * @author Zhadan Artem
+ */
 
 @WebFilter(filterName = "paymentFilter", urlPatterns = {"/payment", "/cancelOrder"})
 public class PaymentFilter implements Filter {
@@ -21,16 +26,11 @@ public class PaymentFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
-        User user = (User) req.getSession().getAttribute("user");
-        if (user == null) {
-            resp.sendRedirect("login");
+        Order order = (Order) req.getSession().getAttribute("order");
+        if (order != null) {
+            filterChain.doFilter(req, resp);
         } else {
-            Order order = (Order) req.getSession().getAttribute("order");
-            if (order != null) {
-                filterChain.doFilter(req, resp);
-            } else {
-                resp.sendRedirect("home");
-            }
+            resp.sendRedirect("home");
         }
     }
 }

@@ -8,6 +8,13 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * Custom tag implementation for counting number of products in bucket.
+ *
+ * @author Zhadan Artem
+ * @see TagSupport
+ */
+
 public class BucketProductsCounterTag extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger(BucketProductsCounterTag.class);
 
@@ -27,7 +34,7 @@ public class BucketProductsCounterTag extends TagSupport {
             JspWriter out = pageContext.getOut();
             out.write(bucket.values().stream().reduce(0, Integer::sum).toString());
         } catch (IOException e) {
-            LOGGER.error("Error while trying count products in bucket", e);
+            LOGGER.error("Tag: Error while trying count products in bucket", e);
         }
         return SKIP_BODY;
     }

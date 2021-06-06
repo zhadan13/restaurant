@@ -25,10 +25,26 @@ import java.util.Optional;
 
 import static com.example.restaurant.constants.OrderStatus.*;
 
+/**
+ * Servlet mapping order page.
+ * This servlet processing order information and register new order.
+ *
+ * @author Zhadan Artem
+ * @see HttpServlet
+ */
+
 @WebServlet(name = "order", urlPatterns = "/order")
 public class OrderServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(OrderServlet.class);
 
+    /**
+     * Method-handler for processing information about order from input form and creating new order if data valid.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException {@inheritDoc}
+     * @throws IOException      {@inheritDoc}
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
