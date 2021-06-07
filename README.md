@@ -33,7 +33,12 @@ Restaurant web service for food delivery
 
 ## Screenshots
 
-![App Screenshot](/demo/account_screenshot.png?raw=true "Account page")
+![Account page](/demo/account_screenshot.jpg?raw=true "Account page")
+![Login page](/demo/login_screenshot.png?raw=true "Login page")
+![Menu page](/demo/menu_screenshot.png?raw=true "Menu page")
+![Bucket page](/demo/cart_screenshot.png?raw=true "Bucket page")
+![Payment page](/demo/payment_screenshot.png?raw=true "Payment page")
+![Order page](/demo/order_screenshot.png?raw=true "Order page")
 
 ## Demo
 
