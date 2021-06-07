@@ -40,10 +40,6 @@ Restaurant web service for food delivery
 ![Payment page](/demo/payment_screenshot.png?raw=true "Payment page")
 ![Order page](/demo/order_screenshot.png?raw=true "Order page")
 
-## Demo
-
-Insert GIF or link to demo
-
 ## Technical Task
 
 **Restaurant**
