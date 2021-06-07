@@ -70,7 +70,7 @@ Also additional features have already been added:
 - Clone the project
 
 ```bash
-  git clone https://github.com/zhadan13/restaurant
+  git clone https://github.com/zhadan13/restaurant.git
 ```
 
 - Go to the project directory
@@ -90,7 +90,7 @@ Also additional features have already been added:
 - Clone the project
 
 ```bash
-  git clone https://github.com/zhadan13/restaurant
+  git clone https://github.com/zhadan13/restaurant.git
 ```
 
 - Add tomcat configuration to project
