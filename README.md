@@ -33,7 +33,7 @@ Restaurant web service for food delivery
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](/demo/account_screenshot.png?raw=true "Account page")
 
 ## Demo
 
