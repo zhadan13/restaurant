@@ -64,7 +64,7 @@
                                         <p class="text-warning mb-0">${card_expiration_date}</p>
                                         <label for="exp"></label>
                                         <input type="text" name="expiration" placeholder="MM/YYYY" size="6" id="exp"
-                                               minlength="7" maxlength="7"
+                                               minlength="5" maxlength="7"
                                                required pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$">
                                     </div>
                                     <div class="col-sm-3">

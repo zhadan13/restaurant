@@ -46,7 +46,7 @@ public final class PasswordEncryptor {
      * @param salt     salt for current password
      * @return byte array representation of encrypted password
      */
-    public static byte[] hash(char[] password, final byte[] salt) {
+    private static byte[] hash(char[] password, final byte[] salt) {
         PBEKeySpec pbeKeySpec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
         Arrays.fill(password, Character.MIN_VALUE);
         try {
