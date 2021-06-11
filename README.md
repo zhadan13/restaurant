@@ -27,6 +27,8 @@ Restaurant web service for food delivery
 
 **Database:** PostgreSQL 13
 
+**Tests:** JUnit 5, Mockito
+
 **Build tool:** Maven
 
 **Web server/Servlet container:** Tomcat 8
