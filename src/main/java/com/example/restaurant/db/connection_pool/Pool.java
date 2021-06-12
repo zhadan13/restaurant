@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +42,7 @@ public class Pool {
     /**
      * Path to configuration file for connection pool.
      */
-    private static final String PROPERTIES_PATH = "/connection-pool.properties";
+    // private static final String PROPERTIES_PATH = "/connection-pool.properties";
 
     /**
      * Database URL
@@ -65,14 +67,15 @@ public class Pool {
     /**
      * Default number of connections in pool.
      */
-    private static final int DEFAULT_NUMBER_OF_CONNECTIONS = 30;
+    private static final int DEFAULT_NUMBER_OF_CONNECTIONS = 20;
 
     /**
      * Constructs an <b>Connection Pool</b>.
      */
     private Pool() {
-        Properties properties = new Properties();
+        // Properties properties = new Properties();
         try {
+            /*
             properties.load(getClass().getResourceAsStream(PROPERTIES_PATH));
             Class.forName(properties.getProperty("db.driver"));
             URL = properties.getProperty("db.url");
@@ -84,9 +87,16 @@ public class Pool {
                 NUMBER_OF_CONNECTIONS = DEFAULT_NUMBER_OF_CONNECTIONS;
                 LOGGER.warn("Can't parse number of connection pool, set to default", e);
             }
+             */
+
+            final URI dbUri = new URI(System.getenv("DATABASE_URL"));
+            USER = dbUri.getUserInfo().split(":")[0];
+            PASSWORD = dbUri.getUserInfo().split(":")[1];
+            URL = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
             connections = new HashMap<>(NUMBER_OF_CONNECTIONS);
             initConnections();
-        } catch (IOException | ClassNotFoundException | SQLException e) {
+        } catch (SQLException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
