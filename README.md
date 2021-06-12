@@ -2,6 +2,8 @@
 
 Restaurant web service for food delivery
 
+[Diamond Restaurant](https://diamond-restaurant.herokuapp.com/)
+
 ## Features
 
 - User registration/authorization
@@ -21,9 +23,9 @@ Restaurant web service for food delivery
 
 ## Tech Stack
 
-**Client:** Bootstrap 5, CSS
-
 **Server:** Java 8, Servlet, JSP
+
+**Client:** Bootstrap 5, CSS
 
 **Database:** PostgreSQL 13
 
@@ -32,6 +34,8 @@ Restaurant web service for food delivery
 **Build tool:** Maven
 
 **Web server/Servlet container:** Tomcat 8
+
+**CI/CD:** Heroku
 
 ## Screenshots
 
@@ -57,13 +61,14 @@ The customer, within one order, can order several identical dishes. The manager 
 order, sends it for preparation. After cooking, the manager transfers order to delivery. After delivery and receipt of
 payment, the Manager transfers the status of the order to "completed".
 
-Also additional features have already been added:
+Also, additional features have already been added:
 
 - more sorting and filtering options;
 - password encryption;
-- email verification and notificaitions;
+- email verification and notifications;
 - account page with user and orders information;
-- bootstrap was used to improve the frontend.
+- bootstrap was used to improve the frontend;
+- Heroku deployment to provide CI/CD.
 
 ## Run Locally
 
