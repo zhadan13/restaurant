@@ -67,7 +67,7 @@ public class Pool {
     /**
      * Default number of connections in pool.
      */
-    private static final int DEFAULT_NUMBER_OF_CONNECTIONS = 30;
+    private static final int DEFAULT_NUMBER_OF_CONNECTIONS = 10;
 
     /**
      * Constructs an <b>Connection Pool</b>.
