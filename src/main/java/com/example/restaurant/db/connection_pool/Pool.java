@@ -3,7 +3,6 @@ package com.example.restaurant.db.connection_pool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.DriverManager;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Singleton connection pool implementation based on {@link ConnectionImpl}.
@@ -40,11 +38,6 @@ public class Pool {
     private static final int WAIT_TIME = 1000;
 
     /**
-     * Path to configuration file for connection pool.
-     */
-    // private static final String PROPERTIES_PATH = "/connection-pool.properties";
-
-    /**
      * Database URL
      */
     private static String URL;
@@ -62,38 +55,17 @@ public class Pool {
     /**
      * Number of connections in pool.
      */
-    private static final int NUMBER_OF_CONNECTIONS = 20;
-
-    /**
-     * Default number of connections in pool.
-     */
-    private static final int DEFAULT_NUMBER_OF_CONNECTIONS = 20;
+    private static final int NUMBER_OF_CONNECTIONS = 15;
 
     /**
      * Constructs an <b>Connection Pool</b>.
      */
     private Pool() {
-        // Properties properties = new Properties();
         try {
-            /*
-            properties.load(getClass().getResourceAsStream(PROPERTIES_PATH));
-            Class.forName(properties.getProperty("db.driver"));
-            URL = properties.getProperty("db.url");
-            USER = properties.getProperty("db.user");
-            PASSWORD = properties.getProperty("db.password");
-            try {
-                NUMBER_OF_CONNECTIONS = Integer.parseInt(properties.getProperty("db.pool_size"));
-            } catch (NumberFormatException e) {
-                NUMBER_OF_CONNECTIONS = DEFAULT_NUMBER_OF_CONNECTIONS;
-                LOGGER.warn("Can't parse number of connection pool, set to default", e);
-            }
-             */
-
             final URI dbUri = new URI(System.getenv("DATABASE_URL"));
             USER = dbUri.getUserInfo().split(":")[0];
             PASSWORD = dbUri.getUserInfo().split(":")[1];
             URL = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
             connections = new HashMap<>(NUMBER_OF_CONNECTIONS);
             initConnections();
         } catch (SQLException | URISyntaxException e) {

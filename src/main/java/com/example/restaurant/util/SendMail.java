@@ -9,8 +9,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-import static com.example.restaurant.constants.Util.*;
-
 /**
  * Util class for sending mail to user.
  *
@@ -63,7 +61,7 @@ public final class SendMail {
                     "One more thing... " +
                     "Please confirm your email address by going by following link: " +
                     "</p>" +
-                    "<a href='http://localhost:8080" + APPLICATION_NAME + "/authorization?user=" + user.getId() + "&token=" + token + "''> Diamond Restaurant &#183; Confirm email address</a>";
+                    "<a href='https://diamond-restaurant.herokuapp.com/authorization?user=" + user.getId() + "&token=" + token + "''> Diamond Restaurant &#183; Confirm email address</a>";
             message.setContent(text, "text/html; charset=utf-8");
             message.saveChanges();
             Transport.send(message);
@@ -89,7 +87,7 @@ public final class SendMail {
                     "Thank you for registering in our restaurant chain. " +
                     "Please place your first order by going to the menu by link: " +
                     "</p>" +
-                    "<a href='http://localhost:8080" + APPLICATION_NAME + "/home'> Diamond Restaurant &#183; Menu</a>";
+                    "<a href='https://diamond-restaurant.herokuapp.com/home'> Diamond Restaurant &#183; Menu</a>";
             message.setContent(text, "text/html; charset=utf-8");
             message.saveChanges();
             Transport.send(message);
@@ -118,7 +116,7 @@ public final class SendMail {
                     "<br><strong>" + "Order number: " + orderId + "</strong><br>" +
                     "You can always track and check the order in your personal account by the link: " +
                     "</p>" +
-                    "<a href='http://localhost:8080" + APPLICATION_NAME + "/account'> Diamond Restaurant &#183; Account</a>";
+                    "<a href='https://diamond-restaurant.herokuapp.com/account'> Diamond Restaurant &#183; Account</a>";
             message.setContent(text, "text/html; charset=utf-8");
             message.saveChanges();
             Transport.send(message);
