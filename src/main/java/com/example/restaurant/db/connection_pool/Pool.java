@@ -4,8 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -67,7 +65,7 @@ public class Pool {
     /**
      * Default number of connections in pool.
      */
-    private static final int DEFAULT_NUMBER_OF_CONNECTIONS = 10;
+    private static final int DEFAULT_NUMBER_OF_CONNECTIONS = 30;
 
     /**
      * Constructs an <b>Connection Pool</b>.
@@ -80,22 +78,6 @@ public class Pool {
             URL = properties.getProperty("db.url");
             USER = properties.getProperty("db.user");
             PASSWORD = properties.getProperty("db.password");
-
-            URI dbUri;
-            try {
-                dbUri = new URI(System.getenv("DATABASE_URL"));
-                String username = dbUri.getUserInfo().split(":")[0];
-                String password = dbUri.getUserInfo().split(":")[1];
-                String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-                if (username != null && password != null) {
-                    URL = dbUrl;
-                    USER = username;
-                    PASSWORD = password;
-                }
-            } catch (URISyntaxException | NullPointerException e) {
-                e.printStackTrace();
-            }
-
             try {
                 NUMBER_OF_CONNECTIONS = Integer.parseInt(properties.getProperty("db.pool_size"));
             } catch (NumberFormatException e) {

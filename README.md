@@ -108,10 +108,6 @@ Also additional features have already been added:
 ***Note:*** you need to have tomcat 8 preinstalled.  
 Details: https://tomcat.apache.org/download-80.cgi
 
-## Deployment
-
-To deploy project run
-
 ## Authors
 
 - [@zhadan13](https://www.github.com/zhadan13)
