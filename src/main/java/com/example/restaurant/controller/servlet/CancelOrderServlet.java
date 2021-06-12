@@ -59,6 +59,6 @@ public class CancelOrderServlet extends HttpServlet {
         }
         session.removeAttribute("order");
 
-        resp.sendRedirect(Util.APPLICATION_NAME);
+        resp.sendRedirect("/");
     }
 }

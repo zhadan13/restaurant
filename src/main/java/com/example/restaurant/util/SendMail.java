@@ -65,6 +65,7 @@ public final class SendMail {
             message.setContent(text, "text/html; charset=utf-8");
             message.saveChanges();
             Transport.send(message);
+            LOGGER.info("Verification email sent!");
         } catch (MessagingException e) {
             LOGGER.error("Can't send email to user", e);
         }
@@ -91,6 +92,7 @@ public final class SendMail {
             message.setContent(text, "text/html; charset=utf-8");
             message.saveChanges();
             Transport.send(message);
+            LOGGER.info("Invitation email sent!");
         } catch (MessagingException e) {
             LOGGER.error("Can't send invitation email to user", e);
         }
@@ -120,6 +122,7 @@ public final class SendMail {
             message.setContent(text, "text/html; charset=utf-8");
             message.saveChanges();
             Transport.send(message);
+            LOGGER.info("Order email sent!");
         } catch (MessagingException e) {
             LOGGER.error("Can't send order email to user", e);
         }

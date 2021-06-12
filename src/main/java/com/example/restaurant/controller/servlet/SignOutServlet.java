@@ -32,6 +32,6 @@ public class SignOutServlet extends HttpServlet {
         session.invalidate();
         session = req.getSession();
         session.setAttribute("locale", locale);
-        resp.sendRedirect(Util.APPLICATION_NAME);
+        resp.sendRedirect("/");
     }
 }
