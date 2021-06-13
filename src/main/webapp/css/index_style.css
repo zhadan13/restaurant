@@ -48,7 +48,7 @@ button {
 
 @media (max-width: 576px) {
     .container {
-        width: auto;
+        width: max-content;
         text-align: center;
         margin-right: auto;
         margin-left: auto;
