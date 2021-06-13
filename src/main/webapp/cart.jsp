@@ -165,8 +165,10 @@
                                                 </td>
                                                 <td class="text-right d-none d-md-block">
                                                     <a href="<c:url value="cart?removeProduct=${product.key.id}"/>"
-                                                       class="btn button orange border text-danger" data-abc="true">
-                                                        <span class="button-span">${remove}</span>
+                                                       class="btn button orange border text-danger" data-abc="true"
+                                                       style="font-size: 13px">
+                                                        <span class="button-span"
+                                                              style="font-size: 13px">${remove}</span>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -206,11 +208,12 @@
                                     <div style="text-align: center">
                                         <a href="order" class="btn button orange border text-dark" data-abc="true"
                                            style="font-size: 13px">
-                                            <span class="button-span">${make_purchase}</span>
+                                            <span class="button-span" style="font-size: 13px">${make_purchase}</span>
                                         </a>
                                         <a href="home" class="btn button border text-dark mt-2" data-abc="true"
                                            style="font-size: 13px">
-                                            <span class="button-span">${continue_shopping}</span>
+                                            <span class="button-span"
+                                                  style="font-size: 13px">${continue_shopping}</span>
                                         </a>
                                     </div>
                                 </div>
