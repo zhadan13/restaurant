@@ -226,8 +226,10 @@ input {
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
         position: relative;
         overflow: hidden;
-        width: 90%;
-        margin: 15px 5px 15px 5px;
+        text-align: center;
+        margin-right: auto;
+        margin-left: auto;
+        width: 80%;
         max-width: 1200px;
         min-height: 350px;
     }

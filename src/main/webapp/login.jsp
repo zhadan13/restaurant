@@ -122,7 +122,7 @@
             </div>
         </div>
 
-        <div class="container" id="container">
+        <div class="container" id="container" style="text-align: center; margin-right: auto; margin-left: auto">
             <div class="form-container sign-up-container">
                 <form action="register" method="post">
                     <h2>${login_create_account}</h2>
