@@ -23,7 +23,7 @@
 
 <body>
 <div class="container py-3">
-    <header>
+    <header class="header">
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a href="<c:url value="/"/>"
                class="d-flex align-items-center text-dark text-decoration-none">
@@ -45,7 +45,6 @@
                         </strong></a>
                     </c:otherwise>
                 </c:choose>
-                <a class="me-3 py-2 text-dark text-decoration-none" href="about.jsp">${about}</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="">${delivery}</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">${support}</a>
                 <c:if test="${!'MANAGER'.equalsIgnoreCase(sessionScope.user.role.name())}">

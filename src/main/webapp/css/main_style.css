@@ -4,7 +4,10 @@ body {
 
 .container {
     max-width: 1200px;
-    text-align: start;
+}
+
+.header {
+    width: auto;
 }
 
 button {
@@ -121,10 +124,6 @@ a {
 }
 
 @media (max-width: 576px) {
-    .card-footer {
-        width: -moz-min-content;
-    }
-
     .pagination_rounded {
         display: flex;
         justify-content: center;
@@ -181,5 +180,9 @@ a {
         font-size: 12px;
         line-height: 25px;
         color: #808080;
+    }
+
+    .header {
+        width: auto;
     }
 }

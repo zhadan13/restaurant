@@ -7,9 +7,6 @@ body {
 
 .container {
     max-width: 1200px;
-    /*text-align: center;
-    margin-right: auto;
-    margin-left: auto;*/
 }
 
 button {
@@ -17,7 +14,7 @@ button {
 }
 
 .header {
-    width: available;
+    width: auto;
 }
 
 .bg-gradient {
@@ -55,9 +52,6 @@ button {
 @media (max-width: 576px) {
     .container {
         font-size: 0.9em;
-        /*text-align: center;
-        margin-right: auto;
-        margin-left: auto;*/
     }
 
     .btn {
@@ -69,7 +63,7 @@ button {
     }
 
     .header {
-        width: available;
+        width: auto;
     }
 
     .button-span {

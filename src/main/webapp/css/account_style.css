@@ -4,10 +4,6 @@ body {
     align-items: center;
 }
 
-.container {
-    text-align: start;
-}
-
 .card {
     border-radius: 10px;
     -webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);

@@ -1,5 +1,8 @@
 body {
     background: linear-gradient(to right, #7f53ac, #647dee);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {
