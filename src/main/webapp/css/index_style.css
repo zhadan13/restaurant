@@ -1,10 +1,12 @@
 body {
     background-image: linear-gradient(180deg, #eee, #fff 100px, #fff);
-    display: flex;
 }
 
 .container {
     max-width: 1200px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 button {
@@ -44,12 +46,11 @@ button {
 }
 
 @media (max-width: 576px) {
-    .body {
-        width: max-content;
-    }
-
     .container {
         font-size: 0.9em;
+        text-align: center;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     .btn {

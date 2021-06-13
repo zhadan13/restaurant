@@ -181,6 +181,10 @@ input {
     transform: translateX(20%);
 }
 
+.cont {
+    width: max-content;
+}
+
 @media (max-width: 576px) {
     p {
         font-size: 13px;
@@ -239,5 +243,9 @@ input {
 
     .py-3 {
         font-size: 0.9em;
+    }
+
+    .cont {
+        width: max-content;
     }
 }

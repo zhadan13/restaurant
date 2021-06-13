@@ -24,7 +24,7 @@
 </head>
 
 <body>
-<div class="py-3">
+<div class="cont py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a href="<c:url value="/"/>"
