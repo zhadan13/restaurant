@@ -47,7 +47,7 @@
     text-transform: uppercase;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 400px) {
     .payment-form .title {
         font-size: 1.2em;
     }
