@@ -147,6 +147,7 @@
                                 </c:choose>
                                 <div class="total">${total}<span class="price">${requestScope.order.cost} ${uah}</span>
                                 </div>
+                                <br><br>
                             </div>
 
                             <div class="input-details">

@@ -148,6 +148,7 @@
                                 <div class="total">${total}<span
                                         class="price">${sessionScope.totalPrice + sessionScope.deliveryPrice} ${uah}</span>
                                 </div>
+                                <br><br>
                             </div>
 
                             <div class="input-details">
@@ -176,10 +177,10 @@
                                         style="font-size: 13px" onclick="function cancel() {
                                                                           location.href = 'cancelOrder';
                                                                         }cancel()">
-                                    <span class="button-span">${cancel}</span>
+                                    <span class="button-span" style="font-size: 13px">${cancel}</span>
                                 </button>
                                 <button type="submit" class="btn button border text-dark mx-2" style="font-size: 13px">
-                                    <span class="button-span">${proceed}</span>
+                                    <span class="button-span" style="font-size: 13px">${proceed}</span>
                                 </button>
                             </div>
                         </form>
