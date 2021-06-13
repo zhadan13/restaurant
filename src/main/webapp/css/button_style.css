@@ -89,7 +89,12 @@
     color: #FFFFFF;
 }
 
+.button-span {
+    font-size: 15px;
+}
+
 .button-span:hover {
+    font-size: 15px;
     color: #FFFFFF;
     transition-delay: 0.2s;
 }
@@ -104,6 +109,6 @@
     }
 
     .button-span {
-        font-size: 0.8em;
+        font-size: 13px;
     }
 }

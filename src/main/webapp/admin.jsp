@@ -49,7 +49,7 @@
                 <a class="me-3 py-2 text-dark text-decoration-none" href="delivery.jsp">${delivery}</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">${support}</a>
                 <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
-                        aria-expanded="false"><span class="button-span" style="font-size: 16px">${account}</span>
+                        aria-expanded="false"><span class="button-span">${account}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="">
@@ -339,8 +339,8 @@
                                             <div class="col text-center">
                                                 <button type="button" class="btn button border text-muted mx-auto"
                                                         data-bs-toggle="dropdown"
-                                                        aria-expanded="false" style="font-size: 13px">
-                                                    <span class="button-span">${change_status}</span>
+                                                        aria-expanded="false">
+                                                    <span class="button-span" style="font-size: 13px">${change_status}</span>
                                                 </button>
 
                                                 <ul class="dropdown-menu">
@@ -376,8 +376,7 @@
                                                     <input type="hidden" name="removeOrder"
                                                            value="${order.id}"/>
                                                     <button type="submit"
-                                                            class="btn button orange border text-danger mx-auto"
-                                                            style="font-size: 13px">
+                                                            class="btn button orange border text-danger mx-auto">
                                                     <span class="button-span">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-trash-fill"
@@ -455,7 +454,7 @@
 
                 <div class="col text-end">
                     <button type="button" class="btn button orange border text-muted mx-auto" data-bs-toggle="dropdown"
-                            aria-expanded="false" style="font-size: 13px">
+                            aria-expanded="false">
                         <span class="button-span">${language}</span>
                     </button>
                     <ul class="dropdown-menu">

@@ -78,7 +78,7 @@
                     </div>
                 </c:if>
                 <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
-                        aria-expanded="false"><span class="button-span" style="font-size: 16px">${account}</span>
+                        aria-expanded="false"><span class="button-span">${account}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="">
@@ -145,7 +145,7 @@
 
                 <div class="col text-end">
                     <button type="button" class="btn button orange border text-muted mx-auto" data-bs-toggle="dropdown"
-                            aria-expanded="false" style="font-size: 13px">
+                            aria-expanded="false">
                         <span class="button-span">${language}</span>
                     </button>
                     <ul class="dropdown-menu">

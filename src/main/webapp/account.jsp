@@ -46,7 +46,7 @@
                 <div class="me-3">
                     <button type="button" class="btn button border text-muted" onclick="function cart() {
                       location.href = 'cart';
-                    }cart()" style="border-radius: 10px; font-size: 15px">
+                    }cart()" style="border-radius: 10px;">
                         <span class="button-span">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                  class="bi bi-basket"
@@ -70,7 +70,7 @@
                     </button>
                 </div>
                 <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
-                        aria-expanded="false"><span class="button-span" style="font-size: 16px">${account}</span>
+                        aria-expanded="false"><span class="button-span">${account}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="">
@@ -230,8 +230,7 @@
                                                                     <input type="hidden" name="removeOrder"
                                                                            value="${currentOrder.id}"/>
                                                                     <button type="submit"
-                                                                            class="btn button orange border text-danger mx-auto"
-                                                                            style="font-size: 13px">
+                                                                            class="btn button orange border text-danger mx-auto">
                                                                         <span class="button-span">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                  width="16" height="16"
@@ -306,7 +305,7 @@
 
                 <div class="col text-end">
                     <button type="button" class="btn button orange border text-muted mx-auto" data-bs-toggle="dropdown"
-                            aria-expanded="false" style="font-size: 13px">
+                            aria-expanded="false">
                         <span class="button-span">${language}</span>
                     </button>
                     <ul class="dropdown-menu">

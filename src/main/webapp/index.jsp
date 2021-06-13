@@ -24,7 +24,7 @@
 
 <body>
 <div class="container py-3">
-    <header class="vm-100">
+    <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a href="" class="d-flex align-items-center text-dark text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-gem"
@@ -59,7 +59,7 @@
                     <div class="me-3">
                         <button type="button" class="btn button border text-muted" onclick="function cart() {
                       location.href = 'cart';
-                    }cart()" style="border-radius: 10px; font-size: 15px">
+                    }cart()" style="border-radius: 10px">
                         <span class="button-span">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                                  class="bi bi-basket"
@@ -84,7 +84,7 @@
                     </div>
                 </c:if>
                 <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
-                        aria-expanded="false"><span class="button-span" style="font-size: 16px">${account}</span>
+                        aria-expanded="false"><span class="button-span">${account}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="">
@@ -132,7 +132,7 @@
 
     <main>
         <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
-            <div class="container-fluid py-5">
+            <div class="container-fluid py-5" style="font-size: 15px">
                 <h1 class="display-5 fw-bold">${welcome}</h1>
                 <p class="col-md-8 fs-4 mx-auto text-center"></p><br>
                 <c:choose>
@@ -161,7 +161,7 @@
 
                 <div class="col text-end">
                     <button type="button" class="btn button orange border text-muted mx-auto" data-bs-toggle="dropdown"
-                            aria-expanded="false" style="font-size: 13px">
+                            aria-expanded="false">
                         <span class="button-span">${language}</span>
                     </button>
                     <ul class="dropdown-menu">
