@@ -52,7 +52,6 @@
                         </strong></a>
                     </c:otherwise>
                 </c:choose>
-                <a class="me-3 py-2 text-dark text-decoration-none" href="about.jsp">${about}</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="delivery.jsp">${delivery}</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">${support}</a>
                 <c:if test="${!'MANAGER'.equalsIgnoreCase(sessionScope.user.role.name())}">
