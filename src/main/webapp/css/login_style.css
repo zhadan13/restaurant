@@ -200,7 +200,7 @@ input {
         color: #FFFFFF;
         font-size: 10px;
         font-weight: bold;
-        padding: 10px 25px;
+        padding: 10px 20px;
         margin-top: 10px;
         letter-spacing: 1px;
         text-transform: uppercase;
@@ -236,7 +236,7 @@ input {
         text-align: center;
         margin-right: auto;
         margin-left: auto;
-        width: 100%;
+        width: 99%;
         max-width: 1200px;
         min-height: 350px;
     }
