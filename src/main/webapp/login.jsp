@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${title} &#183; ${login}</title>
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/login_style.css">
     <link rel="stylesheet" type="text/css" href="css/index_style.css">
+    <link rel="stylesheet" type="text/css" href="css/login_style.css">
     <link rel="stylesheet" type="text/css" href="css/button_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
             integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
             crossorigin="anonymous"></script>
     <style>
         <%@ include file="bootstrap/css/bootstrap.min.css" %>
-        <%@ include file="css/login_style.css" %>
         <%@ include file="css/index_style.css" %>
+        <%@ include file="css/login_style.css" %>
         <%@ include file="css/button_style.css" %>
     </style>
 </head>
