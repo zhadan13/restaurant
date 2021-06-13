@@ -23,9 +23,8 @@
 </head>
 
 <body>
-<div class="cont">
 <div class="container py-3">
-    <header>
+    <header class="header">
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
             <a href="" class="d-flex align-items-center text-dark text-decoration-none">
                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-gem"
@@ -177,7 +176,6 @@
             </div>
         </div>
     </footer>
-</div>
 </div>
 </body>
 </html>

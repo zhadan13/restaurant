@@ -9,12 +9,12 @@ body {
     margin-left: auto;
 }
 
-.cont {
-    width: max-content;
-}
-
 button {
     text-transform: uppercase;
+}
+
+.header {
+    width: -moz-max-content;
 }
 
 .bg-gradient {
@@ -63,6 +63,10 @@ button {
 
     .button {
         font-size: 0.8em;
+    }
+
+    .header {
+        width: max-content;
     }
 
     .button-span {
