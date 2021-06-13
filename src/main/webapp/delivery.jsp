@@ -123,9 +123,9 @@
         </div>
     </header>
 
-    <main>
+    <main class="container">
         <div class="p-5 mb-4 bg-light rounded-3 mx-auto text-center">
-            <div class="container-fluid py-5">
+            <div class="container py-5">
                 <h1 class="display-5 fw-bold">${delivery_info}</h1>
             </div>
         </div>

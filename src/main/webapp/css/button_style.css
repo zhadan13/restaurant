@@ -94,8 +94,16 @@
     transition-delay: 0.2s;
 }
 
-@media only screen and (max-width: 767px) {
+@media (max-width: 576px) {
+    .btn {
+        font-size: 0.8em;
+    }
+
     .button {
-        margin-bottom: 20px;
+        font-size: 0.8em;
+    }
+
+    .button-span {
+        font-size: 0.8em;
     }
 }

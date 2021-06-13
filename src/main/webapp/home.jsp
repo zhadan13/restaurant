@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${title} &#183; ${menu}</title>
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index_style.css">
     <link rel="stylesheet" type="text/css" href="css/main_style.css">
     <link rel="stylesheet" type="text/css" href="css/button_style.css">
     <script src="bootstrap/js/bootstrap.bundle.min.js"
@@ -16,6 +17,7 @@
             crossorigin="anonymous"></script>
     <style>
         <%@ include file="bootstrap/css/bootstrap.min.css" %>
+        <%@ include file="css/index_style.css" %>
         <%@ include file="css/main_style.css" %>
         <%@ include file="css/button_style.css" %>
     </style>
@@ -302,7 +304,7 @@
                                             </div>
 
                                             <div class="col d-flex justify-content-end">
-                                                <button type="button" class="btn button border text-muted mx-auto"
+                                                <button type="button" class="btn button border text-muted mx-1"
                                                         onclick="function add() {
                                                                 location.href = 'home?addProduct=${product.id}'
                                                                 }add()" style="font-size: 13px">
