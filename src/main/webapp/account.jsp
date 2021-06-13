@@ -118,7 +118,7 @@
 
     <main>
         <div class="bg-light rounded-3 mx-auto text-center">
-            <div class="container-fluid py-2 mb-2">
+            <div class="container py-2 mb-2">
                 <h6 class="display-6">${account_your_account}</h6>
             </div>
         </div>
@@ -171,7 +171,7 @@
         <c:choose>
             <c:when test="${sessionScope.allUserOrders == null || sessionScope.allUserOrders.size() == 0}">
                 <div class="bg-light rounded-3 mx-auto text-center">
-                    <div class="container-fluid py-2 mb-2">
+                    <div class="container py-2 mb-2">
                         <h6 class="display-6">${account_orders_empty}</h6>
                     </div>
                 </div>

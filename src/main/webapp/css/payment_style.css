@@ -16,7 +16,8 @@ body {
 }
 
 img {
-    transform: translate(100px, -10px)
+    transform: translate(100px, -10px);
+    width: 60px;
 }
 
 .text-warning {
@@ -49,4 +50,55 @@ input {
 
 .btn:focus {
     box-shadow: none
+}
+
+@media (max-width: 576px) {
+    .card {
+        border: none;
+        max-width: 100%;
+        border-radius: 20px;
+        margin: 100px;
+        padding: 10px;
+    }
+
+    .heading {
+        font-size: 12px;
+        font-weight: 600
+    }
+
+    img {
+        transform: translate(100px, -10px);
+        width: 10%;
+        height: 10%;
+    }
+
+    .text-warning {
+        font-size: 12px;
+        font-weight: 500;
+        color: #f7b42c
+    }
+
+
+    input {
+        font-weight: bold;
+        border-radius: 0;
+        border: 0;
+        border-bottom: 1px solid lightgrey;
+    }
+
+    .form-group input:focus {
+        border: 0;
+        outline: 0
+    }
+
+    .btn {
+        background: #f7b42c;
+        border: none;
+        border-radius: 30px;
+        margin: 10px;
+    }
+
+    .btn:focus {
+        box-shadow: none
+    }
 }

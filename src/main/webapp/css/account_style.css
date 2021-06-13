@@ -13,7 +13,7 @@ body {
 }
 
 .user-card-full .user-profile {
-    border-radius: 10px 0 0 10px
+    border-radius: 10px 10px 10px 10px;
 }
 
 .bg-c-lite-green {
@@ -22,11 +22,11 @@ body {
 }
 
 .user-profile {
-    padding: 40px 0
+    padding-top: 30px;
 }
 
 .card-block {
-    padding: 1.25rem
+    padding: 0.8rem
 }
 
 .text-muted {
@@ -38,7 +38,7 @@ body {
 }
 
 .f-w-600 {
-    font-weight: 600
+    font-weight: 600;
 }
 
 .m-b-20 {
@@ -75,4 +75,10 @@ body {
 .btn-outline-purple:disabled {
     color: #735beb;
     background-color: transparent
+}
+
+@media (max-width: 576px) {
+    .f-w-600 {
+        font-size: 1.25em;
+    }
 }
