@@ -77,7 +77,7 @@
                     </div>
                 </c:if>
                 <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
-                        aria-expanded="false"><span class="button-span" style="font-size: 16px">${account}</span>
+                        aria-expanded="false"><span class="button-span" style="font-size: 15px">${account}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="">

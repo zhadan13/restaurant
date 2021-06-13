@@ -69,7 +69,7 @@
                     </button>
                 </div>
                 <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
-                        aria-expanded="false"><span class="button-span" style="font-size: 16px">${account}</span>
+                        aria-expanded="false"><span class="button-span" style="font-size: 15px">${account}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="">
@@ -148,6 +148,7 @@
                                 </c:choose>
                                 <div class="total">${total}<span class="price">${requestScope.order.cost} ${uah}</span>
                                 </div>
+                                <br><br>
                             </div>
 
                             <div class="input-details">

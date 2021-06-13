@@ -49,7 +49,7 @@
                 <a class="me-3 py-2 text-dark text-decoration-none" href="delivery.jsp">${delivery}</a>
                 <a class="me-3 py-2 text-dark text-decoration-none" href="support.jsp">${support}</a>
                 <button type="button" class="btn button border text-muted" data-bs-toggle="dropdown"
-                        aria-expanded="false"><span class="button-span" style="font-size: 16px">${account}</span>
+                        aria-expanded="false"><span class="button-span" style="font-size: 15px">${account}</span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="">
