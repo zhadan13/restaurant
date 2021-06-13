@@ -23,6 +23,7 @@
 </head>
 
 <body>
+<div class="cont">
 <div class="container py-3">
     <header>
         <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
@@ -176,6 +177,7 @@
             </div>
         </div>
     </footer>
+</div>
 </div>
 </body>
 </html>
