@@ -16,10 +16,9 @@ button {
     text-transform: uppercase;
 }
 
-/*
 .header {
-    width: -moz-max-content;
-}*/
+    width: available;
+}
 
 .bg-gradient {
     background: darkgrey;
@@ -69,9 +68,9 @@ button {
         font-size: 0.8em;
     }
 
-   /* .header {
-        width: max-content;
-    }*/
+    .header {
+        width: available;
+    }
 
     .button-span {
         font-size: 13px;
