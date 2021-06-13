@@ -41,3 +41,29 @@ button {
     color: #735beb;
     background-color: transparent
 }
+
+@media (max-width: 576px) {
+    .container {
+        width: max-content;
+    }
+
+    .header {
+        width: max-content;
+    }
+
+    .container {
+        font-size: 0.9em;
+    }
+
+    .btn {
+        font-size: 0.8em;
+    }
+
+    .button {
+        font-size: 0.8em;
+    }
+
+    .button-span {
+        font-size: 0.8em;
+    }
+}
