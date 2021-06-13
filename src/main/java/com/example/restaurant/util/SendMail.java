@@ -111,10 +111,10 @@ public final class SendMail {
             MimeMessage message = new MimeMessage(SESSION);
             message.setFrom(new InternetAddress(MAIL));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
-            message.setSubject("Order successfully created!");
+            message.setSubject("Order is successfully created!");
             String text = "<h1>" + "Hello " + user.getName() + "! " + message.getSubject() + "</h1>" +
                     "<p>" +
-                    "Your order in Diamond Restaurant has been successfully created and accepted for processing by the manager. " +
+                    "Your order in Diamond Restaurant has been successfully created and accepted for processing by manager. " +
                     "<br><strong>" + "Order number: " + orderId + "</strong><br>" +
                     "You can always track and check the order in your personal account by the link: " +
                     "</p>" +

@@ -2,6 +2,7 @@
     border-top: 3px solid #735beb;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
     background-color: #FFFFFF;
+    padding: 30px;
     max-width: 600px;
     margin: auto;
 }
