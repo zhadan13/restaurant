@@ -64,6 +64,9 @@ input {
     0 10px 10px rgba(0, 0, 0, 0.22);
     position: relative;
     overflow: hidden;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
     width: 850px;
     max-width: 1200px;
     min-height: 500px;

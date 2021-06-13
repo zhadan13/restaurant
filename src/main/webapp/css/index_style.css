@@ -5,9 +5,6 @@ body {
 
 .container {
     max-width: 1200px;
-    text-align: center;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 button {
@@ -47,11 +44,11 @@ button {
 }
 
 @media (max-width: 576px) {
-    .container {
+    .body {
         width: max-content;
-        text-align: center;
-        margin-right: auto;
-        margin-left: auto;
+    }
+
+    .container {
         font-size: 0.9em;
     }
 
