@@ -28,4 +28,8 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+    <tag-file>
+        <name>account</name>
+        <path>/WEB-INF/tags/account.tag</path>
+    </tag-file>
 </taglib>
