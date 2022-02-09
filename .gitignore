@@ -11,3 +11,6 @@ log/
 # Java
 *.class
 *.log
+
+# Mail properties
+/src/main/resources/mail.properties
