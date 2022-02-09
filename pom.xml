@@ -18,7 +18,7 @@
         <servlet.jsp.version>2.3.3</servlet.jsp.version>
         <mail.version>1.6.2</mail.version>
         <postgresql.version>42.3.2</postgresql.version>
-        <log4j.version>2.17.0</log4j.version>
+        <log4j.version>2.17.1</log4j.version>
         <junit.version>5.8.2</junit.version>
         <mockito.version>4.1.0</mockito.version>
     </properties>
