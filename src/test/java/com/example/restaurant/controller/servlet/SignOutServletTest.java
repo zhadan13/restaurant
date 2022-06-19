@@ -1,6 +1,5 @@
 package com.example.restaurant.controller.servlet;
 
-import com.example.restaurant.constants.Util;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -39,6 +38,5 @@ class SignOutServletTest {
         // then
         verify(session).invalidate();
         verify(session).setAttribute(eq("locale"), any());
-        verify(httpServletResponse).sendRedirect(eq(Util.APPLICATION_NAME));
     }
 }

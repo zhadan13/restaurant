@@ -1,6 +1,5 @@
 package com.example.restaurant.controller.servlet;
 
-import com.example.restaurant.constants.Util;
 import com.example.restaurant.model.Order;
 import com.example.restaurant.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -19,7 +18,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CancelOrderServletTest {
@@ -63,6 +65,5 @@ class CancelOrderServletTest {
 
         // then
         verify(session).removeAttribute("order");
-        verify(httpServletResponse).sendRedirect(Util.APPLICATION_NAME);
     }
 }
