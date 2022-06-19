@@ -197,7 +197,7 @@
 
                 <div class="col text-center">
                     <div class="container">
-                        <span class="text-muted"> &copy; 2021 ${title}.</span>
+                        <span class="text-muted"> &copy; 2022 ${title}.</span>
                     </div>
                 </div>
 

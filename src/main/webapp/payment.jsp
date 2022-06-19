@@ -109,7 +109,7 @@
 
     <footer class="footer mt-auto py-3 mx-auto text-center">
         <div class="container">
-            <span class="text-light"> &copy; 2021 ${title}.</span>
+            <span class="text-light"> &copy; 2022 ${title}.</span>
         </div>
     </footer>
 </div>
